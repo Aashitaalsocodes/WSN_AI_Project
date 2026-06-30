@@ -30,6 +30,9 @@ def load_jsons():
 
 def normalize_anomaly_scores(raw_scores: dict) -> tuple[dict[int, float], float, float]:
     """Convert raw Isolation Forest scores to [0,1] where 1 = highly anomalous."""
+    if not raw_scores:
+        return {}, 0.0, 0.0
+
     values = list(raw_scores.values())
     min_score = min(values)
     max_score = max(values)
