@@ -33,6 +33,11 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
+test_indices = X_test.index.tolist()
+with open('outputs/attack_classifier_test_indices.json', 'w') as f:
+    json.dump(test_indices, f)
+print(f"Test set indices saved: {len(test_indices)} rows")
+
 # Train XGBoost
 print("Training XGBoost classifier...")
 model = XGBClassifier(
