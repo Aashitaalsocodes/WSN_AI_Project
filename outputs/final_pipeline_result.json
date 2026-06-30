@@ -1,0 +1,34 @@
+{
+  "network_state": {
+    "total_nodes": 374661,
+    "flagged_anomalous_nodes": 34543,
+    "flagged_pct": 9.22,
+    "avg_trust_score": 0.7486,
+    "low_trust_node_count": 0,
+    "trust_threshold": 0.4,
+    "avg_24h_energy_forecast_mJ": 0.219955,
+    "min_24h_energy_forecast_mJ": 0.159482,
+    "max_24h_energy_forecast_mJ": 0.821829,
+    "energy_forecast_val_mse": 0.000924
+  },
+  "ml_predictions": {
+    "top_cluster_head_candidates": [
+      "node_313045",
+      "node_313043",
+      "node_313023",
+      "node_313009",
+      "node_314090"
+    ],
+    "ch_model_accuracy": 0.9997197496430145,
+    "ch_model_f1": 0.9988002056790265,
+    "ch_model_roc_auc": 0.9998753923957339
+  },
+  "health_report": "[LLM Error] HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000019624787B10>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+  "attack_alert": "[LLM Error] HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000019628618410>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+  "adaptive_policy": "[LLM Error] HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000019628615350>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+  "flagged_node_count_by_threshold": {
+    "0.34": 34543,
+    "0.41": 19048,
+    "0.70": 1400
+  }
+}
