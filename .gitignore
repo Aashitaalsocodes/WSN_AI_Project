@@ -5,3 +5,4 @@
 data/raw/ibrl_voltage_time_series.csv 
 data/raw/ibrl_data.txt 
 data/raw/ibrl_voltage_time_series.csv 
+__pycache__/ 
