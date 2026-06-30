@@ -31,11 +31,24 @@ class LLMInterface:
             "options": {"temperature": 0.3, "top_p": 0.9}
         }
         try:
-            response = requests.post(self.api_url, json=payload, timeout=30)
+            response = requests.post(self.api_url, json=payload, timeout=90)
             response.raise_for_status()
             return response.json().get("response", "")
         except Exception as e:
             return f"[LLM Error] {str(e)}"
+
+    def _add_range_caveat_if_needed(self, text: str) -> str:
+        """Append a caveat if the LLM suggested an unrealistic extreme threshold value."""
+        import re
+        matches = re.findall(r'threshold[^0-9]{0,15}(\d*\.?\d+)', text, re.IGNORECASE)
+        for m in matches:
+            try:
+                val = float(m)
+                if val <= 0.05 or val >= 0.95:
+                    return text + "\n\n[Note: This response suggested an extreme threshold value near 0 or 1, which may not be operationally realistic. Please review before applying.]"
+            except ValueError:
+                continue
+        return text
 
     def network_health_report(self, network_state: dict, ml_predictions: dict) -> str:
         """
@@ -52,12 +65,14 @@ You are a network health analyst for a wireless sensor network (WSN).
 Based on the data below, write a short health report (2‑3 sentences). 
 Highlight the most critical issue and give one actionable recommendation.
 
+Important context: trust_score and trust_threshold values are bounded between 0 and 1, where 0 = no trust and 1 = maximum strictness (a threshold of 1.0 would flag nearly all nodes as suspicious, which is not a sensible recommendation). Realistic trust_threshold values for this system typically range from 0.3 to 0.7. anomaly_score values are also normalized between 0 (normal) and 1 (highly anomalous). When suggesting threshold or score-related changes, only recommend values within these realistic ranges and briefly justify why.
+
 Data:
 {json.dumps(context, indent=2)}
 
 Report:
 """
-        return self._call_llm(prompt)
+        return self._add_range_caveat_if_needed(self._call_llm(prompt))
 
     def attack_alert(self, anomalies: list, trust_scores: dict) -> str:
         """
@@ -69,12 +84,14 @@ Report:
 You are a security analyst. The following nodes show anomalous behavior and/or low trust scores.
 Write a short alert (1‑2 sentences) and recommend two immediate actions.
 
+Important context: trust_scores in this system range from 0 (untrustworthy) to 1 (fully trusted), with a current operating threshold of approximately 0.4. anomaly_score values range from 0 (normal) to 1 (highly anomalous). Frame your alert and recommendations using these realistic bounds — do not suggest absolute extremes like 0 or 1 as practical thresholds.
+
 Anomalies: {json.dumps(anomalies[:5])}
 Trust scores (sample): {json.dumps({k: trust_scores.get(k, 0) for k in list(trust_scores.keys())[:10]})}
 
 Alert & Actions:
 """
-        return self._call_llm(prompt)
+        return self._add_range_caveat_if_needed(self._call_llm(prompt))
 
     def adaptive_policy(self, performance_metrics: dict, recent_attacks: list) -> str:
         """
@@ -84,12 +101,14 @@ Alert & Actions:
 You are a network policy optimizer. Based on recent performance and attacks, 
 suggest changes to routing, trust thresholds, or duty cycling.
 
+Important context: All trust and anomaly-related scores in this system are normalized between 0 and 1. Realistic, actionable threshold values typically fall between 0.3 and 0.7 — avoid recommending extreme values like 0 or 1.0 as if they were practical settings, since these represent "no trust required" and "maximum strictness" respectively, neither of which is operationally useful. Keep recommendations grounded in this realistic range.
+
 Performance: {json.dumps(performance_metrics, indent=2)}
 Recent attacks: {recent_attacks}
 
 Policy recommendations (bullet points):
 """
-        return self._call_llm(prompt)
+        return self._add_range_caveat_if_needed(self._call_llm(prompt))
 
 
 # Quick test when run directly (requires Ollama running)
