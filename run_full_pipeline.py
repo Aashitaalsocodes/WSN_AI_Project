@@ -1,6 +1,10 @@
 """
 WSN Security Pipeline — loads ML artifacts, runs TrustEngine + LLMInterface,
 writes outputs/final_pipeline_result.json.
+
+Updated: anomaly_score fed into TrustEngine now uses the supervised attack
+classifier's attack_probability (F1=0.94) instead of the Isolation Forest
+scores (F1=0.31). All other logic unchanged.
 """
 
 import json
@@ -25,49 +29,39 @@ def load_jsons():
         ch_scores = json.load(f)
     with open(OUTPUTS_DIR / "energy_forecast.json", encoding="utf-8") as f:
         energy_forecast = json.load(f)
-    return anomaly_data, ch_scores, energy_forecast
+    with open(OUTPUTS_DIR / "attack_classifier_predictions.json", encoding="utf-8") as f:
+        classifier_predictions = json.load(f)
+    return anomaly_data, ch_scores, energy_forecast, classifier_predictions
 
 
-def normalize_anomaly_scores(raw_scores: dict) -> tuple[dict[int, float], float, float]:
-    """Convert raw Isolation Forest scores to [0,1] where 1 = highly anomalous."""
-    if not raw_scores:
-        return {}, 0.0, 0.0
+def build_trust_dataframe(classifier_predictions: dict) -> pd.DataFrame:
+    """
+    Build per-node DataFrame for TrustEngine using supervised classifier probabilities.
 
-    values = list(raw_scores.values())
-    min_score = min(values)
-    max_score = max(values)
-    span = max_score - min_score
-
-    normalized = {}
-    for node_id_str, raw in raw_scores.items():
-        node_id = int(node_id_str)
-        if span == 0:
-            normalized[node_id] = 0.0
-        else:
-            normalized[node_id] = (max_score - raw) / span
-    return normalized, min_score, max_score
-
-
-def build_trust_dataframe(node_anomaly_scores: dict) -> pd.DataFrame:
-    """Build per-node DataFrame for TrustEngine from anomaly scores only."""
-    normalized, _, _ = normalize_anomaly_scores(node_anomaly_scores)
-    node_ids = sorted(normalized.keys())
+    attack_probability is already in [0, 1] where 1 = highly likely attacked,
+    matching TrustEngine's expected anomaly_score convention directly.
+    No normalization step needed (unlike raw Isolation Forest scores).
+    """
+    node_ids = sorted(classifier_predictions.keys(), key=int)
 
     df = pd.DataFrame({
-        "node_id": node_ids,
+        "node_id": [int(nid) for nid in node_ids],
         "historical_accuracy": 0.8,
         "protocol_compliance": 0.8,
         "neighbor_recommendation": 0.5,
-        "anomaly_score": [normalized[nid] for nid in node_ids],
+        "anomaly_score": [
+            float(classifier_predictions[nid]["attack_probability"])
+            for nid in node_ids
+        ],
     })
     return df
 
 
-def count_above_threshold(scores: pd.Series, thresholds: dict[str, float]) -> dict[str, int]:
+def count_above_threshold(scores: pd.Series, thresholds: dict) -> dict:
     return {label: int((scores > value).sum()) for label, value in thresholds.items()}
 
 
-def build_top_anomalies(df: pd.DataFrame, threshold: float, top_n: int) -> list[dict]:
+def build_top_anomalies(df: pd.DataFrame, threshold: float, top_n: int) -> list:
     flagged = df[df["anomaly_score"] > threshold].copy()
     flagged = flagged.sort_values("anomaly_score", ascending=False).head(top_n)
     return [
@@ -90,7 +84,7 @@ def energy_forecast_summary(energy_forecast: dict) -> dict:
     }
 
 
-def derive_recent_attacks(flagged_pct: float) -> list[str]:
+def derive_recent_attacks(flagged_pct: float) -> list:
     if flagged_pct >= 5.0:
         return ["anomalous_node_cluster"]
     return []
@@ -101,10 +95,10 @@ def is_llm_error(text: str) -> bool:
 
 
 def main():
-    anomaly_data, ch_scores, energy_forecast = load_jsons()
-    node_anomaly_scores = anomaly_data["node_anomaly_scores"]
+    anomaly_data, ch_scores, energy_forecast, classifier_predictions = load_jsons()
 
-    df = build_trust_dataframe(node_anomaly_scores)
+    # Build per-node trust DataFrame using supervised classifier probabilities
+    df = build_trust_dataframe(classifier_predictions)
     df = TrustEngine().update_trust(df)
 
     flagged_by_threshold = count_above_threshold(
@@ -125,6 +119,7 @@ def main():
         "avg_trust_score": round(float(df["trust_score"].mean()), 4),
         "low_trust_node_count": int(df["suspicious_flag"].sum()),
         "trust_threshold": TRUST_THRESHOLD,
+        "anomaly_source": "supervised_attack_classifier_f1_0.94",
         **{k: round(v, 6) if isinstance(v, float) else v for k, v in energy_stats.items()},
     }
 
@@ -169,6 +164,7 @@ def main():
         json.dump(result, f, indent=2)
 
     print("=== WSN Security Pipeline Summary ===")
+    print(f"Anomaly source:           Supervised classifier (F1=0.94)")
     print(f"Total nodes:              {total_nodes:,}")
     print(f"Flagged (>0.34):          {flagged_by_threshold['0.34']:,} ({flagged_pct:.2f}%)")
     print(f"Flagged (>0.41):          {flagged_by_threshold['0.41']:,}")
