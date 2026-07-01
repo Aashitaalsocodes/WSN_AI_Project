@@ -13,6 +13,7 @@ attack_eval_clean = load('outputs/attack_classifier_evaluation_leakage_free.json
 energy = load('outputs/energy_forecast_ibrl.json')
 ch_scores = load('outputs/ch_scores_nonleaky.json')
 routing = load('outputs/routing_simulation.json')
+trust_aware = load('outputs/trust_aware_routing_results.json')
 
 print("Building dashboard_data.json...")
 
@@ -36,7 +37,8 @@ dashboard = {
     },
     "routing": {
         "baseline_summary": routing["baseline_summary"],
-        "trust_aware_summary": routing.get("trust_aware_summary", {}),
+        "trust_aware_summary": trust_aware["trust_aware_summary"],
+        "comparison_vs_baseline": trust_aware["comparison_vs_baseline"],
         "num_nodes": routing["num_nodes"],
         "num_edges": routing["num_edges"]
     },
