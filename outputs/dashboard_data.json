@@ -84,7 +84,26 @@
       "routes_through_attacked_node": 46,
       "pct_compromised_routes": 23.0
     },
-    "trust_aware_summary": {},
+    "trust_aware_summary": {
+      "total_routes": 200,
+      "routes_found": 200,
+      "avg_hop_count": 4.22,
+      "routes_through_attacked_node": 0,
+      "pct_compromised_routes": 0.0,
+      "routes_fully_trust_aware": 200,
+      "routes_forced_fallback": 0,
+      "routes_no_path": 0
+    },
+    "comparison_vs_baseline": {
+      "baseline_pct_compromised": 23.0,
+      "trust_aware_pct_compromised": 0.0,
+      "improvement_percentage_points": 23.0,
+      "baseline_avg_hops": 4.21,
+      "trust_aware_avg_hops": 4.22,
+      "hop_count_tradeoff": 0.01,
+      "excluded_nodes": 45,
+      "excluded_pct": 9.0
+    },
     "num_nodes": 500,
     "num_edges": 7703
   },
