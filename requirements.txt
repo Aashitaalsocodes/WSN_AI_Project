@@ -25,8 +25,10 @@ matplotlib==3.10.9
 mdurl==0.1.2
 ml_dtypes==0.5.4
 namex==0.1.0
+networkx==3.6.1
 numpy==2.4.6
 ollama==0.6.2
+opencv-python==4.13.0.92
 opt_einsum==3.4.0
 optree==0.19.1
 packaging==26.2
