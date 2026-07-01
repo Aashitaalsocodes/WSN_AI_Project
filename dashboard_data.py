@@ -14,7 +14,6 @@ energy = load('outputs/energy_forecast_ibrl.json')
 ch_scores = load('outputs/ch_scores_nonleaky.json')
 routing = load('outputs/routing_simulation.json')
 trust_aware = load('outputs/trust_aware_routing_results.json')
-
 print("Building dashboard_data.json...")
 
 dashboard = {
@@ -36,12 +35,12 @@ dashboard = {
         "xgboost_supervised": attack_eval_clean
     },
     "routing": {
-        "baseline_summary": routing["baseline_summary"],
-        "trust_aware_summary": trust_aware["trust_aware_summary"],
-        "comparison_vs_baseline": trust_aware["comparison_vs_baseline"],
-        "num_nodes": routing["num_nodes"],
-        "num_edges": routing["num_edges"]
-    },
+    "baseline_summary": routing["baseline_summary"],
+    "trust_aware_summary": trust_aware["trust_aware_summary"],
+    "comparison_vs_baseline": trust_aware["comparison_vs_baseline"],
+    "num_nodes": routing["num_nodes"],
+    "num_edges": routing["num_edges"]
+},
     "energy": energy,
     "cluster_heads": {
         "top_candidates": ch_scores.get("top_candidates", []),
