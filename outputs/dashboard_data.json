@@ -1,0 +1,168 @@
+{
+  "project": "WSN AI Security Pipeline",
+  "network_overview": {
+    "total_nodes": 374661,
+    "attack_distribution": {
+      "Normal": 340066,
+      "Grayhole": 14596,
+      "Blackhole": 10049,
+      "TDMA": 6638,
+      "Flooding": 3312
+    },
+    "total_attacked": 34595,
+    "pct_attacked": 9.23
+  },
+  "attack_detection": {
+    "isolation_forest": {
+      "threshold": 0.34,
+      "total_nodes_evaluated": 374661,
+      "precision": 0.3125090466954231,
+      "recall": 0.31203931203931207,
+      "f1_score": 0.3122740027191993,
+      "confusion_matrix": {
+        "true_positives": 10795,
+        "false_positives": 23748,
+        "true_negatives": 316318,
+        "false_negatives": 23800
+      },
+      "detection_rate_by_attack_type": {
+        "blackhole": {
+          "detected": 2483,
+          "total": 10049
+        },
+        "flooding": {
+          "detected": 2695,
+          "total": 3312
+        },
+        "grayhole": {
+          "detected": 2359,
+          "total": 14596
+        },
+        "tdma": {
+          "detected": 3258,
+          "total": 6638
+        }
+      }
+    },
+    "xgboost_supervised": {
+      "model": "supervised_attack_classifier",
+      "evaluation_method": "held_out_test_set_only",
+      "test_set_size": 74933,
+      "precision": 0.8944875674253387,
+      "recall": 0.9826564532446885,
+      "f1_score": 0.9365013774104683,
+      "confusion_matrix": {
+        "true_positives": 6799,
+        "false_positives": 802,
+        "true_negatives": 67212,
+        "false_negatives": 120
+      },
+      "detection_rate_by_attack_type": {
+        "blackhole": {
+          "detected": 1990,
+          "total": 1990
+        },
+        "flooding": {
+          "detected": 628,
+          "total": 628
+        },
+        "grayhole": {
+          "detected": 2929,
+          "total": 2929
+        },
+        "tdma": {
+          "detected": 1252,
+          "total": 1372
+        }
+      }
+    }
+  },
+  "routing": {
+    "baseline_summary": {
+      "total_routes": 200,
+      "avg_hop_count": 4.21,
+      "routes_through_attacked_node": 46,
+      "pct_compromised_routes": 23.0
+    },
+    "trust_aware_summary": {},
+    "num_nodes": 500,
+    "num_edges": 7703
+  },
+  "energy": {
+    "model": "LSTM trained on real IBRL sensor data (voltage)",
+    "next_voltage_forecast_volts": {
+      "1": 2.0093285120036763,
+      "2": 1.968259173965165,
+      "3": 2.0767685873549615,
+      "4": 2.0782492434873387,
+      "6": 1.9722353158514643,
+      "7": 2.055431254758999,
+      "8": 2.113244999916651,
+      "9": 2.1512035706712127,
+      "10": 1.9770803997337871,
+      "11": 1.9744486019899963,
+      "12": 2.1233782755271515,
+      "13": 2.0165971704937506,
+      "14": 2.063776139593327,
+      "15": 2.0858072363801514,
+      "16": 2.1407781442945466,
+      "17": 2.0517866927268433,
+      "18": 2.010276312175657,
+      "19": 2.0381061135012013,
+      "20": 2.019594156695248,
+      "21": 2.0590437102480856,
+      "22": 2.073323236095879,
+      "23": 1.9392256589109027,
+      "24": 2.011933460416129,
+      "25": 1.95637167945474,
+      "26": 2.003060789075573,
+      "27": 2.022099593599945,
+      "29": 2.035318476981114,
+      "30": 2.0423105685826526,
+      "31": 2.001089897949328,
+      "32": 2.1407781442945466,
+      "33": 2.0936038691340153,
+      "34": 1.988693392688856,
+      "35": 2.0407144415497664,
+      "36": 2.0107941475311093,
+      "37": 2.00909250074849,
+      "38": 2.0169341953171864,
+      "39": 2.0498880882618926,
+      "40": 2.0108168661960875,
+      "41": 2.0399681052416003,
+      "42": 1.9982023744063622,
+      "43": 2.003673066484612,
+      "44": 2.0560215645333066,
+      "45": 2.26311233471745,
+      "46": 1.9673416027606343,
+      "47": 2.0604145282068083,
+      "48": 2.1066804322833375,
+      "49": 1.9931058831487851,
+      "50": 2.545449200884833,
+      "51": 2.030708841081292,
+      "52": 1.9375929191534649,
+      "53": 2.0297608531517493,
+      "54": 1.984636139535858,
+      "55": 2.676087720508715,
+      "56": 2.807167282645272,
+      "58": 2.5676370752357625
+    },
+    "val_mse": 3.942663170164451e-06,
+    "data_source": "Intel Berkeley Research Lab (real sensors)"
+  },
+  "cluster_heads": {
+    "top_candidates": [
+      "node_906093",
+      "node_906094",
+      "node_906095",
+      "node_906096",
+      "node_906098"
+    ],
+    "model_metrics": {}
+  },
+  "pipeline_report": {
+    "health_report": "Health Report\n\nThe network health status indicates a critical issue with the trust_score values, which are consistently below the recommended threshold of 0.4. This low trust score is likely due to suspicious activity detected by the anomaly source \"supervised_attack_classifier_f1_0.94\". The recommendation for this critical issue is to increase the trust_threshold value to 0.6 or higher, as suggested by the ML predictions.\n\nThe network also shows high levels of anomalous activity with a flagged_pct of 10.83%, indicating that there may be malicious nodes in the system. This suggests that further investigation and monitoring are necessary to prevent potential security threats.\n\nOverall, the critical issues identified suggest that immediate attention is needed to improve trust_score values and mitigate anomalous activity within the network.",
+    "attack_alert": "Anomaly detected in node ID 373986 with high anomaly score and low trust score of 0.4. Immediate action recommended: Investigate the root cause of this anomalous behavior as it may indicate a security threat or system malfunction.\n\nImmediate Action 1: Conduct further investigation to understand the nature of the anomaly.\nImmediate Action 2: Notify relevant stakeholders immediately for immediate attention and potential response planning.",
+    "recommendations": ""
+  }
+}
