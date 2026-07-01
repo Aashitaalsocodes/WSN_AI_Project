@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-blue: #2a78d6;
+  --color-brand-red: #e34948;
+  --color-brand-green: #1baf7a;
+  --color-brand-amber: #eda100;
+  --color-brand-purple: #4a3aa7;
+
+  --color-surface-50: #fafafa;
+  --color-surface-100: #f4f4f5;
+  --color-surface-200: #e4e4e7;
+  --color-surface-300: #d4d4d8;
+  --color-surface-400: #a1a1aa;
+  --color-surface-500: #71717a;
+  --color-surface-600: #52525b;
+  --color-surface-700: #3f3f46;
+  --color-surface-800: #27272a;
+  --color-surface-900: #18181b;
+  --color-surface-950: #09090b;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ─── Base ─── */
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #52525b; border-radius: 3px; }
+.dark ::-webkit-scrollbar-thumb { background: #3f3f46; }
+
+/* ─── Glass Card ─── */
+.glass {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+:not(.dark) .glass {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ─── Gradient text ─── */
+.gradient-text {
+  background: linear-gradient(135deg, #2a78d6, #7c3aed, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Red glow pulse ─── */
+@keyframes red-glow {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(227,73,72,0.3); }
+  50% { box-shadow: 0 0 20px 6px rgba(227,73,72,0.5); }
+}
+.red-glow-pulse { animation: red-glow 2s ease-in-out infinite; }
+
+@keyframes red-border-glow {
+  0%, 100% { border-color: rgba(227,73,72,0.5); box-shadow: -4px 0 12px -2px rgba(227,73,72,0.3); }
+  50% { border-color: rgba(227,73,72,0.9); box-shadow: -4px 0 20px -2px rgba(227,73,72,0.6); }
+}
+.red-border-pulse { animation: red-border-glow 2s ease-in-out infinite; }
+
+/* ─── Green glow ─── */
+@keyframes green-glow {
+  0%, 100% { box-shadow: 0 0 6px 1px rgba(27,175,122,0.25); }
+  50% { box-shadow: 0 0 16px 4px rgba(27,175,122,0.45); }
+}
+.green-glow-pulse { animation: green-glow 2s ease-in-out infinite; }
+
+/* ─── Node pulse ─── */
+@keyframes node-pulse {
+  0%, 100% { r: 6; opacity: 1; }
+  50% { r: 10; opacity: 0.6; }
+}
+
+/* ─── Ticker ─── */
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-animate {
+  animation: ticker-scroll 40s linear infinite;
+}
+
+/* ─── Progress bar ─── */
+@keyframes progress-fill {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+.progress-animate {
+  animation: progress-fill 3s ease-in-out forwards;
+}
+
+/* ─── Active nav indicator ─── */
+.nav-active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 60%;
+  background: linear-gradient(180deg, #2a78d6, #7c3aed);
+  border-radius: 0 4px 4px 0;
+}
+
+/* ─── Recharts tooltip ─── */
+.recharts-tooltip-wrapper { outline: none !important; }

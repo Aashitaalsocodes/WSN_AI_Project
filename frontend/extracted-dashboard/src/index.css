@@ -1,0 +1,301 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-blue: #3b82f6;
+  --color-brand-red: #ef4444;
+  --color-brand-green: #10b981;
+  --color-brand-amber: #f59e0b;
+  --color-brand-purple: #8b5cf6;
+
+  --color-surface-50: #f8fafc;
+  --color-surface-100: #f1f5f9;
+  --color-surface-200: #e2e8f0;
+  --color-surface-300: #cbd5e1;
+  --color-surface-400: #94a3b8;
+  --color-surface-500: #64748b;
+  --color-surface-600: #475569;
+  --color-surface-700: #334155;
+  --color-surface-800: #1e293b;
+  --color-surface-900: #0f172a;
+  --color-surface-950: #020617;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ─── Base ─── */
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Background ─── */
+.bg-dashboard {
+  background-color: var(--color-surface-50);
+}
+.dark .bg-dashboard {
+  background-color: #0a0a0f;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #64748b; border-radius: 3px; }
+.dark ::-webkit-scrollbar-thumb { background: #334155; }
+
+/* ─── Glass Card ─── */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.dark .glass {
+  background: rgba(30, 41, 59, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* ─── Gradient text ─── */
+.gradient-text {
+  background: linear-gradient(135deg, #2a78d6, #7c3aed, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Red glow pulse ─── */
+@keyframes red-glow {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(227,73,72,0.3); }
+  50% { box-shadow: 0 0 20px 6px rgba(227,73,72,0.5); }
+}
+.red-glow-pulse { animation: red-glow 2s ease-in-out infinite; }
+
+@keyframes red-border-glow {
+  0%, 100% { border-color: rgba(227,73,72,0.5); box-shadow: -4px 0 12px -2px rgba(227,73,72,0.3); }
+  50% { border-color: rgba(227,73,72,0.9); box-shadow: -4px 0 20px -2px rgba(227,73,72,0.6); }
+}
+.red-border-pulse { animation: red-border-glow 2s ease-in-out infinite; }
+
+/* ─── Green glow ─── */
+@keyframes green-glow {
+  0%, 100% { box-shadow: 0 0 6px 1px rgba(27,175,122,0.25); }
+  50% { box-shadow: 0 0 16px 4px rgba(27,175,122,0.45); }
+}
+.green-glow-pulse { animation: green-glow 2s ease-in-out infinite; }
+
+/* ─── Node pulse ─── */
+@keyframes node-pulse {
+  0%, 100% { r: 6; opacity: 1; }
+  50% { r: 10; opacity: 0.6; }
+}
+.node-attacked {
+  animation: node-pulse 2s ease-in-out infinite;
+}
+
+/* ─── Ticker ─── */
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-animate {
+  animation: ticker-scroll 40s linear infinite;
+}
+
+/* ─── Progress bar ─── */
+@keyframes progress-fill {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+.progress-animate {
+  animation: progress-fill 3s ease-in-out forwards;
+}
+
+/* ─── Active nav indicator ─── */
+.nav-active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 60%;
+  background: linear-gradient(180deg, #2a78d6, #7c3aed);
+  border-radius: 0 4px 4px 0;
+}
+
+/* ─── Recharts tooltip ─── */
+.recharts-tooltip-wrapper { outline: none !important; }
+
+/* ─── Route path animation ─── */
+@keyframes draw-path {
+  to { stroke-dashoffset: 0; }
+}
+.route-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-path 2s ease-in-out forwards;
+}
+
+/* ─── Custom range slider ─── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2a78d6, #7c3aed);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(42, 120, 214, 0.4);
+  transition: box-shadow 0.2s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 16px rgba(42, 120, 214, 0.6);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2a78d6, #7c3aed);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px rgba(42, 120, 214, 0.4);
+}
+
+/* ─── Pulse dot ─── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* ─── Global overrides for high-contrast glowing Dark Mode ─── */
+.dark {
+  /* Elevate surface text colors to be near white */
+  --color-surface-400: #e2e8f0;
+  --color-surface-500: #f1f5f9;
+  --color-surface-600: #f8fafc;
+  --color-surface-900: #ffffff;
+}
+
+/* Force all text in dark mode to inherit high-contrast white */
+.dark .text-surface-900 {
+  color: #ffffff !important;
+}
+.dark .text-surface-800 {
+  color: #f1f5f9 !important;
+}
+.dark .text-surface-700 {
+  color: #e2e8f0 !important;
+}
+.dark .text-surface-600 {
+  color: #cbd5e1 !important;
+}
+
+/* Cyberpunk Neon Base for Cards */
+.dark .glass {
+  background: rgba(10, 10, 15, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05), inset 0 0 5px rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Cyberpunk Neon Glow Borders */
+.dark .glass.border-brand-blue\/20 {
+  border-color: rgba(0, 255, 247, 0.6) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 247, 0.4), inset 0 0 12px rgba(0, 255, 247, 0.2) !important;
+}
+.dark .glass.border-brand-red\/20 {
+  border-color: rgba(255, 0, 110, 0.6) !important;
+  box-shadow: 0 0 20px rgba(255, 0, 110, 0.4), inset 0 0 12px rgba(255, 0, 110, 0.2) !important;
+}
+.dark .glass.border-brand-green\/20 {
+  border-color: rgba(0, 255, 136, 0.6) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.4), inset 0 0 12px rgba(0, 255, 136, 0.2) !important;
+}
+.dark .glass.border-brand-amber\/20 {
+  border-color: rgba(255, 170, 0, 0.6) !important;
+  box-shadow: 0 0 20px rgba(255, 170, 0, 0.4), inset 0 0 12px rgba(255, 170, 0, 0.2) !important;
+}
+.dark .glass.border-brand-purple\/20 {
+  border-color: rgba(191, 0, 255, 0.6) !important;
+  box-shadow: 0 0 20px rgba(191, 0, 255, 0.4), inset 0 0 12px rgba(191, 0, 255, 0.2) !important;
+}
+
+@utility border-cyan-glow {
+  border-color: rgba(0, 255, 247, 0.6) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 247, 0.4), inset 0 0 12px rgba(0, 255, 247, 0.2) !important;
+}
+@utility border-danger-glow {
+  border-color: rgba(255, 0, 110, 0.6) !important;
+  box-shadow: 0 0 20px rgba(255, 0, 110, 0.4), inset 0 0 12px rgba(255, 0, 110, 0.2) !important;
+}
+@utility border-success-glow {
+  border-color: rgba(0, 255, 136, 0.6) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.4), inset 0 0 12px rgba(0, 255, 136, 0.2) !important;
+}
+@utility border-warning-glow {
+  border-color: rgba(255, 170, 0, 0.6) !important;
+  box-shadow: 0 0 20px rgba(255, 170, 0, 0.4), inset 0 0 12px rgba(255, 170, 0, 0.2) !important;
+}
+@utility border-purple-glow {
+  border-color: rgba(191, 0, 255, 0.6) !important;
+  box-shadow: 0 0 20px rgba(191, 0, 255, 0.4), inset 0 0 12px rgba(191, 0, 255, 0.2) !important;
+}
+
+/* Neon Text Shadows */
+@utility neon-text-cyan {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px #00fff7, 0 0 15px #00fff7 !important;
+}
+@utility neon-text-pink {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px #ff006e, 0 0 15px #ff006e !important;
+}
+@utility neon-text-green {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px #00ff88, 0 0 15px #00ff88 !important;
+}
+@utility neon-text-orange {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px #ffaa00, 0 0 15px #ffaa00 !important;
+}
+@utility neon-text-purple {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px #bf00ff, 0 0 15px #bf00ff !important;
+}
+
+/* Force Recharts elements to be bright and visible in dark mode */
+.dark .recharts-cartesian-axis-tick text {
+  fill: #cbd5e1 !important;
+  font-weight: 500;
+}
+.dark .recharts-legend-item-text {
+  color: #cbd5e1 !important;
+}
+.dark .recharts-cartesian-grid-horizontal line,
+.dark .recharts-cartesian-grid-vertical line {
+  stroke: rgba(255, 255, 255, 0.1) !important;
+}
+.dark .recharts-default-tooltip {
+  background-color: #0f172a !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+.dark .recharts-tooltip-label {
+  color: #ffffff !important;
+}
+.dark .recharts-tooltip-item {
+  color: #f1f5f9 !important;
+}
