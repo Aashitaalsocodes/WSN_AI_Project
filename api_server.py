@@ -29,6 +29,7 @@ FILE_MAP = {
     "ch-scores-balanced": "ch_scores_balanced.json",
     "ch-scores-nonleaky": "ch_scores_nonleaky.json",
     "dashboard-data": "dashboard_data.json",
+    "digital-twin": "digital_twin_results.json",
     "energy-forecast": "energy_forecast.json",
     "energy-forecast-ibrl": "energy_forecast_ibrl.json",
     "failure-probs": "failure_probs.json",
@@ -48,6 +49,8 @@ def build_dashboard_payload():
         raw = json.load(f)
     with open(os.path.join(OUTPUT_DIR, "routing_simulation.json")) as f:
         routing_raw = json.load(f)
+    with open(os.path.join(OUTPUT_DIR, "digital_twin_results.json")) as f:
+        digital_twin_raw = json.load(f)
 
     no = raw["network_overview"]
     ad = raw["attack_detection"]
@@ -171,12 +174,16 @@ def build_dashboard_payload():
         ],
     }
 
+    # --- Digital Twin ---
+    digital_twin = {"rounds": digital_twin_raw["rounds"]}
+
     return {
         "networkOverview": network_overview,
         "attackDetection": attack_detection,
         "routingSimulation": routing_simulation,
         "energyForecast": energy_forecast,
         "pipelineReport": pipeline_report,
+        "digitalTwin": digital_twin,
         "ticker": f"{no['total_nodes']:,} nodes monitored — {no['total_attacked']:,} attacks detected — F1 {ad['xgboost_supervised']['f1_score']:.2f}",
     }
 

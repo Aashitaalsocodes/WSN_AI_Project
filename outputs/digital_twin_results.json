@@ -1,0 +1,305 @@
+{
+  "num_rounds": 20,
+  "rounds": [
+    {
+      "round": 0,
+      "attacked_nodes": [
+        "114987",
+        "211694",
+        "238555",
+        "86574",
+        "334030"
+      ],
+      "attacked_count": 44,
+      "avg_trust_score": 0.7434,
+      "compromised_routes_pct": 1.0,
+      "avg_hop_count": 4.25,
+      "excluded_node_count": 41
+    },
+    {
+      "round": 1,
+      "attacked_nodes": [
+        "221846",
+        "74905",
+        "306277",
+        "174160",
+        "93665"
+      ],
+      "attacked_count": 42,
+      "avg_trust_score": 0.7444,
+      "compromised_routes_pct": 1.0,
+      "avg_hop_count": 4.23,
+      "excluded_node_count": 35
+    },
+    {
+      "round": 2,
+      "attacked_nodes": [
+        "221846",
+        "84698",
+        "83465",
+        "242550",
+        "165868"
+      ],
+      "attacked_count": 47,
+      "avg_trust_score": 0.7437,
+      "compromised_routes_pct": 1.5,
+      "avg_hop_count": 4.25,
+      "excluded_node_count": 43
+    },
+    {
+      "round": 3,
+      "attacked_nodes": [
+        "213416",
+        "28401",
+        "160007",
+        "57288",
+        "354005"
+      ],
+      "attacked_count": 43,
+      "avg_trust_score": 0.7451,
+      "compromised_routes_pct": 3.5,
+      "avg_hop_count": 4.25,
+      "excluded_node_count": 35
+    },
+    {
+      "round": 4,
+      "attacked_nodes": [
+        "235202",
+        "92826",
+        "129087",
+        "130111",
+        "119325"
+      ],
+      "attacked_count": 41,
+      "avg_trust_score": 0.744,
+      "compromised_routes_pct": 3.5,
+      "avg_hop_count": 4.24,
+      "excluded_node_count": 37
+    },
+    {
+      "round": 5,
+      "attacked_nodes": [
+        "221846",
+        "74905",
+        "294254",
+        "23114",
+        "114987"
+      ],
+      "attacked_count": 48,
+      "avg_trust_score": 0.744,
+      "compromised_routes_pct": 2.5,
+      "avg_hop_count": 4.24,
+      "excluded_node_count": 39
+    },
+    {
+      "round": 6,
+      "attacked_nodes": [
+        "161616",
+        "50707",
+        "146002",
+        "124118",
+        "221333"
+      ],
+      "attacked_count": 40,
+      "avg_trust_score": 0.7453,
+      "compromised_routes_pct": 6.0,
+      "avg_hop_count": 4.22,
+      "excluded_node_count": 32
+    },
+    {
+      "round": 7,
+      "attacked_nodes": [
+        "221846",
+        "366026",
+        "125541",
+        "129087",
+        "155560"
+      ],
+      "attacked_count": 67,
+      "avg_trust_score": 0.7424,
+      "compromised_routes_pct": 10.0,
+      "avg_hop_count": 4.22,
+      "excluded_node_count": 48
+    },
+    {
+      "round": 8,
+      "attacked_nodes": [
+        "180331",
+        "165767",
+        "332911",
+        "164419",
+        "334030"
+      ],
+      "attacked_count": 45,
+      "avg_trust_score": 0.7442,
+      "compromised_routes_pct": 4.5,
+      "avg_hop_count": 4.24,
+      "excluded_node_count": 37
+    },
+    {
+      "round": 9,
+      "attacked_nodes": [
+        "213416",
+        "114987",
+        "325666",
+        "92826",
+        "165868"
+      ],
+      "attacked_count": 49,
+      "avg_trust_score": 0.7431,
+      "compromised_routes_pct": 11.5,
+      "avg_hop_count": 4.24,
+      "excluded_node_count": 40
+    },
+    {
+      "round": 10,
+      "attacked_nodes": [
+        "294254",
+        "114987",
+        "325666",
+        "116876",
+        "10211"
+      ],
+      "attacked_count": 47,
+      "avg_trust_score": 0.7438,
+      "compromised_routes_pct": 3.0,
+      "avg_hop_count": 4.24,
+      "excluded_node_count": 41
+    },
+    {
+      "round": 11,
+      "attacked_nodes": [
+        "369398",
+        "104286",
+        "45580",
+        "280043",
+        "288528"
+      ],
+      "attacked_count": 51,
+      "avg_trust_score": 0.7439,
+      "compromised_routes_pct": 6.5,
+      "avg_hop_count": 4.23,
+      "excluded_node_count": 40
+    },
+    {
+      "round": 12,
+      "attacked_nodes": [
+        "104286",
+        "269565",
+        "306277",
+        "52953",
+        "213058"
+      ],
+      "attacked_count": 54,
+      "avg_trust_score": 0.7433,
+      "compromised_routes_pct": 12.5,
+      "avg_hop_count": 4.22,
+      "excluded_node_count": 42
+    },
+    {
+      "round": 13,
+      "attacked_nodes": [
+        "213416",
+        "81499",
+        "52953",
+        "315631",
+        "146002"
+      ],
+      "attacked_count": 50,
+      "avg_trust_score": 0.7439,
+      "compromised_routes_pct": 5.0,
+      "avg_hop_count": 4.22,
+      "excluded_node_count": 40
+    },
+    {
+      "round": 14,
+      "attacked_nodes": [
+        "82704",
+        "116876",
+        "341911",
+        "332911",
+        "112321"
+      ],
+      "attacked_count": 46,
+      "avg_trust_score": 0.7299,
+      "compromised_routes_pct": 4.5,
+      "avg_hop_count": 4.23,
+      "excluded_node_count": 36
+    },
+    {
+      "round": 15,
+      "attacked_nodes": [
+        "265229",
+        "366026",
+        "45580",
+        "81499",
+        "165767"
+      ],
+      "attacked_count": 40,
+      "avg_trust_score": 0.7304,
+      "compromised_routes_pct": 6.5,
+      "avg_hop_count": 4.22,
+      "excluded_node_count": 31
+    },
+    {
+      "round": 16,
+      "attacked_nodes": [
+        "84698",
+        "114629",
+        "74905",
+        "294254",
+        "325666"
+      ],
+      "attacked_count": 54,
+      "avg_trust_score": 0.7281,
+      "compromised_routes_pct": 2.5,
+      "avg_hop_count": 4.25,
+      "excluded_node_count": 47
+    },
+    {
+      "round": 17,
+      "attacked_nodes": [
+        "114629",
+        "83465",
+        "13112",
+        "92826",
+        "57288"
+      ],
+      "attacked_count": 57,
+      "avg_trust_score": 0.7278,
+      "compromised_routes_pct": 3.0,
+      "avg_hop_count": 4.25,
+      "excluded_node_count": 51
+    },
+    {
+      "round": 18,
+      "attacked_nodes": [
+        "221846",
+        "50707",
+        "101255",
+        "164722",
+        "120646"
+      ],
+      "attacked_count": 37,
+      "avg_trust_score": 0.73,
+      "compromised_routes_pct": 0.5,
+      "avg_hop_count": 4.24,
+      "excluded_node_count": 35
+    },
+    {
+      "round": 19,
+      "attacked_nodes": [
+        "104286",
+        "213416",
+        "23114",
+        "10211",
+        "351364"
+      ],
+      "attacked_count": 42,
+      "avg_trust_score": 0.7299,
+      "compromised_routes_pct": 2.5,
+      "avg_hop_count": 4.24,
+      "excluded_node_count": 35
+    }
+  ]
+}
