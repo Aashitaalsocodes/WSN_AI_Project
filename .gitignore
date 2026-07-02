@@ -1,8 +1,6 @@
-"venv/" 
-"__pycache__/" 
-"*.pyc" 
-".DS_Store" 
-data/raw/ibrl_voltage_time_series.csv 
-data/raw/ibrl_data.txt 
-data/raw/ibrl_voltage_time_series.csv 
-__pycache__/ 
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+data/raw/ibrl_voltage_time_series.csv
+data/raw/ibrl_data.txt
