@@ -1,145 +1,199 @@
-import {
-  AlertTriangle,
-  ShieldCheck,
-  SlidersHorizontal,
-  Bot,
-  CheckCircle,
-  FileText,
-  Lightbulb,
-} from 'lucide-react';
-import { pipelineReport } from '../data/pipelineData';
-import { KpiCard, SectionHeader, ChartCard } from '../components/shared';
-import { useTheme } from '../context/ThemeContext';
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import ReactCountUp from 'react-countup'
+const CountUp = ReactCountUp.default || ReactCountUp
+import { GitBranch, Sliders, Battery, Scan, Activity, RefreshCw } from 'lucide-react'
+import KPICard from '../components/KPICard'
 
-export default function PipelineReport() {
-  const { dark } = useTheme();
+const iconMap = {
+  route: GitBranch,
+  sliders: Sliders,
+  battery: Battery,
+  scan: Scan,
+  activity: Activity,
+  refresh: RefreshCw,
+}
+
+export default function PipelineReport({ data }) {
+  const {
+    flaggedNodes,
+    avgTrustScore,
+    trustThreshold,
+    llmModel,
+    healthReport,
+    attackAlert,
+    adaptivePolicies,
+    simulationSteps
+  } = data
+
+  const [simulating, setSimulating] = useState(false)
+  const [currentStep, setCurrentStep] = useState(0)
+  const [progress, setProgress] = useState(0)
+
+  // Simulation display data state (refreshed after simulation completes)
+  const [displayData, setDisplayData] = useState({
+    flaggedNodes,
+    avgTrustScore
+  })
+
+  const triggerSimulation = () => {
+    if (simulating) return
+    setSimulating(true)
+    setProgress(0)
+    setCurrentStep(0)
+
+    const totalSteps = simulationSteps.length
+    const durationPerStep = 375 // 3000ms / 8 steps
+
+    let step = 0
+    const interval = setInterval(() => {
+      step++
+      if (step < totalSteps) {
+        setCurrentStep(step)
+        setProgress((step / (totalSteps - 1)) * 100)
+      } else {
+        clearInterval(interval)
+        setProgress(100)
+        setTimeout(() => {
+          setSimulating(false)
+          setProgress(0)
+          setCurrentStep(0)
+          
+          // Randomize values slightly (+/- 5%) and trigger animated countup
+          setDisplayData({
+            flaggedNodes: flaggedNodes + Math.floor((Math.random() - 0.5) * 2000),
+            avgTrustScore: parseFloat((avgTrustScore + (Math.random() - 0.5) * 0.05).toFixed(4))
+          })
+        }, 800)
+      }
+    }, durationPerStep)
+  }
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08 }
+    }
+  }
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 15 },
+    show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 200, damping: 18 } }
+  }
 
   return (
-    <div className="mx-auto max-w-7xl space-y-8">
-      {/* ── Page header ── */}
-      <SectionHeader
-        title="LLM Pipeline Report"
-        subtitle="AI‑generated network health assessment and adaptive policies"
-        icon={FileText}
-      />
+    <div className="main-content-inner">
+      <h1 className="page-title">PIPELINE REPORT</h1>
+      <p className="page-subtitle">Security health reports, adaptive policies, and pipeline simulation</p>
 
-      {/* ── KPI row ── */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KpiCard
-          title="Flagged Nodes"
-          value="10.83%"
-          subtitle="Anomalous behavior detected"
-          icon={AlertTriangle}
-          color="red"
-          delay={0}
-        />
-        <KpiCard
-          title="Avg Trust Score"
-          value="0.7484"
-          subtitle="Network‑wide average"
-          icon={ShieldCheck}
-          color="green"
-          delay={1}
-        />
-        <KpiCard
-          title="Trust Threshold"
-          value="0.4 → 0.5"
-          subtitle="Recommended increase"
-          icon={SlidersHorizontal}
-          color="amber"
-          delay={2}
-        />
-        <KpiCard
-          title="LLM Model"
-          value="qwen2:1.5b"
-          subtitle="Ollama local inference"
-          icon={Bot}
-          color="purple"
-          delay={3}
-        />
-      </div>
-
-      {/* ── Health Report ── */}
-      <div className="rounded-2xl border border-surface-200/50 bg-white/70 shadow-sm backdrop-blur-sm transition-all duration-300 hover:shadow-md dark:border-surface-700/50 dark:bg-surface-800/70 border-l-4 border-l-success-500 overflow-hidden">
-        <div className="p-6">
-          <div className="mb-3 flex items-center gap-2">
-            <CheckCircle size={18} className="text-success-500" />
-            <h3 className="text-sm font-semibold text-surface-900 dark:text-white">
-              Health Report
-            </h3>
-          </div>
-          <p className="text-sm leading-relaxed text-surface-600 dark:text-surface-300">
-            {pipelineReport.healthReport}
+      {/* KPI Cards Row */}
+      <div className="kpi-grid">
+        <KPICard label="Flagged Nodes" value={displayData.flaggedNodes} color="red" delay={0} />
+        <KPICard label="Avg Trust Score" value={displayData.avgTrustScore} decimals={4} color="green" delay={0.1} />
+        <KPICard label="Trust Threshold" value={trustThreshold} decimals={2} color="red" delay={0.2} />
+        <div className="kpi-card kpi-card-purple">
+          <p className="kpi-label">LLM Model</p>
+          <p className="kpi-value kpi-value-purple">
+            {llmModel}
           </p>
         </div>
       </div>
 
-      {/* ── Attack Alert ── */}
-      <div className="rounded-2xl border border-surface-200/50 bg-white/70 shadow-sm backdrop-blur-sm transition-all duration-300 hover:shadow-md dark:border-surface-700/50 dark:bg-surface-800/70 border-l-4 border-l-danger-500 overflow-hidden">
-        <div className="p-6">
-          {/* title row with pulsing dot */}
-          <div className="mb-3 flex items-center gap-2">
-            <span className="pulse-red inline-block h-2.5 w-2.5 rounded-full bg-danger-500" />
-            <h3 className="text-sm font-semibold text-danger-600 dark:text-danger-400">
-              {pipelineReport.attackAlert.title}
-            </h3>
-          </div>
-
-          {/* description */}
-          <p className="mb-4 text-sm leading-relaxed text-surface-600 dark:text-surface-300">
-            {pipelineReport.attackAlert.description}
+      {/* Health Report and Alert Row */}
+      <div className="two-col-grid">
+        {/* Health Report Card */}
+        <div className="card" style={{ borderLeft: '4px solid #ff3860' }}>
+          <h2 className="dash-card-title">NETWORK HEALTH ANALYSIS</h2>
+          <p className="health-report-text">
+            {healthReport}
           </p>
+        </div>
 
-          {/* action items */}
-          <div className="space-y-3">
-            {pipelineReport.attackAlert.actions.map((action) => (
-              <div
-                key={action.id}
-                className="flex items-start gap-3 rounded-xl bg-danger-50/60 p-3 dark:bg-danger-900/10"
-              >
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-danger-500 text-xs font-bold text-white">
-                  {action.id}
-                </span>
-                <p className="text-sm text-surface-700 dark:text-surface-300">
-                  {action.text}
-                </p>
+        {/* Attack Alert Card */}
+        <div 
+          className="card alert-card-pulse" 
+          style={{ 
+            border: '1px solid rgba(255, 56, 96, 0.45)', 
+            borderLeft: '4px solid #ff3860'
+          }}
+        >
+          <div className="alert-badge">
+            ALERT
+          </div>
+          <h3 style={{ color: '#ffffff', fontSize: '15px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
+            {attackAlert.title}
+          </h3>
+          <div className="alert-actions">
+            {attackAlert.actions.map((action, i) => (
+              <div key={i} className="alert-action">
+                <span className="alert-action-icon">▶</span>
+                {action}
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* ── Adaptive Policy Recommendations ── */}
-      <div>
-        <div className="mb-4 flex items-center gap-2">
-          <Lightbulb size={18} className="text-primary-500" />
-          <h3 className="text-lg font-bold text-surface-900 dark:text-white">
-            {pipelineReport.adaptivePolicy.length} Adaptive Policy
-            Recommendations
-          </h3>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          {pipelineReport.adaptivePolicy.map((policy, idx) => (
-            <div
+      {/* Adaptive Policies Title */}
+      <h2 className="dash-card-title mt-24 mb-16">ADAPTIVE SECURITY POLICIES</h2>
+      
+      {/* 6 Adaptive Policy Cards Grid */}
+      <motion.div 
+        className="policy-grid"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {adaptivePolicies.map((policy, idx) => {
+          const IconComponent = iconMap[policy.icon] || Sliders
+          return (
+            <motion.div
               key={idx}
-              className="rounded-2xl border border-surface-200/50 bg-white/70 p-5 shadow-sm backdrop-blur-sm transition-all duration-300 hover:shadow-md dark:border-surface-700/50 dark:bg-surface-800/70"
+              className="policy-card"
+              variants={cardVariants}
             >
-              <div className="mb-3 flex items-center gap-3">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-500 text-sm font-bold text-white">
-                  {idx + 1}
-                </span>
-                <h4 className="font-bold text-surface-900 dark:text-white">
-                  {policy.title}
-                </h4>
+              <div className="flex-center mb-16" style={{ gap: '12px' }}>
+                <div className="policy-card-number">
+                  <IconComponent size={18} />
+                </div>
+                <h3 className="policy-card-title">{policy.title}</h3>
               </div>
-              <p className="text-sm leading-relaxed text-surface-600 dark:text-surface-300">
-                {policy.description}
+              <p className="policy-card-desc">{policy.description}</p>
+            </motion.div>
+          )
+        })}
+      </motion.div>
+
+      {/* Simulation Controls Card */}
+      <div className="dash-card mt-24" style={{ padding: '36px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <motion.button
+          onClick={triggerSimulation}
+          disabled={simulating}
+          className="simulate-btn"
+          whileTap={{ scale: 0.95 }}
+        >
+          {simulating ? 'Simulating Pipeline...' : '▶ Simulate Pipeline'}
+        </motion.button>
+
+        <AnimatePresence>
+          {simulating && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              style={{ width: '100%', maxWidth: '400px', marginTop: '24px', textAlign: 'center' }}
+            >
+              <div className="simulate-progress-bar">
+                <div className="simulate-progress-fill" style={{ width: `${progress}%` }} />
+              </div>
+              <p className="simulate-status">
+                {simulationSteps[currentStep]}
               </p>
-            </div>
-          ))}
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
-  );
+  )
 }

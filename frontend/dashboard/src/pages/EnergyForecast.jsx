@@ -1,220 +1,195 @@
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  ReferenceLine,
-} from 'recharts';
-import {
-  Brain,
-  Target,
-  Zap,
-  Cpu,
-  Crown,
-  ChevronRight,
-  Database,
-} from 'lucide-react';
-import { energyData } from '../data/pipelineData';
-import { KpiCard, SectionHeader, ChartCard } from '../components/shared';
-import { useTheme } from '../context/ThemeContext';
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, ReferenceDot } from 'recharts'
+import KPICard from '../components/KPICard'
+import ReactCountUp from 'react-countup'
+const CountUp = ReactCountUp.default || ReactCountUp
 
-/* ─── custom tooltip ─── */
-function VoltageTooltip({ active, payload }) {
-  if (!active || !payload?.length) return null;
-  const { node, voltage } = payload[0].payload;
-  return (
-    <div className="custom-tooltip">
-      <p className="text-sm font-semibold text-surface-900 dark:text-white">
-        Node {node}: {voltage}V
-      </p>
-    </div>
-  );
-}
+export default function EnergyForecast({ data }) {
+  const {
+    model,
+    valMSE,
+    avgForecast,
+    dataSource,
+    sensorNodes,
+    minVoltage,
+    maxVoltage,
+    voltageData,
+    outlierNodes,
+    clusterHeads,
+    defaultThreshold
+  } = data
 
-/* ─── main page ─── */
-export default function EnergyForecast() {
-  const { dark } = useTheme();
+  const [threshold, setThreshold] = useState(defaultThreshold)
 
-  const avgVoltage =
-    energyData.voltageForecasts.reduce((s, d) => s + d.voltage, 0) /
-    energyData.voltageForecasts.length;
+  // Parse average forecast float for CountUp
+  const avgForecastVal = parseFloat(avgForecast)
 
-  const rankColors = {
-    1: { bg: '#f59e0b', text: '#fff' },
-    2: { bg: '#94a3b8', text: '#fff' },
-    3: { bg: '#d97706', text: '#fff' },
-    4: { bg: '#3b82f6', text: '#fff' },
-    5: { bg: '#3b82f6', text: '#fff' },
-  };
+  const formatVoltage = (val) => `${val.toFixed(3)}V`
 
   return (
-    <div className="mx-auto max-w-7xl space-y-8">
-      {/* ── Page header ── */}
-      <SectionHeader
-        title="Energy Forecast & Cluster‑Head Selection"
-        subtitle="LSTM voltage prediction across 57 IBRL sensor nodes"
-        icon={Zap}
-      />
+    <div className="main-content-inner">
+      <h1 className="page-title">ENERGY FORECAST</h1>
+      <p className="page-subtitle">LSTM time-series forecasting for sensor battery voltage and outlier cluster heads</p>
 
-      {/* ── KPI row ── */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KpiCard
-          title="Model Type"
-          value="LSTM"
-          subtitle="Recurrent Neural Network"
-          icon={Brain}
-          color="blue"
-          delay={0}
-        />
-        <KpiCard
-          title="Val MSE"
-          value="3.94×10⁻⁶"
-          subtitle="Mean Squared Error"
-          icon={Target}
-          color="green"
-          delay={1}
-        />
-        <KpiCard
-          title="Avg Forecast"
-          value="0.220 mJ"
-          subtitle="Per‑node energy"
-          icon={Zap}
-          color="amber"
-          delay={2}
-        />
-        <KpiCard
-          title="Nodes Count"
-          value="57"
-          subtitle="IBRL sensor nodes"
-          icon={Cpu}
-          color="purple"
-          delay={3}
-        />
+      {/* KPI Cards Row 1 */}
+      <div className="kpi-grid">
+        <div className="kpi-card kpi-card-red">
+          <p className="kpi-label">Model</p>
+          <p className="kpi-value kpi-value-red">
+            {model}
+          </p>
+        </div>
+        <div className="kpi-card kpi-card-red">
+          <p className="kpi-label">Val MSE</p>
+          <p className="kpi-value kpi-value-red">
+            {Number(valMSE).toExponential(3)}
+          </p>
+        </div>
+        <KPICard label="Avg Forecast" value={avgForecastVal} decimals={3} suffix=" mJ" color="red" delay={0.1} />
       </div>
 
-      {/* ── Voltage forecast chart ── */}
-      <ChartCard
-        title="Voltage Forecast Across Nodes"
-        subtitle="LSTM predicted voltage (V) per node — blue line with gradient fill"
-      >
-        <ResponsiveContainer width="100%" height={380}>
-          <AreaChart
-            data={energyData.voltageForecasts}
-            margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id="voltGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.0} />
-              </linearGradient>
-            </defs>
+      {/* KPI Cards Row 2 */}
+      <div className="kpi-grid">
+        <div className="kpi-card kpi-card-red">
+          <p className="kpi-label">Data Source</p>
+          <p className="kpi-value kpi-value-red">
+            {dataSource}
+          </p>
+        </div>
+        <KPICard label="Sensor Nodes" value={sensorNodes} color="red" delay={0.2} />
+        <div className="kpi-card kpi-card-red">
+          <p className="kpi-label">Min Voltage</p>
+          <p className="kpi-value kpi-value-red">
+            {minVoltage}
+          </p>
+        </div>
+        <div className="kpi-card kpi-card-red">
+          <p className="kpi-label">Max Voltage</p>
+          <p className="kpi-value kpi-value-red">
+            {maxVoltage}
+          </p>
+        </div>
+      </div>
 
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke={dark ? '#3f3f46' : '#e4e4e7'}
-            />
+      {/* Energy Threshold Input */}
+      <div className="dash-card flex-between mb-16" style={{ padding: '16px 24px' }}>
+        <span style={{ fontSize: '14px', color: '#94a3b8' }}>Energy Threshold (V)</span>
+        <div className="flex-center" style={{ gap: '12px' }}>
+          <input
+            type="number"
+            className="energy-threshold-input"
+            value={threshold}
+            step="0.05"
+            min="1.0"
+            max="3.0"
+            onChange={e => setThreshold(parseFloat(e.target.value) || 0)}
+          />
+        </div>
+      </div>
 
-            <XAxis
-              dataKey="node"
-              tick={{ fill: dark ? '#a1a1aa' : '#71717a', fontSize: 11 }}
-              axisLine={{ stroke: dark ? '#3f3f46' : '#e4e4e7' }}
-              tickLine={false}
-              label={{
-                value: 'Node ID',
-                position: 'insideBottomRight',
-                offset: -5,
-                fill: dark ? '#a1a1aa' : '#71717a',
-                fontSize: 12,
-              }}
-            />
+      {/* Area Chart Container */}
+      <div className="dash-card">
+        <h2 className="dash-card-title">VOLTAGE FORECASTS & DETECTED OUTLIERS</h2>
+        <div className="chart-wrapper">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={voltageData} margin={{ top: 20, right: 10, left: -10, bottom: 0 }}>
+              <defs>
+                <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="var(--neon-red)" stopOpacity={0.25} />
+                  <stop offset="95%" stopColor="var(--neon-red)" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#1e2030" vertical={false} />
+              <XAxis dataKey="node" tick={{ fill: '#e2e8f0' }} axisLine={false} tickLine={false} label={{ value: 'Node ID', position: 'insideBottomRight', offset: -10, fill: '#64748b' }} />
+              <YAxis domain={[1.8, 3.0]} tick={{ fill: '#e2e8f0' }} axisLine={false} tickLine={false} label={{ value: 'Voltage (V)', angle: -90, position: 'insideLeft', fill: '#64748b' }} />
+              <Tooltip
+                contentStyle={{
+                  background: '#0d0d14',
+                  border: '1px solid #1e2030',
+                  borderRadius: '8px',
+                  color: '#ffffff'
+                }}
+                itemStyle={{ color: '#ffffff' }}
+              />
+              <ReferenceLine y={threshold} stroke="var(--neon-red)" strokeDasharray="4 4" strokeWidth={1.5} label={{ position: 'top', value: `Threshold ${threshold}V`, fill: '#ff3860', fontSize: 11 }} />
 
-            <YAxis
-              tick={{ fill: dark ? '#a1a1aa' : '#71717a', fontSize: 11 }}
-              axisLine={{ stroke: dark ? '#3f3f46' : '#e4e4e7' }}
-              tickLine={false}
-              domain={['auto', 'auto']}
-              label={{
-                value: 'Voltage (V)',
-                angle: -90,
-                position: 'insideLeft',
-                fill: dark ? '#a1a1aa' : '#71717a',
-                fontSize: 12,
-              }}
-            />
+              <Area
+                type="monotone"
+                dataKey="voltage"
+                stroke="var(--neon-red)"
+                strokeWidth={2}
+                fill="url(#redGrad)"
+                isAnimationActive={true}
+                animationDuration={2000}
+                animationBegin={500}
+              />
 
-            <Tooltip content={<VoltageTooltip />} />
+              {/* Red Dots for Nodes below threshold */}
+              {voltageData.map((d, index) => {
+                if (d.voltage < threshold) {
+                  return (
+                    <ReferenceDot
+                      key={`below-thresh-${index}`}
+                      x={d.node}
+                      y={d.voltage}
+                      r={5}
+                      fill="var(--neon-red)"
+                      stroke="#0d0d14"
+                      strokeWidth={1}
+                    />
+                  )
+                }
+                return null
+              })}
 
-            <ReferenceLine
-              y={avgVoltage}
-              stroke={dark ? '#a1a1aa' : '#71717a'}
-              strokeDasharray="4 4"
-              label={{
-                value: `Avg ${avgVoltage.toFixed(3)}V`,
-                position: 'right',
-                fill: dark ? '#a1a1aa' : '#71717a',
-                fontSize: 11,
-              }}
-            />
+              {/* Amber Dots for Outliers */}
+              {voltageData.map((d, index) => {
+                if (outlierNodes.includes(d.node)) {
+                  return (
+                    <ReferenceDot
+                      key={`outlier-${index}`}
+                      x={d.node}
+                      y={d.voltage}
+                      r={5.5}
+                      fill="var(--neon-orange)"
+                      stroke="#0d0d14"
+                      strokeWidth={1}
+                    />
+                  )
+                }
+                return null
+              })}
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
 
-            <Area
-              type="monotone"
-              dataKey="voltage"
-              stroke="#3b82f6"
-              strokeWidth={2}
-              fill="url(#voltGrad)"
-              activeDot={{ r: 6, strokeWidth: 2, stroke: '#fff' }}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </ChartCard>
-
-      {/* ── Top 5 Cluster‑Head Candidates ── */}
-      <ChartCard
-        title="Top 5 Cluster‑Head Candidates"
-        subtitle={`XGBoost classifier — F1 = ${energyData.clusterHeads.f1} · AUC = ${energyData.clusterHeads.auc}`}
-      >
-        <ul className="divide-y divide-surface-100 dark:divide-surface-700/50">
-          {energyData.clusterHeads.top5.map((item) => {
-            const rc = rankColors[item.rank];
-            return (
-              <li
-                key={item.rank}
-                className="flex items-center gap-4 py-3 transition-colors duration-200 hover:bg-surface-50 dark:hover:bg-surface-700/30 px-2 rounded-lg"
-              >
-                {/* rank badge */}
-                <span
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold"
-                  style={{ background: rc.bg, color: rc.text }}
-                >
-                  #{item.rank}
+      {/* Cluster Heads Grid */}
+      <div className="dash-card mt-24">
+        <h2 className="dash-card-title">TOP CLUSTER HEAD SELECTIONS</h2>
+        <div className="cluster-heads-list">
+          {clusterHeads.map((ch, idx) => (
+            <motion.div
+              key={ch.id}
+              className="cluster-head-item"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: idx * 0.1, duration: 0.4 }}
+            >
+              <div className={`cluster-head-rank ${ch.rank === 1 ? 'cluster-head-rank-1' : 'cluster-head-rank-other'}`}>
+                {ch.rank}
+              </div>
+              <span className="cluster-head-name">{ch.id}</span>
+              {ch.selected && (
+                <span className="cluster-head-tag cluster-head-tag-selected">
+                  Selected
                 </span>
-
-                {/* node id */}
-                <span className="flex-1 font-mono text-sm font-semibold text-surface-900 dark:text-white">
-                  {item.id}
-                </span>
-
-                {/* trailing icon */}
-                <ChevronRight
-                  size={16}
-                  className="text-surface-400 dark:text-surface-500"
-                />
-              </li>
-            );
-          })}
-        </ul>
-      </ChartCard>
-
-      {/* ── Footer credit ── */}
-      <div className="flex items-center justify-center gap-2 pb-4 text-xs text-surface-400 dark:text-surface-500">
-        <Database size={12} />
-        <span>
-          Data source: Intel Berkeley Research Lab (IBRL)
-        </span>
+              )}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
-  );
+  )
 }

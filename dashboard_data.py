@@ -49,7 +49,7 @@ dashboard = {
     "pipeline_report": {
         "health_report": final.get("health_report", ""),
         "attack_alert": final.get("attack_alert", ""),
-        "recommendations": final.get("recommendations", "")
+        "recommendations": final.get("adaptive_policy", "")
     }
 }
 

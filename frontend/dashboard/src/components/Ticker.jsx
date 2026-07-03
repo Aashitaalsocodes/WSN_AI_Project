@@ -1,14 +1,12 @@
-import { tickerText } from '../data/pipelineData';
+import React from 'react'
 
-export default function Ticker() {
-  const doubled = `${tickerText}   ${tickerText}`;
+export default function Ticker({ text }) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 overflow-hidden border-t border-surface-700/50 bg-surface-950/90 backdrop-blur-xl">
-      <div className="ticker-animate flex whitespace-nowrap py-2">
-        <span className="inline-block px-4 text-xs font-medium text-surface-400">
-          {doubled}
-        </span>
+    <div className="ticker-bar">
+      <div className="ticker-track">
+        <span className="ticker-content">{text}</span>
+        <span className="ticker-content">{text}</span>
       </div>
     </div>
-  );
+  )
 }

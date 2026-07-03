@@ -1,270 +1,261 @@
-import React from 'react';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
-import {
-  ShieldAlert,
-  ShieldCheck,
-  AlertTriangle,
-  CheckCircle2,
-  XCircle,
-  Info,
-} from 'lucide-react';
-import { attackDetection } from '../data/pipelineData';
-import { KpiCard, SectionHeader, ChartCard } from '../components/shared';
-import { useTheme } from '../context/ThemeContext';
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import ReactCountUp from 'react-countup'
+const CountUp = ReactCountUp.default || ReactCountUp
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
-const perTypeData = [
-  { type: 'Blackhole', IF: 24.7, XGB: 100 },
-  { type: 'Flooding', IF: 81.4, XGB: 100 },
-  { type: 'Grayhole', IF: 16.2, XGB: 100 },
-  { type: 'TDMA', IF: 49.1, XGB: 91.3 },
-];
+export default function AttackDetection({ data }) {
+  const { models, detectionRates, confusionMatrix } = data
+  const testSetSize = 74933
 
-const confusionMatrix = {
-  TP: 6799,
-  FP: 802,
-  TN: 67212,
-  FN: 120,
-};
+  const [nodeId, setNodeId] = useState('')
+  const [analyzedNode, setAnalyzedNode] = useState(null)
 
-const AttackDetection = () => {
-  const { dark } = useTheme();
-  const chartTextColor = dark ? '#a1a1aa' : '#52525b';
+  const handleAnalyze = (e) => {
+    e.preventDefault()
+    if (!nodeId.trim()) return
+
+    const id = parseInt(nodeId, 10)
+    const isAnomalous = id > 370000
+
+    // Simulate analysis result
+    const anomalyScore = isAnomalous
+      ? 0.70 + Math.random() * 0.25
+      : Math.random() * 0.28
+
+    const trustScore = isAnomalous
+      ? 0.10 + Math.random() * 0.22
+      : 0.65 + Math.random() * 0.30
+
+    const attackProbability = anomalyScore * 0.98
+
+    const status = isAnomalous ? 'ANOMALOUS' : 'NORMAL'
+
+    setAnalyzedNode({
+      id,
+      anomalyScore: anomalyScore.toFixed(4),
+      trustScore: trustScore.toFixed(4),
+      attackProbability: (attackProbability * 100).toFixed(2),
+      status
+    })
+  }
+
+  // Map IF and XGB data for chart correctly
+  const chartData = detectionRates.map(r => ({
+    name: r.attack,
+    "Isolation Forest": r.isolationForest,
+    "XGBoost": r.xgboost
+  }))
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  }
+
+  const cellVariants = {
+    hidden: { scale: 0.3, opacity: 0 },
+    show: { scale: 1, opacity: 1, transition: { type: 'spring', stiffness: 200, damping: 15 } }
+  }
 
   return (
-    <div className="gradient-mesh space-y-8">
-      {/* Section Header */}
-      <SectionHeader
-        title="Attack Detection"
-        subtitle="Comparing Isolation Forest and XGBoost classifiers for WSN intrusion detection"
-      />
+    <div className="main-content-inner">
+      <h1 className="page-title">ATTACK DETECTION</h1>
+      <p className="page-subtitle">Evaluation of machine learning models for anomaly and intrusion classification</p>
 
-      {/* Model Comparison Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Model Cards Side-by-Side */}
+      <div className="two-col-grid">
         {/* Isolation Forest Card */}
-        <div className="glass-card p-6 border-l-4 border-red-500">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2.5 rounded-xl bg-red-500/10 text-red-500">
-              <ShieldAlert className="w-5 h-5" />
+        <motion.div
+          className="card"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          whileHover={{ translateY: -3 }}
+        >
+          <div className="flex-between mb-16">
+            <h3 className="model-card-name">Isolation Forest</h3>
+            <span className="badge badge-amber badge-pulse">Unsupervised baseline</span>
+          </div>
+          <div className="model-card-metrics">
+            <div className="model-metric">
+              <div className="model-metric-label">F1 Score</div>
+              <div className="model-metric-value neon-text-white">0.31</div>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
-                Isolation Forest
-              </h3>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">Unsupervised anomaly detector</p>
+            <div className="model-metric">
+              <div className="model-metric-label">Precision</div>
+              <div className="model-metric-value neon-text-white">0.3125</div>
+            </div>
+            <div className="model-metric">
+              <div className="model-metric-label">Recall</div>
+              <div className="model-metric-value neon-text-white">0.3120</div>
             </div>
           </div>
-          <div className="text-center my-6">
-            <p className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1">
-              F1 Score
-            </p>
-            <p className="text-5xl font-bold text-red-500">0.3123</p>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="text-center p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Precision</p>
-              <p className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">0.3125</p>
-            </div>
-            <div className="text-center p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Recall</p>
-              <p className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">0.3120</p>
-            </div>
-          </div>
-        </div>
+        </motion.div>
 
         {/* XGBoost Card */}
-        <div className="glass-card p-6 border-l-4 border-green-500">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2.5 rounded-xl bg-green-500/10 text-green-500">
-              <ShieldCheck className="w-5 h-5" />
+        <motion.div
+          className="card"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          whileHover={{ translateY: -3 }}
+        >
+          <div className="flex-between mb-16">
+            <h3 className="model-card-name">XGBoost</h3>
+            <span className="badge badge-green badge-pulse">Leakage-free evaluation</span>
+          </div>
+          <div className="model-card-metrics">
+            <div className="model-metric">
+              <div className="model-metric-label">F1 Score</div>
+              <div className="model-metric-value neon-text-white">0.94</div>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
-                XGBoost
-              </h3>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">Supervised gradient boosting</p>
+            <div className="model-metric">
+              <div className="model-metric-label">Precision</div>
+              <div className="model-metric-value neon-text-white">0.8945</div>
+            </div>
+            <div className="model-metric">
+              <div className="model-metric-label">Recall</div>
+              <div className="model-metric-value neon-text-white">0.9827</div>
             </div>
           </div>
-          <div className="text-center my-6">
-            <p className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1">
-              F1 Score
-            </p>
-            <p className="text-5xl font-bold text-green-500">0.9365</p>
+        </motion.div>
+      </div>
+
+      <p className="model-note mb-24">Evaluated on held-out test set of {testSetSize.toLocaleString()} nodes — no data leakage</p>
+
+      {/* Charts Row */}
+      <div className="two-col-grid">
+        {/* Detection Rate Bar Chart */}
+        <div className="dash-card">
+          <h2 className="dash-card-title">DETECTION RATE BY ATTACK TYPE</h2>
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} margin={{ top: 20, right: 10, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1e2030" vertical={false} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} />
+                <YAxis unit="%" domain={[0, 100]} axisLine={false} tickLine={false} />
+                <Tooltip
+                  contentStyle={{
+                    background: '#0d0d14',
+                    border: '1px solid #1e2030',
+                    borderRadius: '8px',
+                    color: '#ffffff'
+                  }}
+                  itemStyle={{ color: '#ffffff' }}
+                />
+                <Legend iconType="circle" />
+                <Bar dataKey="Isolation Forest" fill="var(--neon-red)" isAnimationActive={true} animationDuration={1200} />
+                <Bar dataKey="XGBoost" fill="var(--neon-cyan)" isAnimationActive={true} animationDuration={1200} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="text-center p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Precision</p>
-              <p className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">0.8945</p>
-            </div>
-            <div className="text-center p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Recall</p>
-              <p className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">0.9827</p>
-            </div>
-          </div>
+        </div>
+
+        {/* Confusion Matrix */}
+        <div className="dash-card">
+          <h2 className="dash-card-title">CONFUSION MATRIX</h2>
+          <motion.div 
+            className="confusion-matrix"
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+          >
+            {/* TP */}
+            <motion.div className="confusion-cell" variants={cellVariants} style={{ border: '1px solid rgba(0,255,136,0.8)', boxShadow: '0 0 20px rgba(0,255,136,0.35), inset 0 0 10px rgba(0,255,136,0.15)' }}>
+              <div className="confusion-cell-label">True Positive (TP)</div>
+              <div className="confusion-cell-value neon-text-green">
+                <CountUp end={confusionMatrix.tp} separator="," duration={1.8} />
+              </div>
+            </motion.div>
+
+            {/* FP */}
+            <motion.div className="confusion-cell" variants={cellVariants} style={{ border: '1px solid rgba(255,0,110,0.8)', boxShadow: '0 0 20px rgba(255,0,110,0.35), inset 0 0 10px rgba(255,0,110,0.15)' }}>
+              <div className="confusion-cell-label">False Positive (FP)</div>
+              <div className="confusion-cell-value neon-text-pink">
+                <CountUp end={confusionMatrix.fp} separator="," duration={1.8} />
+              </div>
+            </motion.div>
+
+            {/* FN */}
+            <motion.div className="confusion-cell" variants={cellVariants} style={{ border: '1px solid rgba(255,176,32,0.8)', boxShadow: '0 0 20px rgba(255,176,32,0.35), inset 0 0 10px rgba(255,176,32,0.15)' }}>
+              <div className="confusion-cell-label">False Negative (FN)</div>
+              <div className="confusion-cell-value neon-text-orange">
+                <CountUp end={confusionMatrix.fn} separator="," duration={1.8} />
+              </div>
+            </motion.div>
+
+            {/* TN */}
+            <motion.div className="confusion-cell" variants={cellVariants} style={{ border: '1px solid rgba(0,210,255,0.8)', boxShadow: '0 0 20px rgba(0,210,255,0.35), inset 0 0 10px rgba(0,210,255,0.15)' }}>
+              <div className="confusion-cell-label">True Negative (TN)</div>
+              <div className="confusion-cell-value neon-text-cyan">
+                <CountUp end={confusionMatrix.tn} separator="," duration={1.8} />
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Per-Type Detection Bar Chart */}
-      <ChartCard
-        title="Per-Type Detection Rate"
-        subtitle="Detection accuracy (%) by attack type for each classifier"
-      >
-        <div style={{ height: 320 }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={perTypeData}
-              layout="vertical"
-              margin={{ top: 10, right: 30, left: 60, bottom: 10 }}
+      {/* Node Lookup Panel */}
+      <div className="dash-card mt-16">
+        <h2 className="dash-card-title">NODE SEARCH & ANALYTICS</h2>
+        <form onSubmit={handleAnalyze} className="node-lookup">
+          <div className="node-lookup-input-row">
+            <input
+              type="number"
+              className="node-lookup-input"
+              placeholder="Enter node ID (e.g. 373986)"
+              value={nodeId}
+              onChange={e => setNodeId(e.target.value)}
+            />
+            <motion.button
+              type="submit"
+              className="node-lookup-btn"
+              whileTap={{ scale: 0.95 }}
             >
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke={dark ? '#3f3f46' : '#e4e4e7'}
-                horizontal={false}
-              />
-              <XAxis
-                type="number"
-                domain={[0, 100]}
-                tick={{ fill: chartTextColor, fontSize: 12 }}
-                tickLine={false}
-                axisLine={{ stroke: dark ? '#3f3f46' : '#e4e4e7' }}
-                unit="%"
-              />
-              <YAxis
-                type="category"
-                dataKey="type"
-                tick={{ fill: chartTextColor, fontSize: 13, fontWeight: 500 }}
-                tickLine={false}
-                axisLine={false}
-                width={80}
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: dark ? '#27272a' : '#ffffff',
-                  border: `1px solid ${dark ? '#3f3f46' : '#e4e4e7'}`,
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                }}
-                formatter={(value) => [`${value}%`]}
-              />
-              <Legend
-                wrapperStyle={{ fontSize: '13px', color: chartTextColor }}
-              />
-              <Bar
-                dataKey="IF"
-                name="Isolation Forest"
-                fill="#ef4444"
-                radius={[4, 4, 4, 4]}
-                barSize={14}
-              />
-              <Bar
-                dataKey="XGB"
-                name="XGBoost"
-                fill="#22c55e"
-                radius={[4, 4, 4, 4]}
-                barSize={14}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </ChartCard>
-
-      {/* Confusion Matrix */}
-      <div className="glass-card p-6">
-        <h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100 mb-1">
-          XGBoost Confusion Matrix
-        </h3>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6">
-          Classification outcomes on 74,933 test nodes
-        </p>
-
-        <div className="max-w-md mx-auto">
-          {/* Column Headers */}
-          <div className="grid grid-cols-3 gap-2 mb-2">
-            <div />
-            <div className="text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-              Predicted Positive
-            </div>
-            <div className="text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-              Predicted Negative
-            </div>
+              Analyze
+            </motion.button>
           </div>
+        </form>
 
-          {/* Row 1: Actual Positive */}
-          <div className="grid grid-cols-3 gap-2 mb-2">
-            <div className="flex items-center justify-end pr-3">
-              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-                Actual Positive
-              </span>
-            </div>
-            <div className="rounded-xl bg-green-500/15 border border-green-500/30 p-4 text-center">
-              <p className="text-xs text-green-600 dark:text-green-400 font-medium mb-1">TP</p>
-              <p className="text-2xl font-bold text-green-600 dark:text-green-400">
-                {confusionMatrix.TP.toLocaleString()}
-              </p>
-            </div>
-            <div className="rounded-xl bg-red-500/15 border border-red-500/30 p-4 text-center">
-              <p className="text-xs text-red-600 dark:text-red-400 font-medium mb-1">FN</p>
-              <p className="text-2xl font-bold text-red-600 dark:text-red-400">
-                {confusionMatrix.FN.toLocaleString()}
-              </p>
-            </div>
-          </div>
-
-          {/* Row 2: Actual Negative */}
-          <div className="grid grid-cols-3 gap-2">
-            <div className="flex items-center justify-end pr-3">
-              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-                Actual Negative
-              </span>
-            </div>
-            <div className="rounded-xl bg-red-500/15 border border-red-500/30 p-4 text-center">
-              <p className="text-xs text-red-600 dark:text-red-400 font-medium mb-1">FP</p>
-              <p className="text-2xl font-bold text-red-600 dark:text-red-400">
-                {confusionMatrix.FP.toLocaleString()}
-              </p>
-            </div>
-            <div className="rounded-xl bg-green-500/15 border border-green-500/30 p-4 text-center">
-              <p className="text-xs text-green-600 dark:text-green-400 font-medium mb-1">TN</p>
-              <p className="text-2xl font-bold text-green-600 dark:text-green-400">
-                {confusionMatrix.TN.toLocaleString()}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Info Banner */}
-      <div className="glass-card p-5 border border-blue-500/20 bg-blue-500/5">
-        <div className="flex items-start gap-3">
-          <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500 mt-0.5">
-            <Info className="w-4 h-4" />
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 mb-1">
-              Leakage-Free Evaluation
-            </h4>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              All metrics are computed on a held-out test set of{' '}
-              <span className="font-semibold text-zinc-800 dark:text-zinc-100">
-                {(74933).toLocaleString()} test nodes
-              </span>{' '}
-              using stratified splitting. No data leakage exists between training and evaluation —
-              the test set was never seen during model fitting, ensuring unbiased performance
-              estimates.
-            </p>
-          </div>
-        </div>
+        <AnimatePresence mode="wait">
+          {analyzedNode && (
+            <motion.div
+              key={analyzedNode.id}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="node-result-card card"
+            >
+              <div className="node-result-grid">
+                <div className="node-result-item">
+                  <span className="node-result-label">Anomaly Score</span>
+                  <span className="node-result-value neon-text-cyan">{analyzedNode.anomalyScore}</span>
+                </div>
+                <div className="node-result-item">
+                  <span className="node-result-label">Trust Score</span>
+                  <span className="node-result-value neon-text-purple">{analyzedNode.trustScore}</span>
+                </div>
+                <div className="node-result-item">
+                  <span className="node-result-label">Attack Probability</span>
+                  <span className="node-result-value neon-text-orange">{analyzedNode.attackProbability}%</span>
+                </div>
+                <div className="node-result-item">
+                  <span className="node-result-label">Predicted Status</span>
+                  <span className={`node-result-value ${analyzedNode.status === 'ANOMALOUS' ? 'neon-text-red' : 'neon-text-green'}`}>
+                    {analyzedNode.status}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
-  );
-};
-
-export default AttackDetection;
+  )
+}

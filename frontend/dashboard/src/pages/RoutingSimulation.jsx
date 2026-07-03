@@ -1,231 +1,186 @@
-import React from 'react';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
-import {
-  Route,
-  ShieldOff,
-  ShieldCheck,
-  TrendingDown,
-  ArrowRight,
-  Gauge,
-  Network,
-  Filter,
-} from 'lucide-react';
-import { routingData } from '../data/pipelineData';
-import { KpiCard, SectionHeader, ChartCard } from '../components/shared';
-import { useTheme } from '../context/ThemeContext';
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import ReactCountUp from 'react-countup'
+const CountUp = ReactCountUp.default || ReactCountUp
+import { CheckCircle } from 'lucide-react'
+import KPICard from '../components/KPICard'
 
-const comparisonData = [
-  { metric: 'Compromised %', baseline: 23, trustAware: 0 },
-  { metric: 'Avg Hops', baseline: 4.21, trustAware: 4.22 },
-];
+export default function RoutingSimulation({ data }) {
+  const { baseline, trustAware, metrics, sampleRoutes } = data
+  const [settled, setSettled] = useState(false)
+  const [selectedRouteIdx, setSelectedRouteIdx] = useState(0)
 
-const RoutingSimulation = () => {
-  const { dark } = useTheme();
-  const chartTextColor = dark ? '#a1a1aa' : '#52525b';
+  const selectedRoute = sampleRoutes[selectedRouteIdx]
 
   return (
-    <div className="gradient-mesh space-y-8">
-      {/* Section Header */}
-      <SectionHeader
-        title="Routing Simulation"
-        subtitle="Trust-aware routing eliminates compromised paths with negligible hop overhead"
-      />
+    <div className="main-content-inner">
+      <h1 className="page-title">ROUTING SIMULATION</h1>
+      <p className="page-subtitle">Trust-aware secure path routing versus baseline network routing</p>
 
       {/* Hero Banner */}
-      <div
-        className="relative rounded-2xl overflow-hidden p-8 md:p-12"
-        style={{
-          background: dark
-            ? 'linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(34,197,94,0.15) 100%)'
-            : 'linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(34,197,94,0.1) 100%)',
-        }}
-      >
-        <div className="relative z-10 text-center">
-          <div className="flex items-center justify-center gap-4 mb-3">
-            <ShieldOff className="w-8 h-8 text-red-500" />
-            <ArrowRight className="w-6 h-6 text-zinc-400" />
-            <ShieldCheck className="w-8 h-8 text-green-500" />
+      <div className="routing-hero">
+        <div className="routing-hero-icons">
+          <div className={`routing-hero-value neon-text-green ${settled ? 'breathing-glow' : ''}`}>
+            23% →{' '}
+            <CountUp
+              start={23}
+              end={0}
+              duration={2}
+              suffix="%"
+              onEnd={() => setSettled(true)}
+            />
           </div>
-          <h2 className="text-5xl md:text-6xl font-extrabold mb-3">
-            <span className="text-red-500">23%</span>
-            <span className="text-zinc-400 dark:text-zinc-500 mx-3">→</span>
-            <span className="text-green-500">0%</span>
-          </h2>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto">
-            Eliminating compromised routes by integrating AI-driven trust scores
-            into the routing decision layer
-          </p>
+          {settled && (
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+            >
+              <CheckCircle size={44} className="neon-text-green" />
+            </motion.div>
+          )}
         </div>
+        <p className="routing-hero-subtitle">
+          Compromised routes eliminated by trust-aware routing
+        </p>
       </div>
 
       {/* Side-by-Side Comparison Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="two-col-grid">
         {/* Baseline Card */}
-        <div className="glass-card p-6 border-l-4 border-red-500">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="p-2.5 rounded-xl bg-red-500/10 text-red-500">
-              <ShieldOff className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
-                Baseline Routing
-              </h3>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                Standard shortest-path without trust
-              </p>
-            </div>
+        <motion.div
+          className="card"
+          style={{ border: '1px solid rgba(255,56,96,0.2)' }}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          whileHover={{ translateY: -3 }}
+        >
+          <h3 className="routing-card-title neon-text-red">Baseline Routing</h3>
+          <div className="routing-card-stat">
+            <div className="routing-card-stat-label">Compromised routes</div>
+            <div className="routing-card-stat-value neon-text-red">{baseline.compromisedPercent}%</div>
           </div>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">Total Routes</span>
-              <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">200</span>
-            </div>
-            <div className="flex justify-between items-center p-3 rounded-lg bg-red-500/10">
-              <span className="text-sm text-red-600 dark:text-red-400">Compromised</span>
-              <span className="text-sm font-bold text-red-600 dark:text-red-400">23%</span>
-            </div>
-            <div className="flex justify-between items-center p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">Compromised Routes</span>
-              <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">46</span>
-            </div>
-            <div className="flex justify-between items-center p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">Avg Hops</span>
-              <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">4.21</span>
-            </div>
+          <div className="routing-card-stat">
+            <div className="routing-card-stat-label">Routes Affected</div>
+            <div className="routing-card-stat-value neon-text-white">{baseline.routesAffected} / {baseline.totalRoutes}</div>
           </div>
-        </div>
+          <div className="routing-card-stat" style={{ marginBottom: 0 }}>
+            <div className="routing-card-stat-label">Average Hops</div>
+            <div className="routing-card-stat-value neon-text-white">{baseline.avgHops}</div>
+          </div>
+        </motion.div>
 
         {/* Trust-Aware Card */}
-        <div className="glass-card p-6 border-l-4 border-green-500">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="p-2.5 rounded-xl bg-green-500/10 text-green-500">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
-                Trust-Aware Routing
-              </h3>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                AI-integrated trust-scored paths
-              </p>
-            </div>
-          </div>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">Total Routes</span>
-              <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">200</span>
-            </div>
-            <div className="flex justify-between items-center p-3 rounded-lg bg-green-500/10">
-              <span className="text-sm text-green-600 dark:text-green-400">Compromised</span>
-              <span className="text-sm font-bold text-green-600 dark:text-green-400">0%</span>
-            </div>
-            <div className="flex justify-between items-center p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">Compromised Routes</span>
-              <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">0</span>
-            </div>
-            <div className="flex justify-between items-center p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">Avg Hops</span>
-              <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">4.22</span>
+        <motion.div
+          className="card"
+          style={{ border: '1px solid rgba(0,255,136,0.2)' }}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          whileHover={{ translateY: -3 }}
+        >
+          <h3 className="routing-card-title neon-text-green">Trust-Aware Routing</h3>
+          <div className="routing-card-stat">
+            <div className="routing-card-stat-label">Compromised routes</div>
+            <div className="routing-card-stat-value neon-text-green">
+              <CountUp end={trustAware.compromisedPercent} suffix="%" duration={1.5} />
             </div>
           </div>
-        </div>
+          <div className="routing-card-stat">
+            <div className="routing-card-stat-label">Routes Affected</div>
+            <div className="routing-card-stat-value neon-text-white">
+              <CountUp end={trustAware.routesAffected} /> / {trustAware.totalRoutes}
+            </div>
+          </div>
+          <div className="routing-card-stat" style={{ marginBottom: 0 }}>
+            <div className="routing-card-stat-label">Average Hops</div>
+            <div className="routing-card-stat-value neon-text-white">
+              <CountUp end={trustAware.avgHops} decimals={2} duration={1.5} />
+            </div>
+          </div>
+        </motion.div>
       </div>
 
-      {/* Comparison Bar Chart */}
-      <ChartCard
-        title="Baseline vs Trust-Aware"
-        subtitle="Side-by-side metric comparison between routing approaches"
-      >
-        <div style={{ height: 280 }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={comparisonData}
-              margin={{ top: 10, right: 30, left: 20, bottom: 10 }}
-            >
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke={dark ? '#3f3f46' : '#e4e4e7'}
-                vertical={false}
-              />
-              <XAxis
-                dataKey="metric"
-                tick={{ fill: chartTextColor, fontSize: 13, fontWeight: 500 }}
-                tickLine={false}
-                axisLine={{ stroke: dark ? '#3f3f46' : '#e4e4e7' }}
-              />
-              <YAxis
-                tick={{ fill: chartTextColor, fontSize: 12 }}
-                tickLine={false}
-                axisLine={false}
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: dark ? '#27272a' : '#ffffff',
-                  border: `1px solid ${dark ? '#3f3f46' : '#e4e4e7'}`,
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                }}
-              />
-              <Legend
-                wrapperStyle={{ fontSize: '13px', color: chartTextColor }}
-              />
-              <Bar
-                dataKey="baseline"
-                name="Baseline"
-                fill="#ef4444"
-                radius={[4, 4, 4, 4]}
-                barSize={40}
-              />
-              <Bar
-                dataKey="trustAware"
-                name="Trust-Aware"
-                fill="#22c55e"
-                radius={[4, 4, 4, 4]}
-                barSize={40}
-              />
-            </BarChart>
-          </ResponsiveContainer>
+      {/* Metric Cards Row */}
+      <div className="kpi-grid">
+        <KPICard label="Excluded Nodes" value={metrics.excludedNodes} color="cyan" delay={0} />
+        <KPICard label="Hop Overhead" value={metrics.hopOverhead} decimals={2} prefix="+" color="cyan" delay={0.05} />
+        <div className="kpi-card kpi-card-cyan">
+          <p className="kpi-label">Routes Found</p>
+          <p className="kpi-value kpi-value-cyan">
+            {metrics.routesFound}
+          </p>
         </div>
-      </ChartCard>
+        <KPICard label="Trust Threshold" value={metrics.trustThreshold} decimals={2} color="cyan" delay={0.15} />
+        <KPICard label="Network Nodes" value={metrics.networkNodes} color="cyan" delay={0.2} />
+        <KPICard label="Network Edges" value={metrics.networkEdges} color="cyan" delay={0.25} />
+      </div>
 
-      {/* Metric KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard
-          title="Excluded Nodes"
-          value="45 (9%)"
-          icon={Filter}
-          color="amber"
-        />
-        <KpiCard
-          title="Hop Overhead"
-          value="+0.01"
-          icon={TrendingDown}
-          color="green"
-        />
-        <KpiCard
-          title="Routes Found"
-          value="200"
-          icon={Route}
-          color="blue"
-        />
-        <KpiCard
-          title="Trust Threshold"
-          value="0.4"
-          icon={Gauge}
-          color="purple"
-        />
+      {/* Route Path Visualizer */}
+      <div className="dash-card mt-16">
+        <h2 className="dash-card-title">ROUTE PATH VISUALIZER</h2>
+        <div className="mb-16">
+          <select
+            className="route-select"
+            value={selectedRouteIdx}
+            onChange={(e) => setSelectedRouteIdx(Number(e.target.value))}
+          >
+            {sampleRoutes.map((route, idx) => (
+              <option key={route.id} value={idx}>
+                {route.label} ({route.hops} Hops)
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="route-path-container">
+          <div className="flex-center" style={{ gap: '8px', flexWrap: 'wrap', width: '100%' }}>
+            {selectedRoute.path.map((node, i) => (
+              <React.Fragment key={`${selectedRoute.id}-${node}-${i}`}>
+                <motion.div
+                  className="route-pill route-pill-safe"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.15, duration: 0.3 }}
+                >
+                  {node}
+                </motion.div>
+                {i < selectedRoute.path.length - 1 && (
+                  <motion.span
+                    className="neon-text-green route-arrow-anim"
+                    style={{
+                      fontSize: '18px',
+                      fontWeight: 'bold',
+                      animationDelay: `${i * 0.25}s`
+                    }}
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: 'auto' }}
+                    transition={{ delay: i * 0.15 + 0.08, duration: 0.2 }}
+                  >
+                    →
+                  </motion.span>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex-between mt-16" style={{ color: '#94a3b8', fontSize: '13px' }}>
+          <div>
+            Hops count:{' '}
+            <span className="neon-text-cyan" style={{ fontWeight: 'bold' }}>
+              {selectedRoute.hops}
+            </span>
+          </div>
+          <div>
+            Status:{' '}
+            <span className="badge badge-green">
+              {selectedRoute.status}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
-  );
-};
-
-export default RoutingSimulation;
+  )
+}

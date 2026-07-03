@@ -1,0 +1,136 @@
+{
+  "networkOverview": {
+    "totalNodes": 374661,
+    "attackedNodes": 34595,
+    "percentAttacked": 9.23,
+    "classifierF1": 0.9365,
+    "nodeDistribution": [
+      { "name": "Normal", "value": 340066, "color": "#3b82f6" },
+      { "name": "Grayhole", "value": 14596, "color": "#ffb020" },
+      { "name": "Blackhole", "value": 10049, "color": "#ff3860" },
+      { "name": "TDMA", "value": 6638, "color": "#bf00ff" },
+      { "name": "Flooding", "value": 3312, "color": "#00ff88" }
+    ],
+    "trustThresholds": [
+      { "min": 0.10, "max": 0.34, "flagged": 40593, "percent": 10.83 },
+      { "min": 0.35, "max": 0.41, "flagged": 38659, "percent": 10.32 },
+      { "min": 0.42, "max": 0.70, "flagged": 38111, "percent": 10.17 },
+      { "min": 0.71, "max": 0.90, "flagged": 12000, "percent": 3.20 }
+    ]
+  },
+  "attackDetection": {
+    "models": [
+      {
+        "name": "Isolation Forest",
+        "f1": 0.31,
+        "precision": 0.3125,
+        "recall": 0.3120,
+        "badge": "Unsupervised baseline",
+        "badgeColor": "amber"
+      },
+      {
+        "name": "XGBoost",
+        "f1": 0.94,
+        "precision": 0.8945,
+        "recall": 0.9827,
+        "badge": "Leakage-free evaluation",
+        "badgeColor": "green"
+      }
+    ],
+    "detectionRates": [
+      { "attack": "Blackhole", "isolationForest": 24.7, "xgboost": 100 },
+      { "attack": "Flooding", "isolationForest": 81.4, "xgboost": 100 },
+      { "attack": "Grayhole", "isolationForest": 16.2, "xgboost": 100 },
+      { "attack": "TDMA", "isolationForest": 49.1, "xgboost": 91.3 }
+    ],
+    "confusionMatrix": {
+      "tp": 6799,
+      "fp": 802,
+      "fn": 120,
+      "tn": 67212
+    }
+  },
+  "routingSimulation": {
+    "baseline": {
+      "compromisedPercent": 23,
+      "routesAffected": 46,
+      "totalRoutes": 200,
+      "avgHops": 4.21
+    },
+    "trustAware": {
+      "compromisedPercent": 0,
+      "routesAffected": 0,
+      "totalRoutes": 200,
+      "avgHops": 4.22
+    },
+    "metrics": {
+      "excludedNodes": 45,
+      "hopOverhead": 0.01,
+      "routesFound": "200/200",
+      "trustThreshold": 0.40,
+      "networkNodes": 500,
+      "networkEdges": 7703
+    },
+    "sampleRoutes": [
+      { "id": 0, "label": "Route 0", "path": [277317, 58485, 180331, 28401, 34701, 47662, 280043, 138403], "hops": 7, "status": "safe" },
+      { "id": 6, "label": "Route 6", "path": [87194, 81516, 354005], "hops": 2, "status": "safe" },
+      { "id": 12, "label": "Route 12", "path": [350152, 16829], "hops": 1, "status": "safe" },
+      { "id": 54, "label": "Route 54", "path": [104286, 24702, 189600, 155560, 276653, 74905, 354785, 343638, 97425], "hops": 8, "status": "safe" },
+      { "id": 186, "label": "Route 186", "path": [35631, 328962, 219949, 94036, 290414, 242357, 29327, 224231, 298673, 81158], "hops": 9, "status": "safe" }
+    ]
+  },
+  "energyForecast": {
+    "model": "LSTM",
+    "valMSE": "3.94×10⁻⁶",
+    "avgForecast": "0.220 mJ",
+    "dataSource": "Intel IBRL",
+    "sensorNodes": 57,
+    "minVoltage": "1.938V",
+    "maxVoltage": "2.807V",
+    "voltageData": [
+      {"node":1,"voltage":2.009},{"node":2,"voltage":1.968},{"node":3,"voltage":2.077},{"node":4,"voltage":2.078},{"node":6,"voltage":1.972},{"node":7,"voltage":2.055},{"node":8,"voltage":2.113},{"node":9,"voltage":2.151},{"node":10,"voltage":1.977},{"node":11,"voltage":1.974},{"node":12,"voltage":2.123},{"node":13,"voltage":2.017},{"node":14,"voltage":2.064},{"node":15,"voltage":2.086},{"node":16,"voltage":2.141},{"node":17,"voltage":2.052},{"node":18,"voltage":2.010},{"node":19,"voltage":2.038},{"node":20,"voltage":2.020},{"node":21,"voltage":2.059},{"node":22,"voltage":2.073},{"node":23,"voltage":1.939},{"node":24,"voltage":2.012},{"node":25,"voltage":1.956},{"node":26,"voltage":2.003},{"node":27,"voltage":2.022},{"node":29,"voltage":2.035},{"node":30,"voltage":2.042},{"node":31,"voltage":2.001},{"node":32,"voltage":2.141},{"node":33,"voltage":2.094},{"node":34,"voltage":1.989},{"node":35,"voltage":2.041},{"node":36,"voltage":2.011},{"node":37,"voltage":2.009},{"node":38,"voltage":2.017},{"node":39,"voltage":2.050},{"node":40,"voltage":2.011},{"node":41,"voltage":2.040},{"node":42,"voltage":1.998},{"node":43,"voltage":2.004},{"node":44,"voltage":2.056},{"node":45,"voltage":2.263},{"node":46,"voltage":1.967},{"node":47,"voltage":2.060},{"node":48,"voltage":2.107},{"node":49,"voltage":1.993},{"node":50,"voltage":2.545},{"node":51,"voltage":2.031},{"node":52,"voltage":1.938},{"node":53,"voltage":2.030},{"node":54,"voltage":1.985},{"node":55,"voltage":2.676},{"node":56,"voltage":2.807},{"node":58,"voltage":2.568}
+    ],
+    "outlierNodes": [50, 55, 56, 58],
+    "clusterHeads": [
+      { "id": "node_313045", "rank": 1, "selected": true },
+      { "id": "node_313043", "rank": 2, "selected": false },
+      { "id": "node_313023", "rank": 3, "selected": false },
+      { "id": "node_313009", "rank": 4, "selected": false },
+      { "id": "node_314090", "rank": 5, "selected": false }
+    ],
+    "defaultThreshold": 1.95
+  },
+  "pipelineReport": {
+    "flaggedNodes": 40593,
+    "avgTrustScore": 0.7484,
+    "trustThreshold": 0.40,
+    "llmModel": "qwen2:1.5b",
+    "healthReport": "Network health analysis indicates trust scores averaging 0.7484 with 10.83% of nodes flagged as anomalous by the supervised classifier (F1=0.94). The current trust threshold of 0.4 flags nearly all suspicious nodes. Recommendation: consider raising the threshold to 0.5 to reduce false positives while maintaining security posture.",
+    "attackAlert": {
+      "title": "Node with high anomaly score and low trust score detected.",
+      "actions": [
+        "Investigate flagged nodes immediately",
+        "Monitor additional nodes proactively"
+      ]
+    },
+    "adaptivePolicies": [
+      { "title": "Routing Changes", "description": "Dynamically reroute traffic away from flagged nodes using trust-aware pathfinding algorithms.", "icon": "route" },
+      { "title": "Trust Thresholds", "description": "Adjust trust score thresholds based on current network threat level and false positive rates.", "icon": "sliders" },
+      { "title": "Duty Cycling", "description": "Optimize sensor sleep/wake schedules to conserve energy while maintaining coverage.", "icon": "battery" },
+      { "title": "Anomaly Detection", "description": "Tune classifier sensitivity and retrain models with latest labeled data.", "icon": "scan" },
+      { "title": "Performance Monitoring", "description": "Track packet delivery ratio, latency, and throughput across all network segments.", "icon": "activity" },
+      { "title": "Regular Updates", "description": "Schedule periodic model retraining and threshold recalibration cycles.", "icon": "refresh" }
+    ],
+    "simulationSteps": [
+      "Initializing sensor network...",
+      "Loading node trust scores...",
+      "Running anomaly detection...",
+      "Classifying attack vectors...",
+      "Computing trust-aware routes...",
+      "Generating energy forecasts...",
+      "Compiling security report...",
+      "Pipeline complete."
+    ]
+  },
+  "ticker": "🔴 Node 373986 flagged — anomaly score 0.91 ● Trust score 0.31 — below threshold ● XGBoost classifier active — F1 0.9365 ● 10.83% nodes anomalous ● 0% compromised routes after trust-aware routing ● LSTM energy forecast MSE 3.94×10⁻⁶ ● Cluster head node_313045 selected ● 374,661 nodes monitored ●"
+}
