@@ -9,6 +9,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://loquacious-sorbet-f6b792.netlify.app",
+        "https://wsn-ai-security.netlify.app",
         "http://localhost:5173",  # keep for local dev
     ],
     allow_methods=["*"],
