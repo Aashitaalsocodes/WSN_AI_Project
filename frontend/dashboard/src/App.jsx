@@ -25,9 +25,13 @@ export default function App() {
     fetch('https://wsn-ai-project.onrender.com/api/dashboard-formatted')
       .then(res => res.json())
       .then(setData)
-      .catch(err => console.error('Failed to load data:', err))
+      .catch(err => {
+        console.error('API failed, falling back to local data:', err)
+        fetch('/dashboard_data.json')
+          .then(res => res.json())
+          .then(setData)
+      })
   }, [])
-
   if (!data) {
     return (
       <div className="loading-screen">
