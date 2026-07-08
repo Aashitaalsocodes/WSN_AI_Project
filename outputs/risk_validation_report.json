@@ -1,0 +1,99 @@
+{
+  "threshold": 0.5,
+  "total_nodes": 374661,
+  "confusion_matrix": {
+    "tp": 33917,
+    "fp": 4195,
+    "fn": 678,
+    "tn": 335871
+  },
+  "precision": 0.8899,
+  "recall": 0.9804,
+  "f1_score": 0.933,
+  "accuracy": 0.987,
+  "per_attack_type_detection_rate": {
+    "Normal": {
+      "n": 340066,
+      "n_flagged": 4195,
+      "detection_rate_pct": 1.23
+    },
+    "Flooding": {
+      "n": 3312,
+      "n_flagged": 3312,
+      "detection_rate_pct": 100.0
+    },
+    "TDMA": {
+      "n": 6638,
+      "n_flagged": 5960,
+      "detection_rate_pct": 89.79
+    },
+    "Grayhole": {
+      "n": 14596,
+      "n_flagged": 14596,
+      "detection_rate_pct": 100.0
+    },
+    "Blackhole": {
+      "n": 10049,
+      "n_flagged": 10049,
+      "detection_rate_pct": 100.0
+    }
+  },
+  "risk_score_stats_by_label": {
+    "count": {
+      "Blackhole": 10049.0,
+      "Flooding": 3312.0,
+      "Grayhole": 14596.0,
+      "Normal": 340066.0,
+      "TDMA": 6638.0
+    },
+    "mean": {
+      "Blackhole": 0.6299304571,
+      "Flooding": 0.7113130368,
+      "Grayhole": 0.6218018781,
+      "Normal": 0.0617167563,
+      "TDMA": 0.5887873777
+    },
+    "std": {
+      "Blackhole": 0.0385097465,
+      "Flooding": 0.0495091628,
+      "Grayhole": 0.0319756026,
+      "Normal": 0.0772474781,
+      "TDMA": 0.1542981371
+    },
+    "min": {
+      "Blackhole": 0.59609,
+      "Flooding": 0.637876,
+      "Grayhole": 0.596692,
+      "Normal": 0.003221,
+      "TDMA": 0.015957
+    },
+    "25%": {
+      "Blackhole": 0.597089,
+      "Flooding": 0.665446,
+      "Grayhole": 0.601967,
+      "Normal": 0.028748,
+      "TDMA": 0.59396425
+    },
+    "50%": {
+      "Blackhole": 0.610822,
+      "Flooding": 0.696298,
+      "Grayhole": 0.60709,
+      "Normal": 0.039882,
+      "TDMA": 0.6131595
+    },
+    "75%": {
+      "Blackhole": 0.659988,
+      "Flooding": 0.75657125,
+      "Grayhole": 0.62757875,
+      "Normal": 0.059768,
+      "TDMA": 0.6506725
+    },
+    "max": {
+      "Blackhole": 0.801662,
+      "Flooding": 0.849698,
+      "Grayhole": 0.792435,
+      "Normal": 0.776985,
+      "TDMA": 0.845644
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "total_nodes": 374661,
+  "classifier_source": "C:\\Users\\Admin\\WSN_AI_Project\\outputs\\stub_classifier_predictions.json",
+  "action_counts": {
+    "NONE": 336139,
+    "INCREASE_MONITORING_ONLY": 1542,
+    "QUARANTINE_MONITOR": 1058,
+    "INCREASE_MONITORING": 1122,
+    "FORCE_RESYNC": 801,
+    "RATE_LIMIT": 812,
+    "RATE_LIMIT_ISOLATE": 3263,
+    "EXCLUDE_FROM_ROUTING": 9845,
+    "FORCE_RESYNC_REASSIGN_SLOT": 5798,
+    "REDUCE_TRUST_REROUTE_PARTIAL": 14281
+  },
+  "reroute_counts": {
+    "FULL": 9845,
+    "PARTIAL": 15339,
+    "NONE": 349477
+  },
+  "avg_trust_delta": -0.0157,
+  "cluster_heads_flagged": 34095
+}

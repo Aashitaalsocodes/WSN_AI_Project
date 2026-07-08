@@ -4,3 +4,6 @@ __pycache__/
 .DS_Store
 data/raw/ibrl_voltage_time_series.csv
 data/raw/ibrl_data.txt
+outputs/preprocessed_nodes.json
+outputs/mitigation_actions.json
+outputs/stub_classifier_predictions.json

@@ -1,0 +1,182 @@
+{
+  "total_rows": 374661,
+  "total_columns": 16,
+  "columns_found": [
+    "node_id",
+    "timestamp",
+    "is_cluster_head",
+    "is_faulty",
+    "attack_type",
+    "packets_sent",
+    "packets_received",
+    "distance_to_ch",
+    "energy_remaining",
+    "cumulative_energy_mJ",
+    "interval_energy_mJ",
+    "power_mW",
+    "energy_packets_sent",
+    "energy_packets_received",
+    "energy_decay_rate",
+    "rolling_energy_avg"
+  ],
+  "missing_required_columns": [],
+  "flat_columns_excluded": [
+    "energy_remaining",
+    "power_mW",
+    "cumulative_energy_mJ",
+    "interval_energy_mJ",
+    "energy_decay_rate",
+    "rolling_energy_avg"
+  ],
+  "null_counts": {
+    "node_id": 0,
+    "timestamp": 0,
+    "is_cluster_head": 0,
+    "is_faulty": 0,
+    "attack_type": 0,
+    "packets_sent": 0,
+    "packets_received": 0,
+    "distance_to_ch": 0,
+    "energy_remaining": 0,
+    "cumulative_energy_mJ": 0,
+    "interval_energy_mJ": 0,
+    "power_mW": 0,
+    "energy_packets_sent": 0,
+    "energy_packets_received": 0,
+    "energy_decay_rate": 0,
+    "rolling_energy_avg": 0
+  },
+  "total_nulls": 0,
+  "attack_type_distribution": {
+    "Normal": 340066,
+    "Grayhole": 14596,
+    "Blackhole": 10049,
+    "TDMA": 6638,
+    "Flooding": 3312
+  },
+  "cluster_head_count": 43373,
+  "faulty_node_count": 27957,
+  "packets_sent_stats": {
+    "mean": 44.85792489744062,
+    "min": 0.0,
+    "max": 241.0
+  },
+  "distance_to_ch_stats": {
+    "mean": 22.599380410664573,
+    "min": 0.0,
+    "max": 214.27462
+  },
+  "normalization_constants": {
+    "distance_to_ch": {
+      "min": 0.0,
+      "max": 214.27462
+    },
+    "isolation_forest": {
+      "min": -0.291202,
+      "max": 0.149915
+    },
+    "energy_source": "IBRL LSTM forecast (WSN-DS energy columns are flat/unusable)",
+    "activity_basis": "Role-aware percentile rank (packets_sent for non-CH, packets_received for CH) \u2014 replaces invalid PDR formula"
+  },
+  "preprocessing_timestamp": "2026-07-08T16:03:02.533244",
+  "nodes_preprocessed": 374661,
+  "nodes_zero_activity": 16967,
+  "sample_size_used": 374661,
+  "neighbor_window": 50,
+  "trust_factor_sources": {
+    "historical_accuracy": "Derived from role-aware activity percentile: packets_sent rank for non-CH nodes, packets_received rank for CH nodes. Replaces invalid PDR formula (packets_received/packets_sent), which collapsed to 9 unique values with 73% exactly zero due to CH/non-CH schema split.",
+    "protocol_compliance": "0.7 * activity_percentile + 0.3 * (1 - distance_to_ch_norm). Replaces hardcoded 0.8 and the invalid power_mW-based formula (power_mW is flat/zero in WSN-DS).",
+    "neighbor_recommendation": "Derived from mean attack_probability of 50 adjacent row-index nodes. Replaces hardcoded 0.5.",
+    "energy_risk": "IBRL LSTM voltage forecast for 55 known nodes. Estimated from composite risk for all others."
+  },
+  "output_stats": {
+    "avg_activity_percentile": 0.5,
+    "avg_composite_risk": 0.1139,
+    "avg_historical_accuracy": 0.5,
+    "avg_protocol_compliance": 0.6175,
+    "avg_neighbor_recommendation": 0.8757,
+    "pct_high_risk": 10.17
+  },
+  "sample_records": {
+    "0": {
+      "node_id": "0",
+      "raw_anomaly_score": -0.05027,
+      "normalized_anomaly_score": 0.453814,
+      "attack_probability": 0.278362,
+      "predicted_attacked": 0,
+      "activity_percentile": 0.956113,
+      "distance_to_ch_norm": 0.0,
+      "is_cluster_head": 1,
+      "is_faulty": 0,
+      "historical_accuracy": 0.910502,
+      "protocol_compliance": 0.95,
+      "neighbor_recommendation": 0.95,
+      "energy_risk": 0.247489,
+      "composite_risk_score": 0.289758
+    },
+    "1": {
+      "node_id": "1",
+      "raw_anomaly_score": 0.148253,
+      "normalized_anomaly_score": 0.003768,
+      "attack_probability": 0.010256,
+      "predicted_attacked": 0,
+      "activity_percentile": 0.46404,
+      "distance_to_ch_norm": 0.351528,
+      "is_cluster_head": 0,
+      "is_faulty": 0,
+      "historical_accuracy": 0.467636,
+      "protocol_compliance": 0.51937,
+      "neighbor_recommendation": 0.95,
+      "energy_risk": 0.917505,
+      "composite_risk_score": 0.178849
+    },
+    "2": {
+      "node_id": "2",
+      "raw_anomaly_score": 0.147807,
+      "normalized_anomaly_score": 0.004779,
+      "attack_probability": 0.015033,
+      "predicted_attacked": 0,
+      "activity_percentile": 0.500976,
+      "distance_to_ch_norm": 0.219132,
+      "is_cluster_head": 0,
+      "is_faulty": 0,
+      "historical_accuracy": 0.500879,
+      "protocol_compliance": 0.584944,
+      "neighbor_recommendation": 0.95,
+      "energy_risk": 0.964734,
+      "composite_risk_score": 0.175335
+    },
+    "3": {
+      "node_id": "3",
+      "raw_anomaly_score": 0.148428,
+      "normalized_anomaly_score": 0.003371,
+      "attack_probability": 0.009355,
+      "predicted_attacked": 0,
+      "activity_percentile": 0.46404,
+      "distance_to_ch_norm": 0.30266,
+      "is_cluster_head": 0,
+      "is_faulty": 0,
+      "historical_accuracy": 0.467636,
+      "protocol_compliance": 0.53403,
+      "neighbor_recommendation": 0.95,
+      "energy_risk": 0.83995,
+      "composite_risk_score": 0.161779
+    },
+    "4": {
+      "node_id": "4",
+      "raw_anomaly_score": 0.14712,
+      "normalized_anomaly_score": 0.006336,
+      "attack_probability": 0.02449,
+      "predicted_attacked": 0,
+      "activity_percentile": 0.500976,
+      "distance_to_ch_norm": 0.022557,
+      "is_cluster_head": 0,
+      "is_faulty": 0,
+      "historical_accuracy": 0.500879,
+      "protocol_compliance": 0.643916,
+      "neighbor_recommendation": 0.95,
+      "energy_risk": 0.838247,
+      "composite_risk_score": 0.141822
+    }
+  }
+}
