@@ -1,6 +1,6 @@
 {
   "total_nodes": 374661,
-  "classifier_source": "C:\\Users\\Aashita\\WSN_AI_Project\\outputs\\attack_classification_results.json",
+  "classifier_source": "outputs\\attack_classification_results.json",
   "action_counts": {
     "NONE": 335934,
     "FORCE_RESYNC": 3798,

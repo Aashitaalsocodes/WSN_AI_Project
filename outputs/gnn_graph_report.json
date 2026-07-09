@@ -1,0 +1,68 @@
+{
+  "num_nodes": 11120,
+  "num_edges": 55585,
+  "avg_degree": 10.0,
+  "attacked_nodes": 1122,
+  "normal_nodes": 9998,
+  "pct_attacked": 10.09,
+  "feature_names": [
+    "attack_probability_mean",
+    "attack_probability_max",
+    "composite_risk_score_mean",
+    "packet_delivery_ratio_mean",
+    "distance_to_ch_norm",
+    "is_cluster_head",
+    "pct_timesteps_attacked"
+  ],
+  "feature_stats": {
+    "attack_probability_mean": {
+      "mean": 0.2398,
+      "std": 0.2565,
+      "min": 0.0014,
+      "max": 1.0
+    },
+    "attack_probability_max": {
+      "mean": 0.8204,
+      "std": 0.3623,
+      "min": 0.0014,
+      "max": 1.0
+    },
+    "composite_risk_score_mean": {
+      "mean": 0.1829,
+      "std": 0.146,
+      "min": 0.0104,
+      "max": 0.7235
+    },
+    "packet_delivery_ratio_mean": {
+      "mean": 0.1774,
+      "std": 0.1133,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "distance_to_ch_norm": {
+      "mean": 0.0659,
+      "std": 0.0581,
+      "min": 0.0,
+      "max": 0.3993
+    },
+    "is_cluster_head": {
+      "mean": 0.1204,
+      "std": 0.3254,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "pct_timesteps_attacked": {
+      "mean": 0.2181,
+      "std": 0.2576,
+      "min": 0.0,
+      "max": 1.0
+    }
+  },
+  "label_distribution": {
+    "attacked (label=1)": 1122,
+    "normal (label=0)": 9998
+  },
+  "gnn_task": "Node-level binary classification (malicious vs normal)",
+  "edge_strategy": "K=5 nearest neighbors by distance_to_ch_norm",
+  "label_threshold": "label=1 if >10% of timesteps show non-Normal attack_type"
+}

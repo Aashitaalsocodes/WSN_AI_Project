@@ -1,0 +1,33 @@
+{
+  "num_nodes": 11120,
+  "num_features": 6,
+  "feature_names": [
+    "attack_probability_mean",
+    "attack_probability_max",
+    "composite_risk_score_mean",
+    "packet_delivery_ratio_mean",
+    "distance_to_ch_norm",
+    "is_cluster_head"
+  ],
+  "architecture": "GraphSAGE: 6 -> 64 -> 32 -> [+skip 6] -> 2",
+  "ablation_note": "GAT (attention) was also evaluated but underperformed SAGE on this graph (F1 0.898 vs 0.939), likely due to the relatively homogeneous KNN-based topology giving attention limited differential signal to exploit. GAT is retained only to generate interpretability/attention artifacts for Task 13.",
+  "epochs": 500,
+  "test_size": 0.2,
+  "metrics": {
+    "f1": 0.9389473684210526,
+    "precision": 0.8884462151394422,
+    "recall": 0.9955357142857143,
+    "confusion_matrix": [
+      [
+        1972,
+        28
+      ],
+      [
+        1,
+        223
+      ]
+    ]
+  },
+  "target_f1": 0.94,
+  "target_met": false
+}
