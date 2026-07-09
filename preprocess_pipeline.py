@@ -15,21 +15,6 @@ Flat/placeholder columns (all zero or constant — NOT used):
 Energy data comes from LSTM IBRL forecast (energy_forecast_ibrl.json),
 NOT from the WSN-DS CSV columns.
 
-IMPORTANT SCHEMA FINDING (confirmed via groupby diagnostics):
-  Cluster heads (is_cluster_head=1): packets_sent is ALWAYS 0 (they only
-    relay/aggregate, never "send" in this schema). Their meaningful signal
-    is packets_received (relayed traffic volume from members).
-  Regular nodes (is_cluster_head=0): packets_sent is the meaningful signal
-    (median ~41); packets_received is 0 for the median node since they
-    don't get echoed traffic back in this schema.
-  Consequence: packets_received / packets_sent (PDR) is NOT a valid
-    per-node metric — it divides by a column that's structurally zero for
-    CHs, and compares unrelated channels for regular nodes. It collapsed
-    to 9 unique values with 73% at exactly 0 across the full dataset.
-  Fix: trust factors are now derived from ROLE-AWARE PERCENTILE RANKS
-    within each role's peer population, rather than a single PDR formula
-    applied uniformly.
-
 Inputs:
   - data/processed/processed_data.csv
   - outputs/anomaly_detection_results.json
@@ -47,7 +32,7 @@ Output schema per node (feeds Task 2 attack classification + Task 5 GNN):
   "normalized_anomaly_score":   float,
   "attack_probability":         float,
   "predicted_attacked":         int,
-  "activity_percentile":        float,  # role-aware percentile (replaces PDR)
+  "packet_delivery_ratio":      float,
   "distance_to_ch_norm":        float,
   "is_cluster_head":            int,
   "is_faulty":                  int,
@@ -83,37 +68,15 @@ def normalize_isolation_forest(raw_score):
     return (IF_MAX - raw_score) / (IF_MAX - IF_MIN)
 
 
-def compute_role_aware_percentiles(df):
-    """
-    Precompute role-aware activity percentiles (vectorized, once per dataset):
-      - Non-CH nodes: percentile rank of packets_sent among non-CH peers.
-      - CH nodes:     percentile rank of packets_received among CH peers.
-    Returns a pandas Series aligned to df.index in [0, 1].
-    """
-    percentile = pd.Series(0.5, index=df.index, dtype=float)
-
-    is_ch = df["is_cluster_head"].astype(bool)
-
-    non_ch_mask = ~is_ch
-    if non_ch_mask.sum() > 0:
-        percentile.loc[non_ch_mask] = df.loc[non_ch_mask, "packets_sent"].rank(pct=True)
-
-    ch_mask = is_ch
-    if ch_mask.sum() > 0:
-        percentile.loc[ch_mask] = df.loc[ch_mask, "packets_received"].rank(pct=True)
-
-    return percentile.fillna(0.0)
+def derive_historical_accuracy(pdr):
+    pdr_clipped = np.clip(pdr, 0.0, 1.0)
+    return float(0.05 + 0.90 * pdr_clipped)
 
 
-def derive_historical_accuracy(activity_percentile):
-    p = np.clip(activity_percentile, 0.0, 1.0)
-    return float(0.05 + 0.90 * p)
-
-
-def derive_protocol_compliance(activity_percentile, distance_norm):
-    activity_factor = np.clip(activity_percentile, 0.0, 1.0)
-    distance_factor  = 1.0 - distance_norm
-    compliance       = 0.7 * activity_factor + 0.3 * distance_factor
+def derive_protocol_compliance(pdr, distance_norm):
+    pdr_factor      = np.clip(pdr, 0.0, 1.0)
+    distance_factor = 1.0 - distance_norm
+    compliance      = 0.7 * pdr_factor + 0.3 * distance_factor
     return float(np.clip(compliance, 0.05, 0.95))
 
 
@@ -233,20 +196,10 @@ def run_preprocessing(sample_size=None, neighbor_window=50):
     dist_max  = float(df["distance_to_ch"].max())
     print(f"      Distance to CH: min={dist_min:.4f}, max={dist_max:.4f}")
     print(f"      Note: energy_remaining and power_mW are flat in WSN-DS - using IBRL LSTM for energy")
-
-    activity_percentile = compute_role_aware_percentiles(df)
-    n_ch    = int(df["is_cluster_head"].sum())
-    n_nonch = total_rows - n_ch
-    print(f"      Role-aware activity percentile computed:")
-    print(f"        Non-CH nodes ({n_nonch:,}): ranked by packets_sent")
-    print(f"        CH nodes     ({n_ch:,}): ranked by packets_received")
-
     quality_report["normalization_constants"] = {
         "distance_to_ch":   {"min": dist_min, "max": dist_max},
         "isolation_forest": {"min": IF_MIN,   "max": IF_MAX},
-        "energy_source":    "IBRL LSTM forecast (WSN-DS energy columns are flat/unusable)",
-        "activity_basis":   "Role-aware percentile rank (packets_sent for non-CH, "
-                             "packets_received for CH) — replaces invalid PDR formula"
+        "energy_source":    "IBRL LSTM forecast (WSN-DS energy columns are flat/unusable)"
     }
 
     print(f"\n[5/6] Building preprocessed node records...")
@@ -254,6 +207,7 @@ def run_preprocessing(sample_size=None, neighbor_window=50):
 
     preprocessed = {}
     skipped      = 0
+    zero_pdr     = 0
 
     for idx, row in df.iterrows():
         node_key = str(idx)
@@ -263,13 +217,32 @@ def run_preprocessing(sample_size=None, neighbor_window=50):
             raw_anomaly = raw_anomaly.get("anomaly_score", IF_MAX)
         raw_anomaly  = float(raw_anomaly)
         norm_anomaly = normalize_isolation_forest(raw_anomaly)
-
         clf           = attack_preds.get(node_key, {})
         attack_prob   = float(clf.get("attack_probability", 0.0))
         pred_attacked = int(clf.get("predicted_attacked", 0))
+        packets_sent  = float(row.get("packets_sent", 0))
+        
+        packets_recv = float(row.get("packets_received", 0))
+        is_ch        = int(row.get("is_cluster_head", 0))
 
-        act_pctile = float(activity_percentile.loc[idx])
+        # PDR is type-aware: CHs receive (not send), members send (not receive)
+        # Cluster heads: packets_sent is always 0 — use packets_received normalized
+        # Member nodes:  packets_received is mostly 0 — use packets_sent normalized
+        CH_MAX_RECV     = 1372.0   # max observed packets_received for cluster heads
+        MEMBER_MAX_SENT = 241.0    # max observed packets_sent for member nodes
 
+        if is_ch == 1:
+            pdr = float(np.clip(packets_recv / CH_MAX_RECV, 0.0, 1.0))
+            if packets_recv == 0:
+                skipped += 1
+        else:
+            if packets_sent <= 0:
+                pdr = 0.0
+                skipped += 1
+            else:
+                pdr = float(np.clip(packets_sent / MEMBER_MAX_SENT, 0.0, 1.0))
+                if pdr == 0.0:
+                    zero_pdr += 1
         distance = float(row.get("distance_to_ch", 0.0))
         dist_norm = (distance - dist_min) / (dist_max - dist_min) if dist_max > dist_min else 0.5
 
@@ -278,8 +251,8 @@ def run_preprocessing(sample_size=None, neighbor_window=50):
             energy_risk = float(0.4 * attack_prob + 0.3 * norm_anomaly + 0.3 * dist_norm)
         energy_risk = float(np.clip(energy_risk, 0.0, 1.0))
 
-        historical_accuracy     = derive_historical_accuracy(act_pctile)
-        protocol_compliance     = derive_protocol_compliance(act_pctile, dist_norm)
+        historical_accuracy     = derive_historical_accuracy(pdr)
+        protocol_compliance     = derive_protocol_compliance(pdr, dist_norm)
         neighbor_recommendation = derive_neighbor_recommendation(idx, total_rows, attack_preds, neighbor_window)
 
         composite_risk = (
@@ -289,20 +262,17 @@ def run_preprocessing(sample_size=None, neighbor_window=50):
             0.10 * dist_norm
         )
 
-        is_ch_flag = int(row.get("is_cluster_head", 0))
-        if is_ch_flag == 0 and float(row.get("packets_sent", 0)) <= 0:
-            skipped += 1  # tracked for reporting only; still processed with floor trust values
-
         preprocessed[node_key] = {
-            "node_id":                   node_key,
+            "row_index":                 node_key,
+            "node_id":                   str(row.get("node_id", "")),
             "raw_anomaly_score":         round(raw_anomaly, 6),
             "normalized_anomaly_score":  round(norm_anomaly, 6),
             "attack_probability":        round(attack_prob, 6),
-            "predicted_attacked":        pred_attacked,
-            "activity_percentile":       round(act_pctile, 6),
+            "predicted_attacked":        int(clf.get("predicted_attacked", 0)),
+            "packet_delivery_ratio":     round(pdr, 6),
             "distance_to_ch_norm":       round(float(dist_norm), 6),
-            "is_cluster_head":           is_ch_flag,
-            "is_faulty":                 int(row.get("is_faulty", 0)),
+            "is_cluster_head":           int(row.get("is_cluster_head", 0)),
+            "is_faulty_RAW_DO_NOT_USE_AS_FEATURE": int(row.get("is_faulty", 0)), 
             "historical_accuracy":       round(historical_accuracy, 6),
             "protocol_compliance":       round(protocol_compliance, 6),
             "neighbor_recommendation":   round(neighbor_recommendation, 6),
@@ -314,7 +284,8 @@ def run_preprocessing(sample_size=None, neighbor_window=50):
             print(f"      ... {idx:,} / {total_rows:,} processed")
 
     print(f"      Done. {len(preprocessed):,} nodes preprocessed")
-    print(f"      Non-CH nodes with zero packets_sent: {skipped}")
+    print(f"      Skipped (zero packets_sent): {skipped}")
+    print(f"      Zero PDR (all packets lost): {zero_pdr}")
 
     print(f"\n[6/6] Writing outputs...")
     OUTPUTS.mkdir(exist_ok=True)
@@ -323,37 +294,34 @@ def run_preprocessing(sample_size=None, neighbor_window=50):
     size_mb = OUT_NODES.stat().st_size / (1024 * 1024)
     print(f"      preprocessed_nodes.json: {size_mb:.1f} MB")
 
-    all_act        = [v["activity_percentile"]         for v in preprocessed.values()]
+    all_pdrs       = [v["packet_delivery_ratio"]      for v in preprocessed.values()]
     all_risks      = [v["composite_risk_score"]        for v in preprocessed.values()]
-    all_hist_acc   = [v["historical_accuracy"]          for v in preprocessed.values()]
-    all_compliance = [v["protocol_compliance"]          for v in preprocessed.values()]
-    all_neighbor   = [v["neighbor_recommendation"]      for v in preprocessed.values()]
+    all_hist_acc   = [v["historical_accuracy"]         for v in preprocessed.values()]
+    all_compliance = [v["protocol_compliance"]         for v in preprocessed.values()]
+    all_neighbor   = [v["neighbor_recommendation"]     for v in preprocessed.values()]
 
     quality_report.update({
         "preprocessing_timestamp":  datetime.now().isoformat(),
         "nodes_preprocessed":       len(preprocessed),
-        "nodes_zero_activity":      skipped,
+        "nodes_skipped":            skipped,
+        "nodes_zero_pdr":           zero_pdr,
         "sample_size_used":         sample_size or total_rows,
         "neighbor_window":          neighbor_window,
         "trust_factor_sources": {
             "historical_accuracy":
-                "Derived from role-aware activity percentile: packets_sent rank for "
-                "non-CH nodes, packets_received rank for CH nodes. Replaces invalid "
-                "PDR formula (packets_received/packets_sent), which collapsed to 9 "
-                "unique values with 73% exactly zero due to CH/non-CH schema split.",
+                "Derived from PDR (packets_received / packets_sent). Replaces hardcoded 0.8.",
             "protocol_compliance":
-                "0.7 * activity_percentile + 0.3 * (1 - distance_to_ch_norm). "
-                "Replaces hardcoded 0.8 and the invalid power_mW-based formula "
-                "(power_mW is flat/zero in WSN-DS).",
+                "Derived from PDR + distance_to_ch. Replaces hardcoded 0.8. "
+                "Note: power_mW is flat in WSN-DS so energy-based compliance not computable.",
             "neighbor_recommendation":
                 f"Derived from mean attack_probability of {neighbor_window} adjacent row-index nodes. "
                 "Replaces hardcoded 0.5.",
             "energy_risk":
-                "IBRL LSTM voltage forecast for 55 known nodes. "
+                "IBRL LSTM voltage forecast for 57 known nodes. "
                 "Estimated from composite risk for all others."
         },
         "output_stats": {
-            "avg_activity_percentile":     round(float(np.mean(all_act)), 4),
+            "avg_pdr":                     round(float(np.mean(all_pdrs)), 4),
             "avg_composite_risk":          round(float(np.mean(all_risks)), 4),
             "avg_historical_accuracy":     round(float(np.mean(all_hist_acc)), 4),
             "avg_protocol_compliance":     round(float(np.mean(all_compliance)), 4),
@@ -372,22 +340,22 @@ def run_preprocessing(sample_size=None, neighbor_window=50):
     print("\n" + "=" * 60)
     print("PREPROCESSING COMPLETE")
     print("=" * 60)
-    print(f"  Nodes processed:              {len(preprocessed):,}")
-    print(f"  Non-CH zero-activity nodes:   {skipped}")
-    print(f"  Avg activity percentile:      {quality_report['output_stats']['avg_activity_percentile']:.4f}")
-    print(f"  Avg composite risk:           {quality_report['output_stats']['avg_composite_risk']:.4f}")
-    print(f"  Avg historical accuracy:      {quality_report['output_stats']['avg_historical_accuracy']:.4f}")
-    print(f"  Avg protocol compliance:      {quality_report['output_stats']['avg_protocol_compliance']:.4f}")
-    print(f"  Avg neighbor recommend:       {quality_report['output_stats']['avg_neighbor_recommendation']:.4f}")
-    print(f"  % high risk nodes (>0.5):     {quality_report['output_stats']['pct_high_risk']}%")
-    print(f"  Trust factors derived:        3/4 (role-aware, replaces placeholders in TrustEngine)")
+    print(f"  Nodes processed:           {len(preprocessed):,}")
+    print(f"  Nodes skipped:             {skipped}")
+    print(f"  Avg PDR:                   {quality_report['output_stats']['avg_pdr']:.4f}")
+    print(f"  Avg composite risk:        {quality_report['output_stats']['avg_composite_risk']:.4f}")
+    print(f"  Avg historical accuracy:   {quality_report['output_stats']['avg_historical_accuracy']:.4f}")
+    print(f"  Avg protocol compliance:   {quality_report['output_stats']['avg_protocol_compliance']:.4f}")
+    print(f"  Avg neighbor recommend:    {quality_report['output_stats']['avg_neighbor_recommendation']:.4f}")
+    print(f"  % high risk nodes (>0.5):  {quality_report['output_stats']['pct_high_risk']}%")
+    print(f"  Trust factors derived:     3/4 (replaces placeholders in TrustEngine)")
     print(f"  Output: outputs/preprocessed_nodes.json")
     print(f"  Report: outputs/preprocessing_report.json")
     print("=" * 60)
 
     return {
         "nodes_preprocessed":  len(preprocessed),
-        "nodes_zero_activity": skipped,
+        "nodes_skipped":       skipped,
         "total_nulls_handled": quality_report["total_nulls"],
         "output_stats":        quality_report["output_stats"],
         "output_path":         str(OUT_NODES),
