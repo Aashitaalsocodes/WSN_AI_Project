@@ -1,0 +1,21 @@
+import json
+
+with open("outputs/attack_classification_results.json", "r") as f:
+    data = json.load(f)
+
+print("TYPE OF TOP-LEVEL OBJECT:", type(data))
+
+if isinstance(data, dict):
+    keys = list(data.keys())
+    print("TOP-LEVEL KEYS (first 10):", keys[:10])
+    print("TOTAL TOP-LEVEL KEYS:", len(keys))
+
+    # print one sample entry to see the per-node/per-row structure
+    sample_key = keys[0]
+    print(f"\nSAMPLE ENTRY for key '{sample_key}':")
+    print(json.dumps(data[sample_key], indent=2)[:1500])
+
+elif isinstance(data, list):
+    print("LIST LENGTH:", len(data))
+    print("\nSAMPLE ENTRY (first item):")
+    print(json.dumps(data[0], indent=2)[:1500])
