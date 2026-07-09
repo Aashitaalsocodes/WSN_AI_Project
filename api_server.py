@@ -34,11 +34,11 @@ FILE_MAP = {
     "energy-forecast": "energy_forecast.json",
     "energy-forecast-ibrl": "energy_forecast_ibrl.json",
     "failure-probs": "failure_probs.json",
+    "feedback-loop": "feedback_loop_results.json",
     "final-pipeline-result": "final_pipeline_result.json",
     "routing-simulation": "routing_simulation.json",
     "trust-aware-routing-results": "trust_aware_routing_results.json",
 }
-
 
 @app.get("/")
 def root():
@@ -52,6 +52,9 @@ def build_dashboard_payload():
         routing_raw = json.load(f)
     with open(os.path.join(OUTPUT_DIR, "digital_twin_results.json")) as f:
         digital_twin_raw = json.load(f)
+    with open(os.path.join(OUTPUT_DIR, "feedback_loop_results.json")) as f:
+        feedback_loop_raw = json.load(f)
+    
 
     no = raw["network_overview"]
     ad = raw["attack_detection"]
@@ -175,8 +178,16 @@ def build_dashboard_payload():
         ],
     }
 
-    # --- Digital Twin ---
+ # --- Digital Twin ---
     digital_twin = {"rounds": digital_twin_raw["rounds"]}
+
+    # --- Feedback Loop ---
+    feedback_loop = {
+        "detectionRateRecommendations": feedback_loop_raw["model_feedback"]["recommended_detection_miss_rate_by_type"],
+        "riskWeightRecommendations": feedback_loop_raw["routing_feedback"]["recommended_attack_risk_weights_by_type"],
+        "totalCompromisedRouteInstances": feedback_loop_raw["routing_feedback"]["total_compromised_route_instances"],
+        "note": feedback_loop_raw["note"],
+    }
 
     return {
         "networkOverview": network_overview,
@@ -185,10 +196,9 @@ def build_dashboard_payload():
         "energyForecast": energy_forecast,
         "pipelineReport": pipeline_report,
         "digitalTwin": digital_twin,
+        "feedbackLoop": feedback_loop,
         "ticker": f"{no['total_nodes']:,} nodes monitored — {no['total_attacked']:,} attacks detected — F1 {ad['xgboost_supervised']['f1_score']:.2f}",
     }
-
-
 @app.get("/api/dashboard-formatted")
 def get_dashboard_formatted():
     try:

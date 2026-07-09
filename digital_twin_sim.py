@@ -5,8 +5,13 @@ Digital Twin backend simulation for the WSN AI Security Pipeline.
 Simulates the network over 20 discrete rounds: energy decay, probabilistic
 attack injection (using real attack-type ratios), trust recalculation
 (TrustEngine, unmodified), and routing recalculation (trust_aware_routing
-logic, unmodified). Only lightweight aggregate per-round metrics are
-written — not full route paths — to keep the output file small.
+logic, unmodified).
+
+CHANGED for Task 6 feedback loop: now logs full per-node attacked/excluded
+lists, per-node attack types, and compromised route paths (not just
+aggregate counts/percentages), so feedback_loop.py can compute real
+per-node risk and routing adjustments instead of approximating from
+round-level stats.
 """
 
 import json
@@ -60,11 +65,13 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v):
 
     Returns:
         attacked_nodes: list of node ids attacked this round (ground truth)
+        attacked_node_types: {node_id: attack_type} for attacked nodes only
         classifier: {node_id: {"attack_probability": float, "predicted_attacked": int}}
         row_ids: node_id order matching `rows`
         rows: list of dicts with the 4 trust-input columns, in row_ids order
     """
     attacked_nodes = []
+    attacked_node_types = {}
     classifier = {}
     row_ids = []
     rows = []
@@ -88,6 +95,7 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v):
         is_attacked = attack_type != "none"
         if is_attacked:
             attacked_nodes.append(nid)
+            attacked_node_types[nid] = attack_type
 
         # simulate detection: attacked nodes are usually but not always caught
         if is_attacked:
@@ -113,7 +121,7 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v):
             "anomaly_score": anomaly_score,
         })
 
-    return attacked_nodes, classifier, row_ids, rows
+    return attacked_nodes, attacked_node_types, classifier, row_ids, rows
 
 
 def main():
@@ -133,7 +141,7 @@ def main():
     results = {"num_rounds": NUM_ROUNDS, "rounds": []}
 
     for round_num in range(NUM_ROUNDS):
-        attacked_nodes, classifier, row_ids, rows = simulate_round(
+        attacked_nodes, attacked_node_types, classifier, row_ids, rows = simulate_round(
             round_num, node_ids, energy_state, mean_v, std_v
         )
 
@@ -150,10 +158,14 @@ def main():
             or trust_scores.get(nid, 1.0) < TRUST_THRESHOLD
         }
 
+        # attacked nodes the pipeline failed to exclude this round
+        true_attacked_set = set(attacked_nodes)
+        missed_detections = sorted(true_attacked_set - excluded)
+
         # --- routing recalculation (trust_aware_routing, unmodified) ---
-        true_attacked_set = set(attacked_nodes)  # ground truth for this round
         hop_counts = []
         compromised = 0
+        compromised_routes_detail = []
         for route in baseline_routes:
             result = route_with_trust(
                 G, route["source"], route["destination"], excluded, classifier
@@ -166,24 +178,37 @@ def main():
                 # have chosen to avoid) — not the source/destination, which
                 # can't be rerouted away from
                 intermediate_nodes = path[1:-1] if len(path) > 2 else []
-                if any(nid in true_attacked_set for nid in intermediate_nodes):
+                attacked_intermediates = [nid for nid in intermediate_nodes if nid in true_attacked_set]
+                if attacked_intermediates:
                     compromised += 1
+                    compromised_routes_detail.append({
+                        "source": route["source"],
+                        "destination": route["destination"],
+                        "path": path,
+                        "attacked_intermediate_nodes": attacked_intermediates,
+                        "attack_types": [attacked_node_types.get(nid, "unknown") for nid in attacked_intermediates],
+                    })
 
         avg_hop_count = round(sum(hop_counts) / len(hop_counts), 2) if hop_counts else 0.0
         compromised_pct = round((compromised / len(baseline_routes)) * 100, 2)
 
         results["rounds"].append({
             "round": round_num,
-            "attacked_nodes": attacked_nodes[:5],  # sample only, for viz
+            "attacked_nodes": attacked_nodes,  # full list now, not [:5] sample
+            "attacked_node_types": attacked_node_types,
             "attacked_count": len(attacked_nodes),
+            "excluded_nodes": sorted(excluded),  # full set now, not just count
+            "excluded_node_count": len(excluded),
+            "missed_detections": missed_detections,  # attacked but not excluded
             "avg_trust_score": avg_trust,
             "compromised_routes_pct": compromised_pct,
+            "compromised_routes_detail": compromised_routes_detail,
             "avg_hop_count": avg_hop_count,
-            "excluded_node_count": len(excluded),
         })
 
         print(f"Round {round_num}: attacked={len(attacked_nodes)}  "
               f"avg_trust={avg_trust}  excluded={len(excluded)}  "
+              f"missed={len(missed_detections)}  "
               f"compromised_routes={compromised_pct}%  avg_hop={avg_hop_count}")
 
     os.makedirs("outputs", exist_ok=True)

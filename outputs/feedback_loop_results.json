@@ -1,0 +1,84 @@
+{
+  "note": "Model feedback tunes the Digital Twin's OWN simulated detector (DETECTION_MISS_RATE in digital_twin_sim.py), not the real attack_classifier_multiclass.py output \u2014 those use a different, non-overlapping node ID space (topology IDs vs WSN-DS node_ids).",
+  "model_feedback": {
+    "miss_rate_analysis_by_type": {
+      "Blackhole": {
+        "times_attacked": 286,
+        "times_missed": 55,
+        "observed_miss_rate": 0.1923
+      },
+      "Grayhole": {
+        "times_attacked": 384,
+        "times_missed": 61,
+        "observed_miss_rate": 0.1589
+      },
+      "Flooding": {
+        "times_attacked": 87,
+        "times_missed": 10,
+        "observed_miss_rate": 0.1149
+      },
+      "TDMA": {
+        "times_attacked": 187,
+        "times_missed": 33,
+        "observed_miss_rate": 0.1765
+      }
+    },
+    "recommended_detection_miss_rate_by_type": {
+      "Blackhole": {
+        "current_flat_rate": 0.18,
+        "observed_miss_rate": 0.1923,
+        "recommended_new_rate": 0.1923
+      },
+      "Grayhole": {
+        "current_flat_rate": 0.18,
+        "observed_miss_rate": 0.1589,
+        "recommended_new_rate": 0.1589
+      },
+      "Flooding": {
+        "current_flat_rate": 0.18,
+        "observed_miss_rate": 0.1149,
+        "recommended_new_rate": 0.13
+      },
+      "TDMA": {
+        "current_flat_rate": 0.18,
+        "observed_miss_rate": 0.1765,
+        "recommended_new_rate": 0.1765
+      }
+    }
+  },
+  "routing_feedback": {
+    "compromise_count_by_type": {
+      "Grayhole": 75,
+      "TDMA": 40,
+      "Blackhole": 63,
+      "Flooding": 14
+    },
+    "total_compromised_route_instances": 183,
+    "recommended_attack_risk_weights_by_type": {
+      "TDMA": {
+        "current_weight": 0.3,
+        "share_of_compromised_routes": 0.2186,
+        "compromise_count": 40,
+        "recommended_new_weight": 0.25
+      },
+      "Flooding": {
+        "current_weight": 0.6,
+        "share_of_compromised_routes": 0.0765,
+        "compromise_count": 14,
+        "recommended_new_weight": 0.55
+      },
+      "Grayhole": {
+        "current_weight": 0.8,
+        "share_of_compromised_routes": 0.4098,
+        "compromise_count": 75,
+        "recommended_new_weight": 0.75
+      },
+      "Blackhole": {
+        "current_weight": 1.0,
+        "share_of_compromised_routes": 0.3443,
+        "compromise_count": 63,
+        "recommended_new_weight": 0.95
+      }
+    }
+  }
+}
