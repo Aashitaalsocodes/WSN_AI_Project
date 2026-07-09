@@ -1,0 +1,111 @@
+{
+  "macro_f1": 0.8401574746657602,
+  "weighted_f1": 0.971924811020907,
+  "classification_report": {
+    "Blackhole": {
+      "precision": 0.6341540404040404,
+      "recall": 0.9995024875621891,
+      "f1-score": 0.7759752800309,
+      "support": 2010.0
+    },
+    "Flooding": {
+      "precision": 0.9773071104387292,
+      "recall": 0.9758308157099698,
+      "f1-score": 0.9765684051398337,
+      "support": 662.0
+    },
+    "Grayhole": {
+      "precision": 0.9971623155505108,
+      "recall": 0.6019184652278178,
+      "f1-score": 0.7506942960905789,
+      "support": 2919.0
+    },
+    "Normal": {
+      "precision": 0.9985857412948655,
+      "recall": 0.9862381274443497,
+      "f1-score": 0.9923735270403219,
+      "support": 68014.0
+    },
+    "TDMA": {
+      "precision": 0.5684647302904564,
+      "recall": 0.9284638554216867,
+      "f1-score": 0.7051758650271661,
+      "support": 1328.0
+    },
+    "accuracy": 0.970506986241042,
+    "macro avg": {
+      "precision": 0.8351347875957205,
+      "recall": 0.8983907502732027,
+      "f1-score": 0.8401574746657602,
+      "support": 74933.0
+    },
+    "weighted avg": {
+      "precision": 0.9809439832606357,
+      "recall": 0.970506986241042,
+      "f1-score": 0.971924811020907,
+      "support": 74933.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      2009,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      11,
+      646,
+      5,
+      0,
+      0
+    ],
+    [
+      1148,
+      14,
+      1757,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      67078,
+      936
+    ],
+    [
+      0,
+      0,
+      0,
+      95,
+      1233
+    ]
+  ],
+  "labels": [
+    "Blackhole",
+    "Flooding",
+    "Grayhole",
+    "Normal",
+    "TDMA"
+  ],
+  "features_used": [
+    "is_cluster_head",
+    "is_faulty",
+    "packets_sent",
+    "packets_received",
+    "distance_to_ch",
+    "energy_remaining",
+    "cumulative_energy_mJ",
+    "interval_energy_mJ",
+    "power_mW",
+    "energy_packets_sent",
+    "energy_packets_received",
+    "energy_decay_rate",
+    "rolling_energy_avg",
+    "data_sent_to_bs",
+    "drop_ratio"
+  ],
+  "test_set_size": 74933
+}

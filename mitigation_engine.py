@@ -56,7 +56,7 @@ from pathlib import Path
 BASE_DIR          = Path(__file__).parent
 OUTPUTS           = BASE_DIR / "outputs"
 NODES_PATH        = OUTPUTS / "preprocessed_nodes.json"       # Task 1 output
-CLASSIFIER_PATH   = OUTPUTS / "stub_classifier_predictions.json"  # <-- swap this for Person B's real file
+CLASSIFIER_PATH   = OUTPUTS / "attack_classification_results.json"  # <-- swap this for Person B's real file
 OUT_ACTIONS       = OUTPUTS / "mitigation_actions.json"
 OUT_SUMMARY       = OUTPUTS / "mitigation_summary.json"
 
