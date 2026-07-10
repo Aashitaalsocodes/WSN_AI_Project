@@ -39,6 +39,7 @@ FILE_MAP = {
     "gnn-node-predictions": "gnn_node_predictions.json",
     "gnn-integration-report": "gnn_integration_report.json",
     "gnn-model-report": "gnn_model_report.json",
+    "mitigation-summary": "mitigation_summary.json",
     "final-pipeline-result": "final_pipeline_result.json",
     "routing-simulation": "routing_simulation.json",
     "trust-aware-routing-results": "trust_aware_routing_results.json",
@@ -60,6 +61,10 @@ def build_dashboard_payload():
         feedback_loop_raw = json.load(f)
     with open(os.path.join(OUTPUT_DIR, "attack_classification_results.json")) as f:
         multiclass_raw = json.load(f)
+    with open(os.path.join(OUTPUT_DIR, "gnn_model_report.json")) as f:
+        gnn_model_report_raw = json.load(f)
+    with open(os.path.join(OUTPUT_DIR, "mitigation_summary.json")) as f:
+        mitigation_summary_raw = json.load(f)
     
 
     no = raw["network_overview"]
@@ -213,6 +218,12 @@ def build_dashboard_payload():
         "macroF1": 0.840,
         "totalRecords": len(multiclass_raw),
     }
+   
+    # --- GNN Model Report (Task 7) ---
+    gnn_model_report = gnn_model_report_raw
+
+    # --- Mitigation Summary (Task 3) ---
+    mitigation_summary = mitigation_summary_raw
 
     return {
         "networkOverview": network_overview,
@@ -223,6 +234,8 @@ def build_dashboard_payload():
         "digitalTwin": digital_twin,
         "feedbackLoop": feedback_loop,
         "multiclassClassification": multiclass_classification,
+        "gnnModelReport": gnn_model_report,
+        "mitigationSummary": mitigation_summary,
         "ticker": f"{no['total_nodes']:,} nodes monitored — {no['total_attacked']:,} attacks detected — F1 {ad['xgboost_supervised']['f1_score']:.2f}",
     }
 @app.get("/api/dashboard-formatted")
