@@ -83,7 +83,12 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v):
     # real classifiers aren't perfect — model a false-negative rate so some
     # attacks go undetected, which is what actually produces compromised
     # routes in a trust-aware system
-    DETECTION_MISS_RATE = 0.18
+    DETECTION_MISS_RATE_BY_TYPE = {
+        "blackhole": 0.1923,
+        "grayhole": 0.1589,
+        "flooding": 0.13,
+        "tdma": 0.1765,
+    }
 
     for nid in node_ids:
         # energy decay with jitter drawn from the real voltage distribution
@@ -99,7 +104,7 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v):
 
         # simulate detection: attacked nodes are usually but not always caught
         if is_attacked:
-            detected = random.random() > DETECTION_MISS_RATE
+            detected = random.random() > DETECTION_MISS_RATE_BY_TYPE[attack_type]
         else:
             detected = False
 

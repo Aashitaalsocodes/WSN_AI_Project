@@ -77,11 +77,12 @@ OUT_PATH = os.path.join(OUTPUTS_DIR, "feedback_loop_results.json")
 
 # Current baseline values (from digital_twin_sim.py / routing_cost.py) —
 # used as the starting point for recommended adjustments.
-CURRENT_DETECTION_MISS_RATE = 0.18  # flat rate currently used for ALL attack types
-CURRENT_ATTACK_RISK_WEIGHTS = {
-    "Normal": 0.0, "TDMA": 0.3, "Flooding": 0.6, "Grayhole": 0.8, "Blackhole": 1.0
+CURRENT_DETECTION_MISS_RATE_BY_TYPE = {
+    "Blackhole": 0.1923, "Grayhole": 0.1589, "Flooding": 0.13, "TDMA": 0.1765
 }
-
+CURRENT_ATTACK_RISK_WEIGHTS = {
+    "Normal": 0.0, "TDMA": 0.25, "Flooding": 0.55, "Grayhole": 0.75, "Blackhole": 0.95
+}
 # Twin's attack_type strings are lowercase ("blackhole"), routing's are
 # capitalized ("Blackhole") — normalize here so they join correctly.
 TYPE_NORMALIZE = {
@@ -163,7 +164,7 @@ def recommend_detection_miss_rates(miss_rate_by_type):
         if atype == "Normal":
             continue  # Normal nodes are never "missed" in a meaningful sense
         observed = stats["observed_miss_rate"]
-        current = CURRENT_DETECTION_MISS_RATE
+        current = CURRENT_DETECTION_MISS_RATE_BY_TYPE.get(atype, 0.18)
         direction = 1 if observed > current else -1
         step = min(abs(observed - current), MISS_RATE_LEARNING_STEP) * direction
         new_rate = max(0.0, min(MAX_MISS_RATE, round(current + step, 4)))

@@ -1,0 +1,80 @@
+{
+  "convergence_threshold": 0.01,
+  "detection_miss_rate": {
+    "by_type": {
+      "Blackhole": {
+        "original": 0.18,
+        "cycle_1_applied": 0.1923,
+        "cycle_2_recommended": 0.1993,
+        "delta_cycle1_to_cycle2": 0.007,
+        "converged": true
+      },
+      "Grayhole": {
+        "original": 0.18,
+        "cycle_1_applied": 0.1589,
+        "cycle_2_recommended": 0.1432,
+        "delta_cycle1_to_cycle2": 0.0157,
+        "converged": false
+      },
+      "Flooding": {
+        "original": 0.18,
+        "cycle_1_applied": 0.13,
+        "cycle_2_recommended": 0.0805,
+        "delta_cycle1_to_cycle2": 0.0495,
+        "converged": false
+      },
+      "TDMA": {
+        "original": 0.18,
+        "cycle_1_applied": 0.1765,
+        "cycle_2_recommended": 0.1765,
+        "delta_cycle1_to_cycle2": 0.0,
+        "converged": true
+      }
+    },
+    "converged_count": 2,
+    "total_types": 4,
+    "summary": "2/4 attack types converged (delta < 0.01) after one recalibration cycle."
+  },
+  "attack_risk_weights": {
+    "by_type": {
+      "TDMA": {
+        "original": 0.3,
+        "cycle_1_applied": 0.25,
+        "cycle_2_recommended": 0.2174,
+        "delta_cycle1_to_cycle2": 0.0326,
+        "converged": false
+      },
+      "Flooding": {
+        "original": 0.6,
+        "cycle_1_applied": 0.55,
+        "cycle_2_recommended": 0.5,
+        "delta_cycle1_to_cycle2": 0.05,
+        "converged": false
+      },
+      "Grayhole": {
+        "original": 0.8,
+        "cycle_1_applied": 0.75,
+        "cycle_2_recommended": 0.7,
+        "delta_cycle1_to_cycle2": 0.05,
+        "converged": false
+      },
+      "Blackhole": {
+        "original": 1.0,
+        "cycle_1_applied": 0.95,
+        "cycle_2_recommended": 0.9,
+        "delta_cycle1_to_cycle2": 0.05,
+        "converged": false
+      }
+    },
+    "converged_count": 0,
+    "total_types": 4,
+    "summary": "0/4 attack types converged (delta < 0.01) after one recalibration cycle. Some types are still actively drifting and would benefit from another cycle."
+  },
+  "compromised_routes": {
+    "original_total_instances": 183,
+    "post_recalibration_total_instances": 184,
+    "change": 1,
+    "note": "Total compromised route instances across all 20 Digital Twin rounds. A small or negative change after one cycle is expected -- recalibration tunes detection/routing parameters gradually (capped step size) rather than in one large jump, matching how the feedback loop was designed to avoid overcorrecting from a single noisy simulation run."
+  },
+  "recommendation": "Run a second recalibration cycle for attack_risk_weights_by_type, which has not yet converged, before treating these as final tuned values."
+}
