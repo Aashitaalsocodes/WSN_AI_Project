@@ -4,18 +4,18 @@
     "miss_rate_analysis_by_type": {
       "Blackhole": {
         "times_attacked": 286,
-        "times_missed": 57,
-        "observed_miss_rate": 0.1993
+        "times_missed": 59,
+        "observed_miss_rate": 0.2063
       },
       "Grayhole": {
         "times_attacked": 384,
-        "times_missed": 55,
-        "observed_miss_rate": 0.1432
+        "times_missed": 50,
+        "observed_miss_rate": 0.1302
       },
       "Flooding": {
         "times_attacked": 87,
-        "times_missed": 7,
-        "observed_miss_rate": 0.0805
+        "times_missed": 4,
+        "observed_miss_rate": 0.046
       },
       "TDMA": {
         "times_attacked": 187,
@@ -25,19 +25,19 @@
     },
     "recommended_detection_miss_rate_by_type": {
       "Blackhole": {
-        "current_flat_rate": 0.1923,
-        "observed_miss_rate": 0.1993,
-        "recommended_new_rate": 0.1993
+        "current_flat_rate": 0.1993,
+        "observed_miss_rate": 0.2063,
+        "recommended_new_rate": 0.2063
       },
       "Grayhole": {
-        "current_flat_rate": 0.1589,
-        "observed_miss_rate": 0.1432,
-        "recommended_new_rate": 0.1432
+        "current_flat_rate": 0.1432,
+        "observed_miss_rate": 0.1302,
+        "recommended_new_rate": 0.1302
       },
       "Flooding": {
-        "current_flat_rate": 0.13,
-        "observed_miss_rate": 0.0805,
-        "recommended_new_rate": 0.0805
+        "current_flat_rate": 0.0805,
+        "observed_miss_rate": 0.046,
+        "recommended_new_rate": 0.046
       },
       "TDMA": {
         "current_flat_rate": 0.1765,
@@ -48,36 +48,36 @@
   },
   "routing_feedback": {
     "compromise_count_by_type": {
-      "Grayhole": 76,
-      "TDMA": 40,
-      "Blackhole": 65,
+      "Grayhole": 70,
+      "TDMA": 41,
+      "Blackhole": 71,
       "Flooding": 12
     },
-    "total_compromised_route_instances": 184,
+    "total_compromised_route_instances": 185,
     "recommended_attack_risk_weights_by_type": {
       "TDMA": {
-        "current_weight": 0.25,
-        "share_of_compromised_routes": 0.2174,
-        "compromise_count": 40,
-        "recommended_new_weight": 0.2174
+        "current_weight": 0.2174,
+        "share_of_compromised_routes": 0.2216,
+        "compromise_count": 41,
+        "recommended_new_weight": 0.2216
       },
       "Flooding": {
-        "current_weight": 0.55,
-        "share_of_compromised_routes": 0.0652,
+        "current_weight": 0.5,
+        "share_of_compromised_routes": 0.0649,
         "compromise_count": 12,
-        "recommended_new_weight": 0.5
+        "recommended_new_weight": 0.45
       },
       "Grayhole": {
-        "current_weight": 0.75,
-        "share_of_compromised_routes": 0.413,
-        "compromise_count": 76,
-        "recommended_new_weight": 0.7
+        "current_weight": 0.7,
+        "share_of_compromised_routes": 0.3784,
+        "compromise_count": 70,
+        "recommended_new_weight": 0.65
       },
       "Blackhole": {
-        "current_weight": 0.95,
-        "share_of_compromised_routes": 0.3533,
-        "compromise_count": 65,
-        "recommended_new_weight": 0.9
+        "current_weight": 0.9,
+        "share_of_compromised_routes": 0.3838,
+        "compromise_count": 71,
+        "recommended_new_weight": 0.85
       }
     }
   }
