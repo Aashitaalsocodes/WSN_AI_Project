@@ -1,0 +1,22 @@
+Round 0: attacked=44  avg_trust=0.7434  excluded=41  missed=3  compromised_routes=1.0%  avg_hop=4.25
+Round 1: attacked=42  avg_trust=0.7443  excluded=36  missed=6  compromised_routes=1.0%  avg_hop=4.23
+Round 2: attacked=47  avg_trust=0.7434  excluded=45  missed=2  compromised_routes=1.5%  avg_hop=4.25
+Round 3: attacked=43  avg_trust=0.7451  excluded=35  missed=8  compromised_routes=3.5%  avg_hop=4.25
+Round 4: attacked=41  avg_trust=0.744  excluded=37  missed=4  compromised_routes=3.5%  avg_hop=4.24
+Round 5: attacked=48  avg_trust=0.7437  excluded=41  missed=7  compromised_routes=1.5%  avg_hop=4.24
+Round 6: attacked=40  avg_trust=0.7452  excluded=33  missed=7  compromised_routes=6.0%  avg_hop=4.22
+Round 7: attacked=67  avg_trust=0.7418  excluded=52  missed=15  compromised_routes=10.5%  avg_hop=4.22
+Round 8: attacked=45  avg_trust=0.744  excluded=38  missed=7  compromised_routes=3.0%  avg_hop=4.25
+Round 9: attacked=49  avg_trust=0.7428  excluded=42  missed=7  compromised_routes=9.5%  avg_hop=4.24
+Round 10: attacked=47  avg_trust=0.7436  excluded=42  missed=5  compromised_routes=2.5%  avg_hop=4.24
+Round 11: attacked=51  avg_trust=0.7434  excluded=43  missed=8  compromised_routes=6.0%  avg_hop=4.23
+Round 12: attacked=54  avg_trust=0.7428  excluded=45  missed=9  compromised_routes=10.0%  avg_hop=4.22
+Round 13: attacked=50  avg_trust=0.7438  excluded=41  missed=9  compromised_routes=6.5%  avg_hop=4.22
+Round 14: attacked=46  avg_trust=0.7299  excluded=36  missed=10  compromised_routes=4.5%  avg_hop=4.23
+Round 15: attacked=40  avg_trust=0.7301  excluded=33  missed=7  compromised_routes=5.5%  avg_hop=4.22
+Round 16: attacked=54  avg_trust=0.7281  excluded=47  missed=7  compromised_routes=3.5%  avg_hop=4.25
+Round 17: attacked=57  avg_trust=0.7276  excluded=52  missed=5  compromised_routes=3.5%  avg_hop=4.25
+Round 18: attacked=37  avg_trust=0.73  excluded=35  missed=2  compromised_routes=0.5%  avg_hop=4.24
+Round 19: attacked=42  avg_trust=0.7302  excluded=33  missed=9  compromised_routes=3.5%  avg_hop=4.24
+
+Wrote 20 rounds to outputs/digital_twin_results.json

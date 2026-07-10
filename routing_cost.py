@@ -56,12 +56,11 @@ RESULT_PATH = OUTPUTS / "routing_cost_results.json"
 # fault, not necessarily malicious packet dropping -> mildest non-zero risk.
 ATTACK_RISK_WEIGHT = {
     "Normal": 0.0,
-    "TDMA": 0.2174,
-    "Flooding": 0.5,
-    "Grayhole": 0.7,
-    "Blackhole": 0.9,
+    "TDMA": 0.2356,
+    "Flooding": 0.4,
+    "Grayhole": 0.6,
+    "Blackhole": 0.8,
 }
-
 # Combination weights for the four cost components -- attack risk weighted
 # higher since it's the factor most directly tied to routing failure.
 W_DISTANCE = 1.0

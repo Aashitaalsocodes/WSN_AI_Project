@@ -5,22 +5,22 @@
       "Blackhole": {
         "original": 0.18,
         "cycle_1_applied": 0.1923,
-        "cycle_2_recommended": 0.2063,
-        "delta_cycle1_to_cycle2": 0.014,
+        "cycle_2_recommended": 0.2168,
+        "delta_cycle1_to_cycle2": 0.0245,
         "converged": false
       },
       "Grayhole": {
         "original": 0.18,
         "cycle_1_applied": 0.1589,
-        "cycle_2_recommended": 0.1302,
-        "delta_cycle1_to_cycle2": 0.0287,
+        "cycle_2_recommended": 0.0964,
+        "delta_cycle1_to_cycle2": 0.0625,
         "converged": false
       },
       "Flooding": {
         "original": 0.18,
         "cycle_1_applied": 0.13,
-        "cycle_2_recommended": 0.046,
-        "delta_cycle1_to_cycle2": 0.084,
+        "cycle_2_recommended": 0.0,
+        "delta_cycle1_to_cycle2": 0.13,
         "converged": false
       },
       "TDMA": {
@@ -40,40 +40,40 @@
       "TDMA": {
         "original": 0.3,
         "cycle_1_applied": 0.25,
-        "cycle_2_recommended": 0.2216,
-        "delta_cycle1_to_cycle2": 0.0284,
-        "converged": false
+        "cycle_2_recommended": 0.2547,
+        "delta_cycle1_to_cycle2": 0.0047,
+        "converged": true
       },
       "Flooding": {
         "original": 0.6,
         "cycle_1_applied": 0.55,
-        "cycle_2_recommended": 0.45,
-        "delta_cycle1_to_cycle2": 0.1,
+        "cycle_2_recommended": 0.35,
+        "delta_cycle1_to_cycle2": 0.2,
         "converged": false
       },
       "Grayhole": {
         "original": 0.8,
         "cycle_1_applied": 0.75,
-        "cycle_2_recommended": 0.65,
-        "delta_cycle1_to_cycle2": 0.1,
+        "cycle_2_recommended": 0.55,
+        "delta_cycle1_to_cycle2": 0.2,
         "converged": false
       },
       "Blackhole": {
         "original": 1.0,
         "cycle_1_applied": 0.95,
-        "cycle_2_recommended": 0.85,
-        "delta_cycle1_to_cycle2": 0.1,
+        "cycle_2_recommended": 0.75,
+        "delta_cycle1_to_cycle2": 0.2,
         "converged": false
       }
     },
-    "converged_count": 0,
+    "converged_count": 1,
     "total_types": 4,
-    "summary": "0/4 attack types converged (delta < 0.01) after one recalibration cycle. Some types are still actively drifting and would benefit from another cycle."
+    "summary": "1/4 attack types converged (delta < 0.01) after one recalibration cycle. Some types are still actively drifting and would benefit from another cycle."
   },
   "compromised_routes": {
     "original_total_instances": 183,
-    "post_recalibration_total_instances": 185,
-    "change": 2,
+    "post_recalibration_total_instances": 161,
+    "change": -22,
     "note": "Total compromised route instances across all 20 Digital Twin rounds. A small or negative change after one cycle is expected -- recalibration tunes detection/routing parameters gradually (capped step size) rather than in one large jump, matching how the feedback loop was designed to avoid overcorrecting from a single noisy simulation run."
   },
   "recommendation": "Run a second recalibration cycle for attack_risk_weights_by_type, which has not yet converged, before treating these as final tuned values."

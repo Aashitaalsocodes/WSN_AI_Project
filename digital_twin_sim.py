@@ -84,9 +84,9 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v):
     # attacks go undetected, which is what actually produces compromised
     # routes in a trust-aware system
     DETECTION_MISS_RATE_BY_TYPE = {
-        "blackhole": 0.1993,
-        "grayhole": 0.1432,
-        "flooding": 0.0805,
+        "blackhole": 0.2098,
+        "grayhole": 0.1094,
+        "flooding": 0.023,
         "tdma": 0.1765,
     }
 

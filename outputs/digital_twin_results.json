@@ -130,6 +130,7 @@
         "344652",
         "34701",
         "358935",
+        "367671",
         "42982",
         "4883",
         "54309",
@@ -138,14 +139,13 @@
         "86317",
         "99829"
       ],
-      "excluded_node_count": 40,
+      "excluded_node_count": 41,
       "missed_detections": [
-        "367671",
         "84715",
         "86574",
         "89725"
       ],
-      "avg_trust_score": 0.7435,
+      "avg_trust_score": 0.7434,
       "compromised_routes_pct": 1.0,
       "compromised_routes_detail": [
         {
@@ -287,6 +287,7 @@
         "200562",
         "211089",
         "221846",
+        "227942",
         "229734",
         "231649",
         "242357",
@@ -297,6 +298,7 @@
         "29327",
         "299391",
         "29971",
+        "303657",
         "306491",
         "31959",
         "334993",
@@ -312,17 +314,15 @@
         "81158",
         "93665"
       ],
-      "excluded_node_count": 35,
+      "excluded_node_count": 37,
       "missed_detections": [
         "164722",
         "16663",
-        "227942",
         "281168",
-        "303657",
         "306277",
         "319360"
       ],
-      "avg_trust_score": 0.7444,
+      "avg_trust_score": 0.7441,
       "compromised_routes_pct": 1.0,
       "compromised_routes_detail": [
         {
@@ -1241,6 +1241,7 @@
         "164419",
         "164981",
         "1858",
+        "221846",
         "23114",
         "242357",
         "244855",
@@ -1273,36 +1274,19 @@
         "86574",
         "93665"
       ],
-      "excluded_node_count": 40,
+      "excluded_node_count": 41,
       "missed_detections": [
         "100448",
         "188208",
-        "221846",
         "282746",
         "303657",
         "36466",
         "42001",
         "96200"
       ],
-      "avg_trust_score": 0.7438,
-      "compromised_routes_pct": 2.5,
+      "avg_trust_score": 0.7437,
+      "compromised_routes_pct": 1.5,
       "compromised_routes_detail": [
-        {
-          "source": "308944",
-          "destination": "254496",
-          "path": [
-            "308944",
-            "324282",
-            "221846",
-            "254496"
-          ],
-          "attacked_intermediate_nodes": [
-            "221846"
-          ],
-          "attack_types": [
-            "grayhole"
-          ]
-        },
         {
           "source": "16829",
           "destination": "129973",
@@ -1322,25 +1306,6 @@
           ],
           "attack_types": [
             "blackhole"
-          ]
-        },
-        {
-          "source": "356263",
-          "destination": "351224",
-          "path": [
-            "356263",
-            "141530",
-            "83465",
-            "338784",
-            "254496",
-            "221846",
-            "351224"
-          ],
-          "attacked_intermediate_nodes": [
-            "221846"
-          ],
-          "attack_types": [
-            "grayhole"
           ]
         },
         {
@@ -1904,6 +1869,7 @@
         "174879",
         "177892",
         "179768",
+        "183321",
         "191182",
         "193575",
         "198461",
@@ -1932,7 +1898,7 @@
         "86317",
         "99561"
       ],
-      "excluded_node_count": 51,
+      "excluded_node_count": 52,
       "missed_detections": [
         "105461",
         "110430",
@@ -1940,7 +1906,6 @@
         "131659",
         "138685",
         "164981",
-        "183321",
         "207425",
         "244855",
         "276653",
@@ -1951,7 +1916,7 @@
         "39449",
         "51599"
       ],
-      "avg_trust_score": 0.742,
+      "avg_trust_score": 0.7418,
       "compromised_routes_pct": 10.5,
       "compromised_routes_detail": [
         {
@@ -2451,6 +2416,8 @@
         "137340",
         "138403",
         "145060",
+        "149552",
+        "153709",
         "164419",
         "165767",
         "173239",
@@ -2476,6 +2443,7 @@
         "362293",
         "37435",
         "41833",
+        "4883",
         "54309",
         "63441",
         "77643",
@@ -2483,19 +2451,16 @@
         "81030",
         "83707"
       ],
-      "excluded_node_count": 37,
+      "excluded_node_count": 40,
       "missed_detections": [
         "146068",
-        "149552",
-        "153709",
         "185429",
         "225332",
         "266248",
-        "305402",
-        "4883"
+        "305402"
       ],
-      "avg_trust_score": 0.7442,
-      "compromised_routes_pct": 4.5,
+      "avg_trust_score": 0.7437,
+      "compromised_routes_pct": 1.0,
       "compromised_routes_detail": [
         {
           "source": "337039",
@@ -2516,93 +2481,6 @@
           ]
         },
         {
-          "source": "215535",
-          "destination": "42001",
-          "path": [
-            "215535",
-            "315631",
-            "42982",
-            "4883",
-            "99829",
-            "42001"
-          ],
-          "attacked_intermediate_nodes": [
-            "4883"
-          ],
-          "attack_types": [
-            "flooding"
-          ]
-        },
-        {
-          "source": "129303",
-          "destination": "114137",
-          "path": [
-            "129303",
-            "290414",
-            "149552",
-            "358375",
-            "265229",
-            "114137"
-          ],
-          "attacked_intermediate_nodes": [
-            "149552"
-          ],
-          "attack_types": [
-            "flooding"
-          ]
-        },
-        {
-          "source": "66818",
-          "destination": "189790",
-          "path": [
-            "66818",
-            "42982",
-            "4883",
-            "99829",
-            "189790"
-          ],
-          "attacked_intermediate_nodes": [
-            "4883"
-          ],
-          "attack_types": [
-            "flooding"
-          ]
-        },
-        {
-          "source": "306491",
-          "destination": "191277",
-          "path": [
-            "306491",
-            "4883",
-            "42982",
-            "315631",
-            "325666",
-            "116876",
-            "191277"
-          ],
-          "attacked_intermediate_nodes": [
-            "4883"
-          ],
-          "attack_types": [
-            "flooding"
-          ]
-        },
-        {
-          "source": "158606",
-          "destination": "139042",
-          "path": [
-            "158606",
-            "149552",
-            "139042"
-          ],
-          "attacked_intermediate_nodes": [
-            "149552"
-          ],
-          "attack_types": [
-            "flooding"
-          ]
-        },
-        {
           "source": "308512",
           "destination": "343638",
           "path": [
@@ -2619,45 +2497,9 @@
           "attack_types": [
             "grayhole"
           ]
-        },
-        {
-          "source": "137752",
-          "destination": "129973",
-          "path": [
-            "137752",
-            "149552",
-            "238555",
-            "65444",
-            "224231",
-            "129973"
-          ],
-          "attacked_intermediate_nodes": [
-            "149552"
-          ],
-          "attack_types": [
-            "flooding"
-          ]
-        },
-        {
-          "source": "290049",
-          "destination": "42982",
-          "path": [
-            "290049",
-            "265229",
-            "358375",
-            "149552",
-            "290414",
-            "42982"
-          ],
-          "attacked_intermediate_nodes": [
-            "149552"
-          ],
-          "attack_types": [
-            "flooding"
-          ]
         }
       ],
-      "avg_hop_count": 4.24
+      "avg_hop_count": 4.25
     },
     {
       "round": 9,
@@ -2774,6 +2616,7 @@
         "120031",
         "130111",
         "138685",
+        "145852",
         "164419",
         "165388",
         "165868",
@@ -2801,45 +2644,25 @@
         "373790",
         "37435",
         "48625",
+        "53587",
         "57288",
         "60058",
         "68617",
         "93665",
         "97425"
       ],
-      "excluded_node_count": 41,
+      "excluded_node_count": 43,
       "missed_detections": [
-        "145852",
         "173617",
         "291382",
         "316526",
         "336048",
         "358375",
-        "53587",
         "92826"
       ],
-      "avg_trust_score": 0.743,
-      "compromised_routes_pct": 11.5,
+      "avg_trust_score": 0.7427,
+      "compromised_routes_pct": 7.5,
       "compromised_routes_detail": [
-        {
-          "source": "116876",
-          "destination": "1130",
-          "path": [
-            "116876",
-            "53587",
-            "137752",
-            "229734",
-            "109842",
-            "45580",
-            "1130"
-          ],
-          "attacked_intermediate_nodes": [
-            "53587"
-          ],
-          "attack_types": [
-            "grayhole"
-          ]
-        },
         {
           "source": "161225",
           "destination": "328962",
@@ -2847,17 +2670,15 @@
             "161225",
             "92826",
             "74905",
-            "53587",
+            "180331",
             "138873",
             "328962"
           ],
           "attacked_intermediate_nodes": [
-            "92826",
-            "53587"
+            "92826"
           ],
           "attack_types": [
-            "tdma",
-            "grayhole"
+            "tdma"
           ]
         },
         {
@@ -2988,99 +2809,6 @@
           ]
         },
         {
-          "source": "356263",
-          "destination": "351224",
-          "path": [
-            "356263",
-            "145852",
-            "83465",
-            "114629",
-            "283423",
-            "123930",
-            "351224"
-          ],
-          "attacked_intermediate_nodes": [
-            "145852"
-          ],
-          "attack_types": [
-            "flooding"
-          ]
-        },
-        {
-          "source": "144194",
-          "destination": "153709",
-          "path": [
-            "144194",
-            "238555",
-            "286046",
-            "24025",
-            "121981",
-            "332523",
-            "145852",
-            "153709"
-          ],
-          "attacked_intermediate_nodes": [
-            "145852"
-          ],
-          "attack_types": [
-            "flooding"
-          ]
-        },
-        {
-          "source": "302100",
-          "destination": "81516",
-          "path": [
-            "302100",
-            "124118",
-            "53587",
-            "74905",
-            "354785",
-            "235202",
-            "81516"
-          ],
-          "attacked_intermediate_nodes": [
-            "53587"
-          ],
-          "attack_types": [
-            "grayhole"
-          ]
-        },
-        {
-          "source": "35337",
-          "destination": "213416",
-          "path": [
-            "35337",
-            "356263",
-            "145852",
-            "213416"
-          ],
-          "attacked_intermediate_nodes": [
-            "145852"
-          ],
-          "attack_types": [
-            "flooding"
-          ]
-        },
-        {
-          "source": "306491",
-          "destination": "191277",
-          "path": [
-            "306491",
-            "4883",
-            "42982",
-            "315631",
-            "53587",
-            "116876",
-            "191277"
-          ],
-          "attacked_intermediate_nodes": [
-            "53587"
-          ],
-          "attack_types": [
-            "grayhole"
-          ]
-        },
-        {
           "source": "281527",
           "destination": "100814",
           "path": [
@@ -3170,25 +2898,6 @@
           ]
         },
         {
-          "source": "328962",
-          "destination": "293540",
-          "path": [
-            "328962",
-            "138873",
-            "53587",
-            "256170",
-            "145738",
-            "249184",
-            "293540"
-          ],
-          "attacked_intermediate_nodes": [
-            "53587"
-          ],
-          "attack_types": [
-            "grayhole"
-          ]
-        },
-        {
           "source": "111043",
           "destination": "36396",
           "path": [
@@ -3206,26 +2915,6 @@
           ],
           "attack_types": [
             "grayhole"
-          ]
-        },
-        {
-          "source": "265229",
-          "destination": "153709",
-          "path": [
-            "265229",
-            "367696",
-            "18889",
-            "281131",
-            "48390",
-            "332523",
-            "145852",
-            "153709"
-          ],
-          "attacked_intermediate_nodes": [
-            "145852"
-          ],
-          "attack_types": [
-            "flooding"
           ]
         },
         {
@@ -3365,6 +3054,7 @@
         "129973",
         "138656",
         "144194",
+        "145684",
         "153709",
         "174879",
         "178389",
@@ -3395,39 +3085,17 @@
         "96200",
         "99829"
       ],
-      "excluded_node_count": 41,
+      "excluded_node_count": 42,
       "missed_detections": [
-        "145684",
         "266171",
         "308512",
         "327837",
         "80131",
         "83876"
       ],
-      "avg_trust_score": 0.7438,
-      "compromised_routes_pct": 3.0,
+      "avg_trust_score": 0.7436,
+      "compromised_routes_pct": 2.5,
       "compromised_routes_detail": [
-        {
-          "source": "16829",
-          "destination": "129973",
-          "path": [
-            "16829",
-            "83465",
-            "114629",
-            "73206",
-            "34701",
-            "224622",
-            "191182",
-            "145684",
-            "129973"
-          ],
-          "attacked_intermediate_nodes": [
-            "145684"
-          ],
-          "attack_types": [
-            "grayhole"
-          ]
-        },
         {
           "source": "295170",
           "destination": "177892",
@@ -3655,6 +3323,7 @@
         "209186",
         "221571",
         "246777",
+        "256170",
         "258744",
         "262451",
         "278058",
@@ -3667,6 +3336,7 @@
         "33568",
         "336048",
         "369398",
+        "37435",
         "45580",
         "56117",
         "63441",
@@ -3676,20 +3346,18 @@
         "80131",
         "89725"
       ],
-      "excluded_node_count": 42,
+      "excluded_node_count": 44,
       "missed_detections": [
         "138873",
         "178389",
         "1858",
         "193575",
-        "256170",
         "337039",
         "357599",
-        "37435",
         "48390"
       ],
-      "avg_trust_score": 0.7436,
-      "compromised_routes_pct": 6.5,
+      "avg_trust_score": 0.7433,
+      "compromised_routes_pct": 6.0,
       "compromised_routes_detail": [
         {
           "source": "312690",
@@ -3799,23 +3467,6 @@
           ],
           "attack_types": [
             "blackhole"
-          ]
-        },
-        {
-          "source": "198943",
-          "destination": "299391",
-          "path": [
-            "198943",
-            "101255",
-            "256170",
-            "178349",
-            "299391"
-          ],
-          "attacked_intermediate_nodes": [
-            "256170"
-          ],
-          "attack_types": [
-            "flooding"
           ]
         },
         {
@@ -4075,6 +3726,7 @@
         "274088",
         "281875",
         "284266",
+        "285706",
         "290414",
         "306277",
         "31959",
@@ -4093,20 +3745,19 @@
         "81158",
         "97425"
       ],
-      "excluded_node_count": 44,
+      "excluded_node_count": 45,
       "missed_detections": [
         "104286",
         "142788",
         "187595",
         "221187",
-        "285706",
         "29327",
         "30662",
         "36396",
         "42982",
         "47662"
       ],
-      "avg_trust_score": 0.743,
+      "avg_trust_score": 0.7428,
       "compromised_routes_pct": 10.0,
       "compromised_routes_detail": [
         {
@@ -5324,27 +4975,27 @@
         "41291",
         "45580",
         "48390",
+        "48625",
         "48896",
         "60472",
         "65934",
+        "7737",
         "81499",
         "83707",
         "86317",
         "96200"
       ],
-      "excluded_node_count": 32,
+      "excluded_node_count": 34,
       "missed_detections": [
         "109842",
         "146002",
         "173239",
         "187595",
         "210260",
-        "324734",
-        "48625",
-        "7737"
+        "324734"
       ],
-      "avg_trust_score": 0.7303,
-      "compromised_routes_pct": 5.5,
+      "avg_trust_score": 0.73,
+      "compromised_routes_pct": 4.5,
       "compromised_routes_detail": [
         {
           "source": "247815",
@@ -5493,24 +5144,6 @@
           ]
         },
         {
-          "source": "1701",
-          "destination": "294076",
-          "path": [
-            "1701",
-            "221208",
-            "266161",
-            "48625",
-            "128393",
-            "294076"
-          ],
-          "attacked_intermediate_nodes": [
-            "48625"
-          ],
-          "attack_types": [
-            "grayhole"
-          ]
-        },
-        {
           "source": "124118",
           "destination": "210325",
           "path": [
@@ -5526,26 +5159,6 @@
           ],
           "attack_types": [
             "tdma"
-          ]
-        },
-        {
-          "source": "53893",
-          "destination": "120031",
-          "path": [
-            "53893",
-            "48625",
-            "367696",
-            "111754",
-            "299391",
-            "336048",
-            "123314",
-            "120031"
-          ],
-          "attacked_intermediate_nodes": [
-            "48625"
-          ],
-          "attack_types": [
-            "grayhole"
           ]
         }
       ],
@@ -6023,6 +5636,7 @@
         "333281",
         "33568",
         "340723",
+        "341911",
         "345496",
         "352157",
         "353036",
@@ -6042,55 +5656,16 @@
         "92826",
         "94036"
       ],
-      "excluded_node_count": 52,
+      "excluded_node_count": 53,
       "missed_detections": [
         "128075",
         "138403",
         "244855",
-        "341911",
         "68587"
       ],
-      "avg_trust_score": 0.7276,
-      "compromised_routes_pct": 3.5,
+      "avg_trust_score": 0.7275,
+      "compromised_routes_pct": 2.0,
       "compromised_routes_detail": [
-        {
-          "source": "333281",
-          "destination": "57288",
-          "path": [
-            "333281",
-            "139041",
-            "341911",
-            "115141",
-            "57288"
-          ],
-          "attacked_intermediate_nodes": [
-            "341911"
-          ],
-          "attack_types": [
-            "grayhole"
-          ]
-        },
-        {
-          "source": "294076",
-          "destination": "115141",
-          "path": [
-            "294076",
-            "265229",
-            "367696",
-            "125541",
-            "178349",
-            "215535",
-            "58485",
-            "341911",
-            "115141"
-          ],
-          "attacked_intermediate_nodes": [
-            "341911"
-          ],
-          "attack_types": [
-            "grayhole"
-          ]
-        },
         {
           "source": "5069",
           "destination": "4883",
@@ -6141,25 +5716,6 @@
           ],
           "attack_types": [
             "blackhole"
-          ]
-        },
-        {
-          "source": "281168",
-          "destination": "305402",
-          "path": [
-            "281168",
-            "271358",
-            "208910",
-            "328962",
-            "35631",
-            "341911",
-            "305402"
-          ],
-          "attacked_intermediate_nodes": [
-            "341911"
-          ],
-          "attack_types": [
-            "grayhole"
           ]
         },
         {
@@ -6291,7 +5847,6 @@
         "316526",
         "327837",
         "34701",
-        "351129",
         "35924",
         "367671",
         "367955",
@@ -6301,12 +5856,13 @@
         "80131",
         "83876"
       ],
-      "excluded_node_count": 35,
+      "excluded_node_count": 34,
       "missed_detections": [
         "221846",
-        "290771"
+        "290771",
+        "351129"
       ],
-      "avg_trust_score": 0.73,
+      "avg_trust_score": 0.7301,
       "compromised_routes_pct": 0.5,
       "compromised_routes_detail": [
         {
@@ -6431,9 +5987,7 @@
         "173617",
         "177254",
         "185429",
-        "198461",
         "213078",
-        "221777",
         "22780",
         "229690",
         "23114",
@@ -6455,43 +6009,22 @@
         "7737",
         "99829"
       ],
-      "excluded_node_count": 34,
+      "excluded_node_count": 32,
       "missed_detections": [
         "104286",
         "189600",
+        "198461",
         "213416",
+        "221777",
         "246777",
         "340723",
         "41291",
         "53587",
         "58654"
       ],
-      "avg_trust_score": 0.73,
+      "avg_trust_score": 0.7303,
       "compromised_routes_pct": 3.5,
       "compromised_routes_detail": [
-        {
-          "source": "51332",
-          "destination": "81158",
-          "path": [
-            "51332",
-            "213416",
-            "328962",
-            "123314",
-            "129303",
-            "347806",
-            "335544",
-            "170017",
-            "224231",
-            "298673",
-            "81158"
-          ],
-          "attacked_intermediate_nodes": [
-            "213416"
-          ],
-          "attack_types": [
-            "grayhole"
-          ]
-        },
         {
           "source": "161225",
           "destination": "328962",
@@ -6505,6 +6038,25 @@
           ],
           "attacked_intermediate_nodes": [
             "53587"
+          ],
+          "attack_types": [
+            "grayhole"
+          ]
+        },
+        {
+          "source": "356263",
+          "destination": "351224",
+          "path": [
+            "356263",
+            "57288",
+            "213416",
+            "149415",
+            "60472",
+            "123930",
+            "351224"
+          ],
+          "attacked_intermediate_nodes": [
+            "213416"
           ],
           "attack_types": [
             "grayhole"

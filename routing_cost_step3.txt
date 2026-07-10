@@ -1,0 +1,17 @@
+Loading simulation topology, real classifier output, real preprocessed nodes...
+Building real feature set for 500 nodes (Task 1 + Task 2 outputs, no placeholders)...
+Running TrustEngine on real trust inputs...
+Building graph with distance-recovered edges...
+Routing all 200 baseline source/destination pairs with cost-aware Dijkstra...
+
+============================================================
+ROUTING COST ENGINE -- SUMMARY (Task 4)
+============================================================
+Routes found: 200/200
+Avg hop count: 4.76  (baseline: 4.21)
+Avg total cost: 1.5595
+Avg trust on path: 0.5527
+Compromised routes: 0 (0.0%)  (baseline: 23.0%)
+============================================================
+
+Saved to C:\Users\Aashita\WSN_AI_Project\outputs\routing_cost_results.json
