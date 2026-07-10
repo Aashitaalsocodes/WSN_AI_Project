@@ -57,7 +57,7 @@ export default function App() {
           >
             <Routes location={location}>
               <Route path="/" element={<NetworkOverview data={data.networkOverview} />} />
-              <Route path="/attack-detection" element={<AttackDetection data={data.attackDetection} />} />
+              <Route path="/attack-detection" element={<AttackDetection data={{ ...data.attackDetection, multiclassClassification: data.multiclassClassification, gnnModelReport: data.gnnModelReport, mitigationSummary: data.mitigationSummary }} />} />
               <Route path="/routing-simulation" element={<RoutingSimulation data={data.routingSimulation} />} />
               <Route path="/energy-forecast" element={<EnergyForecast data={data.energyForecast} />} />
               <Route path="/pipeline-report" element={<PipelineReport data={data.pipelineReport} />} />
