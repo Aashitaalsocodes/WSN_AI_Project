@@ -36,26 +36,50 @@ def load_jsons():
 
 def build_trust_dataframe(classifier_predictions: dict) -> pd.DataFrame:
     """
-    Build per-node DataFrame for TrustEngine using supervised classifier probabilities.
+    Build per-node DataFrame for TrustEngine using real derived trust factors.
 
-    attack_probability is already in [0, 1] where 1 = highly likely attacked,
-    matching TrustEngine's expected anomaly_score convention directly.
-    No normalization step needed (unlike raw Isolation Forest scores).
+    Task 9 (GNN integration): all 4 trust factors now use real data:
+    - historical_accuracy: PDR-derived (Task 1 preprocess_pipeline.py)
+    - protocol_compliance: PDR+distance-derived (Task 1)
+    - neighbor_recommendation: GNN trust score (Task 7 gnn_model.py)
+    - anomaly_score: XGBoost attack_probability (Task 2)
+
+    Falls back to placeholders (0.8, 0.8, 0.5) if enriched trust file
+    is not available, so pipeline still runs without Task 9 output.
     """
-    node_ids = sorted(classifier_predictions.keys(), key=int)
+    enriched_path = OUTPUTS_DIR / "gnn_enriched_trust.json"
 
-    df = pd.DataFrame({
-        "node_id": [int(nid) for nid in node_ids],
-        "historical_accuracy": 0.8,
-        "protocol_compliance": 0.8,
-        "neighbor_recommendation": 0.5,
-        "anomaly_score": [
-            float(classifier_predictions[nid]["attack_probability"])
-            for nid in node_ids
-        ],
-    })
-    return df
+    if enriched_path.exists():
+        with open(enriched_path, encoding="utf-8") as f:
+            enriched = json.load(f)
+        node_ids = sorted(classifier_predictions.keys(), key=int)
+        rows = []
+        for nid in node_ids:
+            rec = enriched.get(nid, {})
+            rows.append({
+                "node_id": int(nid),
+                "historical_accuracy":    rec.get("historical_accuracy", 0.8),
+                "protocol_compliance":    rec.get("protocol_compliance", 0.8),
+                "neighbor_recommendation": rec.get("neighbor_recommendation", 0.5),
+                "anomaly_score":          rec.get("anomaly_score",
+                    float(classifier_predictions[nid]["attack_probability"])),
+            })
+        print("Trust factors: using GNN-enriched real values (Task 9)")
+        return pd.DataFrame(rows)
+    else:
 
+        print("Warning: gnn_enriched_trust.json not found — using placeholder trust    factors")
+        node_ids = sorted(classifier_predictions.keys(), key=int)
+        return pd.DataFrame({
+            "node_id": [int(nid) for nid in node_ids],
+            "historical_accuracy": 0.8,
+            "protocol_compliance": 0.8,
+            "neighbor_recommendation": 0.5,
+            "anomaly_score": [
+                float(classifier_predictions[nid]["attack_probability"])
+                for nid in node_ids
+            ],
+        })
 
 def count_above_threshold(scores: pd.Series, thresholds: dict) -> dict:
     return {label: int((scores > value).sum()) for label, value in thresholds.items()}

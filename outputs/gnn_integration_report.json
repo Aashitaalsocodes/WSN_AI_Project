@@ -1,0 +1,19 @@
+{
+  "total_rows": 374661,
+  "gnn_hits": 374661,
+  "gnn_misses_fallback": 0,
+  "gnn_coverage_pct": 100.0,
+  "avg_trust_score_enriched": 0.5033,
+  "avg_trust_score_comparison": {
+    "old_placeholder_based": "~0.748 (historical_accuracy=0.8, compliance=0.8, neighbor=0.5)",
+    "new_gnn_enriched": 0.5033
+  },
+  "suspicious_nodes_below_0.4": 43872,
+  "pct_suspicious": 11.71,
+  "trust_factor_sources": {
+    "historical_accuracy": "Task 1 preprocess_pipeline.py (PDR-derived)",
+    "protocol_compliance": "Task 1 preprocess_pipeline.py (PDR+distance-derived)",
+    "neighbor_recommendation": "Task 7 gnn_model.py (GNN trust score, physical node_id mapped)",
+    "anomaly_score": "Task 2 attack_classifier_multiclass.py (XGBoost attack_probability)"
+  }
+}
