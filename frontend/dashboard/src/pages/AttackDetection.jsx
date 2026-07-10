@@ -5,7 +5,7 @@ const CountUp = ReactCountUp.default || ReactCountUp
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
 export default function AttackDetection({ data }) {
-  const { models, detectionRates, confusionMatrix } = data
+   const { models, detectionRates, confusionMatrix, multiclassClassification, gnnModelReport, mitigationSummary } = data
   const testSetSize = 74933
 
   const [nodeId, setNodeId] = useState('')
@@ -125,6 +125,70 @@ export default function AttackDetection({ data }) {
           </div>
         </motion.div>
       </div>
+{/* Multiclass + GNN Model Cards */}
+      <div className="two-col-grid mt-16">
+        {/* Multiclass XGBoost Card */}
+        <motion.div
+          className="card"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          whileHover={{ translateY: -3 }}
+        >
+          <div className="flex-between mb-16">
+            <h3 className="model-card-name">Multiclass XGBoost</h3>
+            <span className="badge badge-amber badge-pulse">5-class classifier</span>
+          </div>
+          <div className="model-card-metrics">
+            <div className="model-metric">
+              <div className="model-metric-label">Macro F1</div>
+              <div className="model-metric-value neon-text-white">{multiclassClassification.macroF1.toFixed(2)}</div>
+            </div>
+            <div className="model-metric">
+              <div className="model-metric-label">Records Classified</div>
+              <div className="model-metric-value neon-text-white">{multiclassClassification.totalRecords.toLocaleString()}</div>
+            </div>
+            <div className="model-metric">
+              <div className="model-metric-label">Blackhole Confidence</div>
+              <div className="model-metric-value neon-text-orange">{(multiclassClassification.avgConfidenceByType.Blackhole * 100).toFixed(1)}%</div>
+            </div>
+          </div>
+          <p className="model-note mt-8">
+            Model shows lowest confidence on Blackhole ({(multiclassClassification.avgConfidenceByType.Blackhole * 100).toFixed(1)}%) vs Grayhole ({(multiclassClassification.avgConfidenceByType.Grayhole * 100).toFixed(1)}%) — predicted {multiclassClassification.attackTypeCounts.Blackhole.toLocaleString()} Blackhole vs {multiclassClassification.attackTypeCounts.Grayhole.toLocaleString()} Grayhole, suggesting systematic confusion between the two attack types.
+          </p>
+        </motion.div>
+
+        {/* GNN Card */}
+        <motion.div
+          className="card"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          whileHover={{ translateY: -3 }}
+        >
+          <div className="flex-between mb-16">
+            <h3 className="model-card-name">GraphSAGE (GNN)</h3>
+            <span className="badge badge-green badge-pulse">Graph-based</span>
+          </div>
+          <div className="model-card-metrics">
+            <div className="model-metric">
+              <div className="model-metric-label">F1 Score</div>
+              <div className="model-metric-value neon-text-white">{gnnModelReport.metrics.f1.toFixed(4)}</div>
+            </div>
+            <div className="model-metric">
+              <div className="model-metric-label">Precision</div>
+              <div className="model-metric-value neon-text-white">{gnnModelReport.metrics.precision.toFixed(4)}</div>
+            </div>
+            <div className="model-metric">
+              <div className="model-metric-label">Recall</div>
+              <div className="model-metric-value neon-text-white">{gnnModelReport.metrics.recall.toFixed(4)}</div>
+            </div>
+          </div>
+          <p className="model-note mt-8">
+            {gnnModelReport.architecture} — trained on {gnnModelReport.num_nodes.toLocaleString()} nodes, {gnnModelReport.num_features} features. Only 1 attacked node missed in the test set.
+          </p>
+        </motion.div>
+      </div>
 
       <p className="model-note mb-24">Evaluated on held-out test set of {testSetSize.toLocaleString()} nodes — no data leakage</p>
 
@@ -198,6 +262,46 @@ export default function AttackDetection({ data }) {
             </motion.div>
           </motion.div>
         </div>
+      </div>
+      
+     {/* Mitigation Summary */}
+      <div className="dash-card mt-16">
+        <h2 className="dash-card-title">MITIGATION ACTIONS SUMMARY</h2>
+        <div className="model-card-metrics mb-16">
+          <div className="model-metric">
+            <div className="model-metric-label">Full Reroute</div>
+            <div className="model-metric-value neon-text-red">{mitigationSummary.reroute_counts.FULL.toLocaleString()}</div>
+          </div>
+          <div className="model-metric">
+            <div className="model-metric-label">Partial Reroute</div>
+            <div className="model-metric-value neon-text-orange">{mitigationSummary.reroute_counts.PARTIAL.toLocaleString()}</div>
+          </div>
+          <div className="model-metric">
+            <div className="model-metric-label">No Action</div>
+            <div className="model-metric-value neon-text-green">{mitigationSummary.reroute_counts.NONE.toLocaleString()}</div>
+          </div>
+          <div className="model-metric">
+            <div className="model-metric-label">Cluster Heads Flagged</div>
+            <div className="model-metric-value neon-text-cyan">{mitigationSummary.cluster_heads_flagged.toLocaleString()}</div>
+          </div>
+        </div>
+
+        {/* Confidence-Gated Action Breakdown */}
+        <h3 className="model-card-name mb-8">Confidence-Gated Response Breakdown</h3>
+        <div className="node-result-grid">
+          {Object.entries(mitigationSummary.action_counts)
+            .filter(([action]) => action !== 'NONE')
+            .sort(([, a], [, b]) => b - a)
+            .map(([action, count]) => (
+              <div className="node-result-item" key={action}>
+                <span className="node-result-label">{action.replace(/_/g, ' ')}</span>
+                <span className="node-result-value neon-text-cyan">{count.toLocaleString()}</span>
+              </div>
+            ))}
+        </div>
+        <p className="model-note mt-8">
+          Avg trust delta across all mitigated nodes: {mitigationSummary.avg_trust_delta}
+        </p>
       </div>
 
       {/* Node Lookup Panel */}
