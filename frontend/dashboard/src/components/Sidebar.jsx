@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { motion } from 'framer-motion'
-import { Shield, Network, ShieldAlert, Route, Zap, FileText, Sun, Radar } from 'lucide-react'
+import { Shield, Network, ShieldAlert, Route, Zap, FileText, Sun, Radar, RefreshCw } from 'lucide-react'
 
 const navItems = [
   { path: '/', label: 'Network Overview', icon: Network },
@@ -11,6 +11,7 @@ const navItems = [
   { path: '/energy-forecast', label: 'Energy Forecast', icon: Zap },
   { path: '/pipeline-report', label: 'Pipeline Report', icon: FileText },
   { path: '/digital-twin', label: 'Digital Twin', icon: Radar },
+{ path: '/feedback-loop', label: 'Feedback Loop', icon: RefreshCw },
 ]
 export default function Sidebar() {
   const location = useLocation()

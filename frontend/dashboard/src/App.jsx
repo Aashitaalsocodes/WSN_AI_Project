@@ -9,6 +9,7 @@ import RoutingSimulation from './pages/RoutingSimulation'
 import EnergyForecast from './pages/EnergyForecast'
 import PipelineReport from './pages/PipelineReport'
 import DigitalTwin from './pages/DigitalTwin';
+import FeedbackLoop from './pages/FeedbackLoop';
 
 const pageTransition = {
   initial: { opacity: 0, y: 20 },
@@ -61,6 +62,7 @@ export default function App() {
               <Route path="/energy-forecast" element={<EnergyForecast data={data.energyForecast} />} />
               <Route path="/pipeline-report" element={<PipelineReport data={data.pipelineReport} />} />
 <Route path="/digital-twin" element={<DigitalTwin />} />
+<Route path="/feedback-loop" element={<FeedbackLoop data={data.feedbackLoop} />} />
             </Routes>
           </motion.div>
         </AnimatePresence>
