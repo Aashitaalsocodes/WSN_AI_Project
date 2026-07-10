@@ -14,7 +14,7 @@ FEATURE_COLS = ['ADV_S', 'ADV_R', 'JOIN_S', 'JOIN_R',
                 'Data_Sent_To_BS', 'Expaned Energy']
 
 
-def main(top_n_features=3, max_flagged=200):
+def main(top_n_features=3, per_type_quota=30):
     df = pd.read_csv("data/raw/WSN-DS.csv")
     df.columns = df.columns.str.strip()
 
@@ -40,18 +40,38 @@ def main(top_n_features=3, max_flagged=200):
 
     # IMPORTANT: WSN-DS.csv is laid out in contiguous blocks (a run of Normal
     # rows, then a block per attack type), not shuffled. Taking the first
-    # max_flagged flagged rows in row order (the original "[:max_flagged]"
-    # approach) silently biases the whole explanation set toward whichever
-    # traffic type happens to appear first in the file -- in practice this
-    # produced 200/200 "Normal" explanations and zero attack examples, which
-    # would look like a broken pipeline in the paper even though the model
-    # itself is fine. Instead we take a random sample across ALL flagged rows
-    # so the explanation set actually spans attack types. Seed 42 matches the
-    # convention already used in digital_twin_sim.py for reproducibility.
+    # N flagged rows in row order (the original "[:max_flagged]" approach)
+    # silently biases the whole explanation set toward whichever traffic
+    # type happens to appear first in the file -- in practice this produced
+    # 200/200 "Normal" explanations and zero attack examples. A first fix
+    # (pure random sampling across all flagged rows) solved that but still
+    # left minority classes like Grayhole underrepresented, since Normal
+    # is the majority class overall.
+    #
+    # This version instead takes an EQUAL quota per attack type (capped to
+    # however many flagged rows actually exist for that type, for rare
+    # classes). This gives a balanced, defensible sample for the paper's
+    # interpretability section -- every attack type gets fair coverage,
+    # including Grayhole, which matters given the known Grayhole/Blackhole
+    # confusion elsewhere in the pipeline. Seed 42 matches the convention
+    # already used in digital_twin_sim.py for reproducibility.
     rng = np.random.default_rng(42)
-    sample_size = min(max_flagged, len(all_flagged_idx))
-    flagged_idx = rng.choice(all_flagged_idx, size=sample_size, replace=False)
-    flagged_idx.sort()  # keep deterministic, readable row order in output
+
+    if "Attack type" in df.columns:
+        flagged_labels = df["Attack type"].iloc[all_flagged_idx].astype(str).str.strip()
+        flagged_idx_list = []
+        for label, group in pd.Series(all_flagged_idx, index=flagged_labels.values).groupby(level=0):
+            group_vals = group.values
+            n = min(per_type_quota, len(group_vals))
+            chosen = rng.choice(group_vals, size=n, replace=False)
+            flagged_idx_list.append(chosen)
+        flagged_idx = np.concatenate(flagged_idx_list)
+        flagged_idx.sort()
+    else:
+        # Fallback if the label column is missing: random sample, no stratification possible
+        sample_size = min(per_type_quota * 5, len(all_flagged_idx))
+        flagged_idx = rng.choice(all_flagged_idx, size=sample_size, replace=False)
+        flagged_idx.sort()
 
     # TreeExplainer has native IsolationForest support.
     # IMPORTANT sign convention: TreeExplainer explains contributions to
