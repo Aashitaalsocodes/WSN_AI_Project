@@ -57,12 +57,58 @@
     }
   },
   "energy": {
-    "average_residual_energy": "not_available",
-    "energy_consumption_per_packet": "not_available",
-    "network_lifetime": "not_available",
-    "first_node_death_round": "not_available",
-    "half_node_death_round": "not_available",
-    "last_node_death_round": "not_available",
+    "average_residual_energy": 0.0276,
+    "average_residual_energy_trend": [
+      0.9675,
+      0.931,
+      0.8901,
+      0.8447,
+      0.7951,
+      0.7415,
+      0.6833,
+      0.6206,
+      0.5533,
+      0.4824,
+      0.4068,
+      0.3276,
+      0.2583,
+      0.2018,
+      0.1567,
+      0.1198,
+      0.0887,
+      0.0633,
+      0.0422,
+      0.0276
+    ],
+    "energy_consumption_per_packet": 5.73755,
+    "energy_consumption_per_packet_note": "Coarse proxy: total normalized network energy consumed over the simulation, divided by the sum of avg_hop_count across rounds (a stand-in for total packets forwarded). Not a true per-packet joule measurement -- the sim doesn't track individual packet energy cost.",
+    "network_lifetime": null,
+    "first_node_death_round": 11,
+    "half_node_death_round": 15,
+    "last_node_death_round": null,
+    "num_dead_nodes_trend": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      14,
+      102,
+      163,
+      219,
+      259,
+      309,
+      330,
+      371,
+      413
+    ],
+    "total_nodes": 500,
     "network_health_proxies": {
       "avg_trust_score_first_round": 0.743,
       "avg_trust_score_last_round": 0.7306,
@@ -90,10 +136,9 @@
         4.0,
         2.5,
         2.5
-      ],
-      "note_on_proxies": "Network-health proxies over the 20 simulation rounds, not true energy metrics -- trust decline / compromise rate over time stands in for network degradation in the absence of energy data."
+      ]
     },
-    "note": "digital_twin_results.json has round-by-round attack/trust/routing data but does NOT include per-node energy_remaining or residual battery values. FND/HND/LND, average residual energy, and energy-per-packet genuinely cannot be computed from this file. digital_twin_sim.py needs to additionally export per-node energy_remaining at each round to make these computable -- this is a gap in the simulation's output, worth flagging before the paper's energy section is written."
+    "note": "FND/HND/LND are the round index (0-based) at which the first node, 50% of nodes, and all nodes respectively first reached energy <= 0.0. A null value means that threshold was not reached within the simulation's 20 rounds."
   },
   "network_performance": {
     "end_to_end_delay_proxy_avg_hops": {

@@ -70,12 +70,13 @@ export const routingData = {
   networkNodes: 500,
   networkEdges: 7703,
   sampleRoutes: [
-    { id: 0,   path: [277317,58485,180331,28401,34701,47662,280043,138403], hops: 7, safe: true },
-    { id: 6,   path: [87194,81516,354005],                                  hops: 2, safe: true },
-    { id: 12,  path: [350152,16829],                                         hops: 1, safe: true },
-    { id: 54,  path: [104286,24702,189600,155560,276653,74905,354785,343638,97425], hops: 8, safe: true },
-    { id: 186, path: [35631,328962,219949,94036,290414,242357,29327,224231,298673,81158], hops: 9, safe: true },
+    { id: 0,   path: [277317,117806,57487,207425,44907,347806,305939,138403], hops: 7,  totalCost: 2.0132, avgTrust: 0.5653, safe: true },
+    { id: 6,   path: [87194,281527,281137,354005],                            hops: 3,  totalCost: 0.7962, avgTrust: 0.5407, safe: true },
+    { id: 12,  path: [350152,16829],                                          hops: 1,  totalCost: 0.3166, avgTrust: 0.4307, safe: true },
+    { id: 54,  path: [104286,82704,33306,137340,336048,369972,256170,354785,112886,97425], hops: 9,  totalCost: 2.5327, avgTrust: 0.6189, safe: true },
+    { id: 186, path: [35631,57487,211089,369972,311969,340726,38033,65444,35924,117026,81158], hops: 10, totalCost: 2.6803, avgTrust: 0.5698, safe: true },
   ],
+  costWeights: { distance: 1.0, energy: 1.0, attackRisk: 2.0 },
 };
 
 /* ── Page 4 ── */

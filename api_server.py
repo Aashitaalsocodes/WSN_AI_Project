@@ -58,6 +58,8 @@ def build_dashboard_payload():
         raw = json.load(f)
     with open(os.path.join(OUTPUT_DIR, "routing_simulation.json")) as f:
         routing_raw = json.load(f)
+    with open(os.path.join(OUTPUT_DIR, "routing_cost_results.json")) as f:
+        routing_cost_raw = json.load(f)
     with open(os.path.join(OUTPUT_DIR, "digital_twin_results.json")) as f:
         digital_twin_raw = json.load(f)
     with open(os.path.join(OUTPUT_DIR, "feedback_loop_results.json")) as f:
@@ -136,16 +138,31 @@ def build_dashboard_payload():
         "networkNodes": rt["num_nodes"],
         "networkEdges": rt["num_edges"],
     }
+    cost_by_route_id = {
+        cr["route_id"]: cr for cr in routing_cost_raw.get("routes", [])
+    }
+    weights_used = routing_cost_raw.get("summary", {}).get("weights_used", {})
+    cost_weights = {
+        "distance": weights_used.get("W_DISTANCE", 1.0),
+        "energy": weights_used.get("W_ENERGY", 1.0),
+        "attackRisk": weights_used.get("W_ATTACK", 2.0),
+    }
+
     sample_routes = []
     for r in routing_raw.get("baseline_routes", [])[:8]:
-        sample_routes.append({
+        cost_match = cost_by_route_id.get(r["route_id"])
+        route_entry = {
             "id": r["route_id"],
             "label": f"Route {r['route_id']}",
             "hops": r["hop_count"],
             "path": r["path"],
             "status": "Compromised" if r["passes_through_attacked_node"] else "Secure",
-        })
-    routing_simulation = {"baseline": baseline, "trustAware": trust_aware, "metrics": metrics, "sampleRoutes": sample_routes}
+        }
+        if cost_match is not None:
+            route_entry["totalCost"] = cost_match.get("total_cost")
+            route_entry["avgTrust"] = cost_match.get("avg_trust_on_path")
+        sample_routes.append(route_entry)
+    routing_simulation = {"baseline": baseline, "trustAware": trust_aware, "metrics": metrics, "sampleRoutes": sample_routes, "costWeights": cost_weights}
 
     # --- Energy Forecast ---
     voltage_forecast = en["next_voltage_forecast_volts"]

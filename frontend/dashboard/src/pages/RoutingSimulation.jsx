@@ -6,7 +6,7 @@ import { CheckCircle } from 'lucide-react'
 import KPICard from '../components/KPICard'
 
 export default function RoutingSimulation({ data }) {
-  const { baseline, trustAware, metrics, sampleRoutes } = data
+  const { baseline, trustAware, metrics, sampleRoutes, costWeights } = data
   const [settled, setSettled] = useState(false)
   const [selectedRouteIdx, setSelectedRouteIdx] = useState(0)
 
@@ -180,6 +180,31 @@ export default function RoutingSimulation({ data }) {
             </span>
           </div>
         </div>
+
+        {/* Multi-Objective Cost Breakdown (Task 12) */}
+        {selectedRoute.totalCost !== undefined && (
+          <div className="mt-16" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '16px' }}>
+            <div className="flex-between" style={{ color: '#94a3b8', fontSize: '13px', marginBottom: '10px' }}>
+              <div>
+                Total Routing Cost:{' '}
+                <span className="neon-text-amber" style={{ fontWeight: 'bold' }}>
+                  {selectedRoute.totalCost.toFixed(4)}
+                </span>
+              </div>
+              <div>
+                Avg Trust on Path:{' '}
+                <span className="neon-text-cyan" style={{ fontWeight: 'bold' }}>
+                  {selectedRoute.avgTrust.toFixed(4)}
+                </span>
+              </div>
+            </div>
+            {costWeights && (
+              <div style={{ color: '#64748b', fontSize: '11px' }}>
+                Cost formula: ({costWeights.distance}×distance) + ({costWeights.energy}×energy) + ({costWeights.attackRisk}×attack_risk) / trust
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
