@@ -11,6 +11,7 @@ import PipelineReport from './pages/PipelineReport'
 import DigitalTwin from './pages/DigitalTwin';
 import FeedbackLoop from './pages/FeedbackLoop';
 import GNNVisualization from './pages/GNNVisualization'
+import EvaluationPerformance from './pages/EvaluationPerformance'
 
 const pageTransition = {
   initial: { opacity: 0, y: 20 },
@@ -24,7 +25,7 @@ export default function App() {
   const location = useLocation()
 
  useEffect(() => {
-    fetch('https://wsn-ai-project.onrender.com/api/dashboard-formatted')
+    fetch('/api/dashboard-formatted')
       .then(res => res.json())
       .then(setData)
       .catch(err => {
@@ -65,6 +66,7 @@ export default function App() {
 <Route path="/digital-twin" element={<DigitalTwin />} />
 <Route path="/feedback-loop" element={<FeedbackLoop data={data.feedbackLoop} />} />
 <Route path="/gnn-visualization" element={<GNNVisualization data={{ gnnGraph: data.gnnGraph, gnnModelReport: data.gnnModelReport }} />} />
+<Route path="/evaluation-performance" element={<EvaluationPerformance data={data.evaluationMetrics} />} />
             </Routes>
           </motion.div>
         </AnimatePresence>
