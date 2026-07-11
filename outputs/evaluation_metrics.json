@@ -1,0 +1,112 @@
+{
+  "security": {
+    "attack_detection_accuracy": 0.970506986241042,
+    "macro_f1": 0.8401574746657602,
+    "weighted_f1": 0.971924811020907,
+    "precision_recall_f1_by_type": {
+      "Blackhole": {
+        "precision": 0.6341540404040404,
+        "recall": 0.9995024875621891,
+        "f1_score": 0.7759752800309,
+        "support": 2010.0
+      },
+      "Flooding": {
+        "precision": 0.9773071104387292,
+        "recall": 0.9758308157099698,
+        "f1_score": 0.9765684051398337,
+        "support": 662.0
+      },
+      "Grayhole": {
+        "precision": 0.9971623155505108,
+        "recall": 0.6019184652278178,
+        "f1_score": 0.7506942960905789,
+        "support": 2919.0
+      },
+      "Normal": {
+        "precision": 0.9985857412948655,
+        "recall": 0.9862381274443497,
+        "f1_score": 0.9923735270403219,
+        "support": 68014.0
+      },
+      "TDMA": {
+        "precision": 0.5684647302904564,
+        "recall": 0.9284638554216867,
+        "f1_score": 0.7051758650271661,
+        "support": 1328.0
+      }
+    },
+    "false_positive_rate_by_type": {
+      "Blackhole": 0.0159,
+      "Flooding": 0.0002,
+      "Grayhole": 0.0001,
+      "TDMA": 0.0127
+    },
+    "attack_traffic_missed_as_normal_rate": 0.0137,
+    "packet_delivery_ratio_under_attack": 1.0,
+    "successful_attack_mitigation_rate": {
+      "pct_compromised_routes_cost_aware": 0.0,
+      "pct_compromised_routes_baseline": 23.0,
+      "improvement_percentage_points": 23.0,
+      "note": "Mitigation rate = reduction in compromised routes achieved by cost-aware routing vs. naive baseline routing, both measured on the same 200 source/dest pairs."
+    },
+    "recalibration_convergence": {
+      "detection_miss_rate_converged_count": 2,
+      "detection_miss_rate_total_types": 4,
+      "attack_risk_weights_converged_count": 0,
+      "attack_risk_weights_total_types": 4
+    }
+  },
+  "energy": {
+    "average_residual_energy": "not_available",
+    "energy_consumption_per_packet": "not_available",
+    "network_lifetime": "not_available",
+    "first_node_death_round": "not_available",
+    "half_node_death_round": "not_available",
+    "last_node_death_round": "not_available",
+    "network_health_proxies": {
+      "avg_trust_score_first_round": 0.7434,
+      "avg_trust_score_last_round": 0.7303,
+      "avg_trust_score_decline": 0.0131,
+      "compromised_routes_pct_first_round": 1.0,
+      "compromised_routes_pct_last_round": 3.5,
+      "compromised_routes_pct_trend": [
+        1.0,
+        1.0,
+        1.5,
+        3.5,
+        3.5,
+        1.5,
+        6.0,
+        10.5,
+        1.0,
+        7.5,
+        2.5,
+        6.0,
+        10.0,
+        6.5,
+        4.5,
+        4.5,
+        3.5,
+        2.0,
+        0.5,
+        3.5
+      ],
+      "note_on_proxies": "Network-health proxies over the 20 simulation rounds, not true energy metrics -- trust decline / compromise rate over time stands in for network degradation in the absence of energy data."
+    },
+    "note": "digital_twin_results.json has round-by-round attack/trust/routing data but does NOT include per-node energy_remaining or residual battery values. FND/HND/LND, average residual energy, and energy-per-packet genuinely cannot be computed from this file. digital_twin_sim.py needs to additionally export per-node energy_remaining at each round to make these computable -- this is a gap in the simulation's output, worth flagging before the paper's energy section is written."
+  },
+  "network_performance": {
+    "end_to_end_delay_proxy_avg_hops": {
+      "cost_aware_avg_hops": 4.75,
+      "baseline_avg_hops": 4.21,
+      "hop_count_tradeoff": 0.54,
+      "note": "True end-to-end delay needs per-hop latency data, which the routing sim doesn't currently model. Avg hop count is used as a proxy -- more hops generally means more delay, all else equal."
+    },
+    "routing_overhead": {
+      "avg_total_cost": 1.5494,
+      "note": "'total_cost' here is the routing-cost-formula value (distance + energy + attack risk / trust), not control-packet overhead in the classic WSN sense. True routing overhead (e.g. route-discovery control packets per data packet) isn't currently instrumented in the routing sim."
+    },
+    "throughput": "not_available -- routing sim doesn't currently model packet-level throughput over time",
+    "avg_trust_on_path": 0.5524
+  }
+}
