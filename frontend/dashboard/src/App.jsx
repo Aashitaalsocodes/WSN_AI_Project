@@ -25,7 +25,8 @@ export default function App() {
   const location = useLocation()
 
  useEffect(() => {
-    fetch('/api/dashboard-formatted')
+    const API_BASE = import.meta.env.DEV ? '' : 'https://wsn-ai-project.onrender.com'
+    fetch(`${API_BASE}/api/dashboard-formatted`)
       .then(res => res.json())
       .then(setData)
       .catch(err => {
