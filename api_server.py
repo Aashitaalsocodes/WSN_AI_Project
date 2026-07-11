@@ -36,16 +36,17 @@ FILE_MAP = {
     "energy-forecast-ibrl": "energy_forecast_ibrl.json",
     "failure-probs": "failure_probs.json",
     "feedback-loop": "feedback_loop_results.json",
+    "final-pipeline-result": "final_pipeline_result.json",
     "gnn-node-predictions": "gnn_node_predictions.json",
     "gnn-integration-report": "gnn_integration_report.json",
     "gnn-model-report": "gnn_model_report.json",
     "gnn-graph-data": "gnn_graph_data.json",
     "gnn-attention-weights": "gnn_attention_weights.json",
     "mitigation-summary": "mitigation_summary.json",
-    "final-pipeline-result": "final_pipeline_result.json",
     "routing-simulation": "routing_simulation.json",
+    "recalibration-report": "recalibration_report.json",
     "trust-aware-routing-results": "trust_aware_routing_results.json",
-}
+    }
 
 @app.get("/")
 def root():

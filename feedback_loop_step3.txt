@@ -1,0 +1,21 @@
+Loading Digital Twin and routing cost outputs...
+Attack types observed: ['Blackhole', 'Grayhole', 'Flooding', 'TDMA']
+Total compromised route instances across all rounds: 174
+
+Wrote outputs\feedback_loop_results.json
+
+--- Recommended DETECTION_MISS_RATE changes (digital_twin_sim.py) ---
+  Blackhole: 0.2063 -> 0.2098 (observed miss rate: 0.2098)
+  Grayhole: 0.1302 -> 0.1094 (observed miss rate: 0.1094)
+  Flooding: 0.046 -> 0.023 (observed miss rate: 0.023)
+  TDMA: 0.1765 -> 0.1765 (observed miss rate: 0.1765)
+
+--- Recommended attack_risk_weights_by_type changes (routing_cost.py) ---
+  TDMA: 0.2216 -> 0.2356 (share of compromised routes: 0.2356)
+  Flooding: 0.45 -> 0.4 (share of compromised routes: 0.046)
+  Grayhole: 0.65 -> 0.6 (share of compromised routes: 0.3563)
+  Blackhole: 0.85 -> 0.8 (share of compromised routes: 0.408)
+
+These are recommendations only — review before manually updating
+DETECTION_MISS_RATE / attack_risk_weights_by_type in the source scripts.
+Next: wire outputs/feedback_loop_results.json into api_server.py's FILE_MAP.

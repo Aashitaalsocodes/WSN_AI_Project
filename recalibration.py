@@ -4,13 +4,11 @@ WSN AI Security Pipeline
 
 Step 1: Read outputs/feedback_loop_results.json (Task 6 output) and extract
 the recommended DETECTION_MISS_RATE and attack_risk_weights_by_type values.
-
 Step 2: Apply those recommended values to routing_cost.py and
 digital_twin_sim.py via a controlled, matched text replacement — dry run by
 default (writes to new *_recalibrated.py files), only overwrites originals
 with an explicit --apply flag.
 """
-
 import json
 import os
 
@@ -37,7 +35,6 @@ def extract_recommendations(feedback_data):
     """
     detection_recs_raw = feedback_data["model_feedback"]["recommended_detection_miss_rate_by_type"]
     risk_weight_recs_raw = feedback_data["routing_feedback"]["recommended_attack_risk_weights_by_type"]
-
     recommended_detection_miss_rates = {
         atype: rec["recommended_new_rate"]
         for atype, rec in detection_recs_raw.items()
@@ -46,27 +43,21 @@ def extract_recommendations(feedback_data):
         atype: rec["recommended_new_weight"]
         for atype, rec in risk_weight_recs_raw.items()
     }
-
     return recommended_detection_miss_rates, recommended_risk_weights
 
 
 def main():
     print("Step 1: Loading feedback_loop_results.json...")
     feedback_data = load_json(FEEDBACK_LOOP_PATH)
-
     recommended_detection_miss_rates, recommended_risk_weights = extract_recommendations(feedback_data)
-
     print("\nRecommended DETECTION_MISS_RATE by attack type:")
     for atype, rate in recommended_detection_miss_rates.items():
         print(f"  {atype}: {rate}")
-
     print("\nRecommended attack_risk_weights_by_type:")
     for atype, weight in recommended_risk_weights.items():
         print(f"  {atype}: {weight}")
-
     print("\nStep 1 complete. Nothing has been modified yet — this just confirms")
     print("the recommended values are read correctly before Step 2 applies them.")
-
     return recommended_detection_miss_rates, recommended_risk_weights
 
 
@@ -75,17 +66,35 @@ DIGITAL_TWIN_PATH = "digital_twin_sim.py"
 
 # Exact current dict block in routing_cost.py -- matched verbatim so the
 # replacement only touches this block, nothing else in the file.
+#
+# NOTE (fixed): this previously read 0.3/0.6/0.8/1.0, which was a stale
+# placeholder that never matched the real file. The actual baseline used in
+# the Task 8 report -- and currently still sitting in routing_cost.py -- is
+# 0.25/0.55/0.75/0.95. Updated to match verbatim.
 CURRENT_ATTACK_RISK_WEIGHT_BLOCK = '''ATTACK_RISK_WEIGHT = {
     "Normal": 0.0,
-    "TDMA": 0.3,
-    "Flooding": 0.6,
-    "Grayhole": 0.8,
-    "Blackhole": 1.0,
+    "TDMA": 0.25,
+    "Flooding": 0.55,
+    "Grayhole": 0.75,
+    "Blackhole": 0.95,
 }'''
 
-# Exact current line in digital_twin_sim.py
-CURRENT_DETECTION_MISS_RATE_LINE = "    DETECTION_MISS_RATE = 0.18"
-CURRENT_DETECTION_USAGE_LINE = "            detected = random.random() > DETECTION_MISS_RATE"
+# Exact current block in digital_twin_sim.py.
+#
+# NOTE (fixed): this previously expected a single flat line
+# "DETECTION_MISS_RATE = 0.18", which also never matched the real file --
+# digital_twin_sim.py already has a per-type dict with the real baseline
+# values (matching the Task 8 report's "before" column). Updated to match
+# the actual current block verbatim so this script can replace the VALUES
+# in place without needing to redo the flat->dict structural conversion
+# (that conversion already happened, just not through this script).
+CURRENT_DETECTION_MISS_RATE_BLOCK = '''    DETECTION_MISS_RATE_BY_TYPE = {
+        "blackhole": 0.1923,
+        "grayhole": 0.1589,
+        "flooding": 0.13,
+        "tdma": 0.1765,
+    }'''
+CURRENT_DETECTION_USAGE_LINE = "            detected = random.random() > DETECTION_MISS_RATE_BY_TYPE[attack_type]"
 
 
 def build_new_attack_risk_weight_block(recommended_risk_weights):
@@ -104,9 +113,10 @@ def build_new_attack_risk_weight_block(recommended_risk_weights):
 
 def build_new_detection_miss_rate_block(recommended_detection_miss_rates):
     """
-    Converts the flat DETECTION_MISS_RATE into a per-type dict. Attack type
-    strings in digital_twin_sim.py are lowercase ("blackhole"), so keys are
-    lowercased here to match simulate_round()'s usage.
+    Builds the replacement DETECTION_MISS_RATE_BY_TYPE dict text. Attack type
+    strings in digital_twin_sim.py are lowercase ("blackhole"), so keys stay
+    lowercased here to match simulate_round()'s usage. Same indentation/quote
+    style as the existing block (nested one level inside the function).
     """
     lines = ["    DETECTION_MISS_RATE_BY_TYPE = {"]
     for atype in ["blackhole", "grayhole", "flooding", "tdma"]:
@@ -130,37 +140,33 @@ def apply_recalibration(recommended_detection_miss_rates, recommended_risk_weigh
     # --- routing_cost.py ---
     with open(ROUTING_COST_PATH, "r") as f:
         routing_src = f.read()
-
     if CURRENT_ATTACK_RISK_WEIGHT_BLOCK not in routing_src:
         raise ValueError(
             "Could not find the expected ATTACK_RISK_WEIGHT block in routing_cost.py -- "
             "the file may have changed since this script was written. Paste the current "
             "block back to Claude to update the matcher before retrying."
         )
-    new_block = build_new_attack_risk_weight_block(recommended_risk_weights)
-    new_routing_src = routing_src.replace(CURRENT_ATTACK_RISK_WEIGHT_BLOCK, new_block)
+    new_risk_block = build_new_attack_risk_weight_block(recommended_risk_weights)
+    new_routing_src = routing_src.replace(CURRENT_ATTACK_RISK_WEIGHT_BLOCK, new_risk_block)
 
     # --- digital_twin_sim.py ---
     with open(DIGITAL_TWIN_PATH, "r") as f:
         twin_src = f.read()
-
-    if CURRENT_DETECTION_MISS_RATE_LINE not in twin_src:
+    if CURRENT_DETECTION_MISS_RATE_BLOCK not in twin_src:
         raise ValueError(
-            "Could not find the expected DETECTION_MISS_RATE line in digital_twin_sim.py -- "
+            "Could not find the expected DETECTION_MISS_RATE_BY_TYPE block in digital_twin_sim.py -- "
             "the file may have changed since this script was written. Paste the current "
-            "line back to Claude to update the matcher before retrying."
+            "block back to Claude to update the matcher before retrying."
         )
     if CURRENT_DETECTION_USAGE_LINE not in twin_src:
         raise ValueError(
-            "Could not find the expected DETECTION_MISS_RATE usage line in digital_twin_sim.py."
+            "Could not find the expected DETECTION_MISS_RATE_BY_TYPE usage line in digital_twin_sim.py."
         )
-
     new_detection_block = build_new_detection_miss_rate_block(recommended_detection_miss_rates)
-    new_usage_line = (
-        "            detected = random.random() > DETECTION_MISS_RATE_BY_TYPE[attack_type]"
-    )
-    new_twin_src = twin_src.replace(CURRENT_DETECTION_MISS_RATE_LINE, new_detection_block)
-    new_twin_src = new_twin_src.replace(CURRENT_DETECTION_USAGE_LINE, new_usage_line)
+    new_twin_src = twin_src.replace(CURRENT_DETECTION_MISS_RATE_BLOCK, new_detection_block)
+    # usage line is unchanged in this version (already uses the per-type dict);
+    # kept as a no-op replace so this still works if the line style shifts later
+    new_twin_src = new_twin_src.replace(CURRENT_DETECTION_USAGE_LINE, CURRENT_DETECTION_USAGE_LINE)
 
     if apply:
         routing_out_path = ROUTING_COST_PATH
@@ -169,24 +175,23 @@ def apply_recalibration(recommended_detection_miss_rates, recommended_risk_weigh
     else:
         routing_out_path = "routing_cost_recalibrated.py"
         twin_out_path = "digital_twin_sim_recalibrated.py"
-        print(f"\nDry run (apply=False) -- writing to {routing_out_path} and {twin_out_path}")
-        print("Review these against the originals, then re-run with apply=True to make it real.")
+        print("\napply=False (dry run) -- writing to *_recalibrated.py files.")
+        print("Diff and review these before re-running with --apply.")
 
     with open(routing_out_path, "w") as f:
         f.write(new_routing_src)
     with open(twin_out_path, "w") as f:
         f.write(new_twin_src)
 
-    print(f"Wrote {routing_out_path}")
-    print(f"Wrote {twin_out_path}")
+    print(f"Wrote: {routing_out_path}")
+    print(f"Wrote: {twin_out_path}")
 
 
 if __name__ == "__main__":
     import sys
-    detection_rates, risk_weights = main()
-
     apply_flag = "--apply" in sys.argv
+    detection_rates, risk_weights = main()
     print("\n" + "=" * 60)
-    print("Step 2: Applying recalibration" + (" (LIVE)" if apply_flag else " (DRY RUN)"))
+    print(f"Step 2: Applying recalibration ({'REAL' if apply_flag else 'DRY RUN'})")
     print("=" * 60)
     apply_recalibration(detection_rates, risk_weights, apply=apply_flag)
