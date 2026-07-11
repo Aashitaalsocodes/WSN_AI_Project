@@ -34,6 +34,8 @@ FILE_MAP = {
     "digital-twin": "digital_twin_results.json",
     "energy-forecast": "energy_forecast.json",
     "energy-forecast-ibrl": "energy_forecast_ibrl.json",
+    "energy-forecast-ibrl": "energy_forecast_ibrl.json",
+    "evaluation-metrics": "evaluation_metrics.json",
     "failure-probs": "failure_probs.json",
     "feedback-loop": "feedback_loop_results.json",
     "final-pipeline-result": "final_pipeline_result.json",
@@ -68,6 +70,8 @@ def build_dashboard_payload():
         gnn_model_report_raw = json.load(f)
     with open(os.path.join(OUTPUT_DIR, "mitigation_summary.json")) as f:
         mitigation_summary_raw = json.load(f)
+    with open(os.path.join(OUTPUT_DIR, "evaluation_metrics.json")) as f:
+        evaluation_metrics_raw = json.load(f)
     
 
     no = raw["network_overview"]
@@ -226,7 +230,8 @@ def build_dashboard_payload():
 
     # --- Mitigation Summary (Task 3) ---
     mitigation_summary = mitigation_summary_raw
-
+    # --- Evaluation Metrics (Task 10) ---
+    evaluation_metrics = evaluation_metrics_raw
     return {
         "networkOverview": network_overview,
         "attackDetection": attack_detection,
@@ -244,6 +249,7 @@ def build_dashboard_payload():
             "pctAttacked": 10.09,
             "featureNames": ["attack_probability_mean", "attack_probability_max", "composite_risk_score_mean", "packet_delivery_ratio_mean", "distance_to_ch_norm", "is_cluster_head"],
         },
+       "evaluationMetrics": evaluation_metrics,
         "ticker": f"{no['total_nodes']:,} nodes monitored — {no['total_attacked']:,} attacks detected — F1 {ad['xgboost_supervised']['f1_score']:.2f}",
     }
 @app.get("/api/dashboard-formatted")
