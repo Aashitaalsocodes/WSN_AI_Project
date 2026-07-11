@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { motion } from 'framer-motion'
-import { Shield, Network, ShieldAlert, Route, Zap, FileText, Sun, Radar, RefreshCw, Share2, BarChart3 } from 'lucide-react'
+import { Shield, Network, ShieldAlert, Route, Zap, FileText, Sun, Radar, RefreshCw, Share2, BarChart3, Workflow } from 'lucide-react'
 const navItems = [
   { path: '/', label: 'Network Overview', icon: Network },
   { path: '/attack-detection', label: 'Attack Detection', icon: ShieldAlert },
@@ -13,6 +13,7 @@ const navItems = [
 { path: '/feedback-loop', label: 'Feedback Loop', icon: RefreshCw },
 { path: '/gnn-visualization', label: 'GNN Visualization', icon: Share2 },
 { path: '/evaluation-performance', label: 'Evaluation & Performance', icon: BarChart3 },
+{ path: '/architecture', label: 'Architecture', icon: Workflow },
 ]
 
 export default function Sidebar() {

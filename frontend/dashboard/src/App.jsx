@@ -12,6 +12,7 @@ import DigitalTwin from './pages/DigitalTwin';
 import FeedbackLoop from './pages/FeedbackLoop';
 import GNNVisualization from './pages/GNNVisualization'
 import EvaluationPerformance from './pages/EvaluationPerformance'
+import ArchitectureDiagram from './pages/ArchitectureDiagram'
 
 const pageTransition = {
   initial: { opacity: 0, y: 20 },
@@ -68,6 +69,7 @@ export default function App() {
 <Route path="/feedback-loop" element={<FeedbackLoop data={data.feedbackLoop} />} />
 <Route path="/gnn-visualization" element={<GNNVisualization data={{ gnnGraph: data.gnnGraph, gnnModelReport: data.gnnModelReport }} />} />
 <Route path="/evaluation-performance" element={<EvaluationPerformance data={data.evaluationMetrics} />} />
+<Route path="/architecture" element={<ArchitectureDiagram />} />
             </Routes>
           </motion.div>
         </AnimatePresence>
