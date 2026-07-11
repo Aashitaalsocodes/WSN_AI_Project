@@ -19,7 +19,10 @@ app.add_middleware(
 OUTPUT_DIR = "outputs"
 
 # Map each API route to its actual JSON file
+_dashboard_cache = {"data": None}
+
 FILE_MAP = {
+
     "anomaly-detection-results": "anomaly_detection_results.json",
     "attack-classifier-evaluation": "attack_classifier_evaluation_leakage_free.json",
     "attack-classifier-predictions": "attack_classifier_predictions.json",
@@ -255,10 +258,11 @@ def build_dashboard_payload():
 @app.get("/api/dashboard-formatted")
 def get_dashboard_formatted():
     try:
-        return build_dashboard_payload()
+        if _dashboard_cache["data"] is None:
+            _dashboard_cache["data"] = build_dashboard_payload()
+        return _dashboard_cache["data"]
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
 @app.get("/api/{key}")
 def get_json(key: str):

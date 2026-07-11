@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from 'recharts'
 
 export default function EvaluationPerformance({ data }) {
@@ -19,6 +19,7 @@ export default function EvaluationPerformance({ data }) {
   }
 
   const { security, energy, network_performance: net } = data
+  const energyDataReady = typeof energy.first_node_death_round === 'number'
 
   // --- Security chart data ---
   const perTypeData = Object.entries(security.precision_recall_f1_by_type).map(([type, m]) => ({
@@ -37,14 +38,15 @@ export default function EvaluationPerformance({ data }) {
     { name: 'Baseline', compromised: security.successful_attack_mitigation_rate.pct_compromised_routes_baseline },
     { name: 'Cost-Aware', compromised: security.successful_attack_mitigation_rate.pct_compromised_routes_cost_aware },
   ]
-
   // --- Energy chart data ---
-  const energyTrend = energy.average_residual_energy_trend.map((v, i) => ({
-    round: i,
-    residualEnergy: +(v * 100).toFixed(1),
-    deadNodes: energy.num_dead_nodes_trend[i],
-  }))
-
+  const energyTrend = energyDataReady
+    ? energy.average_residual_energy_trend.map((v, i) => ({
+        round: i,
+        residualEnergy: +(v * 100).toFixed(1),
+        deadNodes: energy.num_dead_nodes_trend[i],
+      }))
+    : []
+  
   const trustTrend = energy.network_health_proxies.compromised_routes_pct_trend.map((v, i) => ({
     round: i,
     compromisedPct: v,
@@ -60,8 +62,8 @@ export default function EvaluationPerformance({ data }) {
     { label: 'Detection Accuracy', value: `${(security.attack_detection_accuracy * 100).toFixed(1)}%`, sub: 'Overall attack detection' },
     { label: 'Macro F1', value: security.macro_f1.toFixed(3), sub: 'Unweighted avg across types' },
     { label: 'Mitigation Improvement', value: `${security.successful_attack_mitigation_rate.improvement_percentage_points} pts`, sub: 'Compromised routes reduced' },
-    { label: 'First Node Death', value: `Round ${energy.first_node_death_round}`, sub: `Half dead: round ${energy.half_node_death_round}` },
-    { label: 'Avg Residual Energy', value: `${(energy.average_residual_energy * 100).toFixed(1)}%`, sub: 'End of simulation' },
+    { label: 'First Node Death', value: energyDataReady ? `Round ${energy.first_node_death_round}` : 'N/A', sub: energyDataReady ? `Half dead: round ${energy.half_node_death_round}` : 'Backend not updated yet' },
+    { label: 'Avg Residual Energy', value: energyDataReady ? `${(energy.average_residual_energy * 100).toFixed(1)}%` : 'N/A', sub: 'End of simulation' },
     { label: 'Avg Trust on Path', value: net.avg_trust_on_path.toFixed(3), sub: 'Cost-aware routing' },
   ]
 
@@ -103,16 +105,16 @@ export default function EvaluationPerformance({ data }) {
             <p className="model-note mb-16">Multiclass classifier performance per attack type (macro F1: {security.macro_f1.toFixed(4)})</p>
             <div className="chart-wrapper">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={perTypeData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
+                <LineChart data={perTypeData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e2030" />
                   <XAxis dataKey="type" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} domain={[0, 100]} />
                   <Tooltip contentStyle={{ background: '#0d0d14', border: '1px solid #1e2030', borderRadius: '8px', color: '#fff' }} />
                   <Legend />
-                  <Bar dataKey="precision" fill="#00d2ff" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="recall" fill="#a78bfa" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="f1" fill="#ffb020" radius={[4, 4, 0, 0]} />
-                </BarChart>
+                  <Line type="monotone" dataKey="precision" stroke="#00d2ff" strokeWidth={2.5} dot={false} activeDot={{ r: 5, style: { filter: 'drop-shadow(0 0 5px #00d2ff)' } }} style={{ filter: 'drop-shadow(0 0 6px rgba(0,210,255,0.6))' }} isAnimationActive={true} animationDuration={1200} animationEasing="ease-out" />
+                  <Line type="monotone" dataKey="recall" stroke="#a78bfa" strokeWidth={2.5} dot={false} activeDot={{ r: 5, style: { filter: 'drop-shadow(0 0 5px #a78bfa)' } }} style={{ filter: 'drop-shadow(0 0 6px rgba(167,139,250,0.6))' }} isAnimationActive={true} animationDuration={1200} animationEasing="ease-out" />
+                  <Line type="monotone" dataKey="f1" stroke="#ffb020" strokeWidth={2.5} dot={false} activeDot={{ r: 5, style: { filter: 'drop-shadow(0 0 5px #ffb020)' } }} style={{ filter: 'drop-shadow(0 0 6px rgba(255,176,32,0.6))' }} isAnimationActive={true} animationDuration={1200} animationEasing="ease-out" />
+                </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
@@ -123,13 +125,13 @@ export default function EvaluationPerformance({ data }) {
               <p className="model-note mb-16">Normal traffic incorrectly flagged as this attack type</p>
               <div className="chart-wrapper" style={{ height: '260px' }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={fprData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
+                  <LineChart data={fprData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e2030" />
                     <XAxis dataKey="type" axisLine={false} tickLine={false} />
                     <YAxis axisLine={false} tickLine={false} />
                     <Tooltip contentStyle={{ background: '#0d0d14', border: '1px solid #1e2030', borderRadius: '8px', color: '#fff' }} formatter={(v) => `${v}%`} />
-                    <Bar dataKey="fpr" fill="#ff3860" radius={[4, 4, 0, 0]} />
-                  </BarChart>
+                    <Line type="monotone" dataKey="fpr" stroke="#ff3860" strokeWidth={2.5} dot={false} activeDot={{ r: 5, style: { filter: 'drop-shadow(0 0 5px #ff3860)' } }} style={{ filter: 'drop-shadow(0 0 6px rgba(255,56,96,0.6))' }} isAnimationActive={true} animationDuration={1200} animationEasing="ease-out" />
+                  </LineChart>
                 </ResponsiveContainer>
               </div>
             </div>
@@ -139,13 +141,13 @@ export default function EvaluationPerformance({ data }) {
               <p className="model-note mb-16">{security.successful_attack_mitigation_rate.note}</p>
               <div className="chart-wrapper" style={{ height: '260px' }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={mitigationData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
+                  <LineChart data={mitigationData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e2030" />
                     <XAxis dataKey="name" axisLine={false} tickLine={false} />
                     <YAxis axisLine={false} tickLine={false} domain={[0, 30]} />
                     <Tooltip contentStyle={{ background: '#0d0d14', border: '1px solid #1e2030', borderRadius: '8px', color: '#fff' }} formatter={(v) => `${v}%`} />
-                    <Bar dataKey="compromised" fill="#00d2ff" radius={[4, 4, 0, 0]} />
-                  </BarChart>
+                    <Line type="monotone" dataKey="compromised" stroke="#00d2ff" strokeWidth={3} dot={false} activeDot={{ r: 5, style: { filter: 'drop-shadow(0 0 5px #00d2ff)' } }} style={{ filter: 'drop-shadow(0 0 6px rgba(0,210,255,0.6))' }} isAnimationActive={true} animationDuration={1200} animationEasing="ease-out" />
+                  </LineChart>
                 </ResponsiveContainer>
               </div>
             </div>
@@ -255,13 +257,13 @@ export default function EvaluationPerformance({ data }) {
               <p className="model-note mb-16">Proxy for end-to-end delay (tradeoff: +{net.end_to_end_delay_proxy_avg_hops.hop_count_tradeoff})</p>
               <div className="chart-wrapper" style={{ height: '260px' }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={hopData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
+                  <LineChart data={hopData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e2030" />
                     <XAxis dataKey="name" axisLine={false} tickLine={false} />
                     <YAxis axisLine={false} tickLine={false} domain={[0, 6]} />
                     <Tooltip contentStyle={{ background: '#0d0d14', border: '1px solid #1e2030', borderRadius: '8px', color: '#fff' }} />
-                    <Bar dataKey="hops" fill="#00d2ff" radius={[4, 4, 0, 0]} />
-                  </BarChart>
+                    <Line type="monotone" dataKey="hops" stroke="#00d2ff" strokeWidth={3} dot={false} activeDot={{ r: 5, style: { filter: 'drop-shadow(0 0 5px #00d2ff)' } }} style={{ filter: 'drop-shadow(0 0 6px rgba(0,210,255,0.6))' }} isAnimationActive={true} animationDuration={1200} animationEasing="ease-out" />
+                  </LineChart>
                 </ResponsiveContainer>
               </div>
             </div>
