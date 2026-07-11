@@ -294,6 +294,9 @@ def main():
               f"({m['pct_compromised_routes_baseline']}% -> {m['pct_compromised_routes_cost_aware']}%)")
 
     print("\n--- Energy ---")
+    print(f"FND: {report['energy'].get('first_node_death_round')}, HND: {report['energy'].get('half_node_death_round')}, LND: {report['energy'].get('last_node_death_round')}")
+    print(f"Avg residual energy: {report['energy'].get('average_residual_energy')}")
+    print(f"Energy per packet (proxy): {report['energy'].get('energy_consumption_per_packet')}")
     print(report["energy"].get("note", "computed"))
 
     print("\n--- Network Performance ---")
