@@ -5,16 +5,16 @@
       "Blackhole": {
         "original": 0.18,
         "currently_applied": 0.2098,
-        "latest_recommended": 0.2168,
-        "delta_applied_to_latest": 0.007,
-        "converged": true
+        "latest_recommended": 0.2367,
+        "delta_applied_to_latest": 0.0269,
+        "converged": false
       },
       "Grayhole": {
         "original": 0.18,
         "currently_applied": 0.1094,
-        "latest_recommended": 0.0964,
-        "delta_applied_to_latest": 0.013,
-        "converged": false
+        "latest_recommended": 0.1013,
+        "delta_applied_to_latest": 0.0081,
+        "converged": true
       },
       "Flooding": {
         "original": 0.18,
@@ -26,22 +26,22 @@
       "TDMA": {
         "original": 0.18,
         "currently_applied": 0.1765,
-        "latest_recommended": 0.1765,
-        "delta_applied_to_latest": 0.0,
-        "converged": true
+        "latest_recommended": 0.1579,
+        "delta_applied_to_latest": 0.0186,
+        "converged": false
       }
     },
-    "converged_count": 2,
+    "converged_count": 1,
     "total_types": 4,
-    "summary": "2/4 attack types converged (delta < 0.01) after one recalibration cycle."
+    "summary": "1/4 attack types converged (delta < 0.01) after one recalibration cycle."
   },
   "attack_risk_weights": {
     "by_type": {
       "TDMA": {
         "original": 0.3,
         "currently_applied": 0.2356,
-        "latest_recommended": 0.2547,
-        "delta_applied_to_latest": 0.0191,
+        "latest_recommended": 0.1856,
+        "delta_applied_to_latest": 0.05,
         "converged": false
       },
       "Flooding": {
@@ -72,8 +72,8 @@
   },
   "compromised_routes": {
     "original_total_instances": 183,
-    "post_recalibration_total_instances": 161,
-    "change": -22,
+    "post_recalibration_total_instances": 168,
+    "change": -15,
     "note": "Total compromised route instances across all 20 Digital Twin rounds. A small or negative change after one cycle is expected -- recalibration tunes detection/routing parameters gradually (capped step size) rather than in one large jump, matching how the feedback loop was designed to avoid overcorrecting from a single noisy simulation run."
   },
   "recommendation": "Run a second recalibration cycle for attack_risk_weights_by_type, which has not yet converged, before treating these as final tuned values."
