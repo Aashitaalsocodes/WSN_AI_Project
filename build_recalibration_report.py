@@ -5,15 +5,17 @@ WSN AI Security Pipeline
 Builds outputs/recalibration_report.json summarizing one full recalibration
 cycle:
 
-  original baseline  ->  cycle 1 applied (recommended values from the
-  pre-Task-8 feedback_loop.py run, now live in routing_cost.py /
-  digital_twin_sim.py)  ->  cycle 2 recommended (fresh recommendations from
-  re-running feedback_loop.py against the recalibrated Digital Twin)
+  original baseline  ->  currently applied (whatever values are live right
+  now in routing_cost.py / digital_twin_sim.py, from however many
+  recalibration cycles have run so far)  ->  latest recommended (fresh
+  recommendations from the most recent feedback_loop.py run)
 
-A type is flagged "converged" if the cycle-2 recommended delta from cycle-1
-applied is below CONVERGENCE_THRESHOLD -- meaning another recalibration pass
-wouldn't move it much further. Anything above that threshold is still
-actively drifting and would benefit from at least one more cycle.
+This compares two snapshots only -- it does not track or label which
+numbered cycle you're on. A type is flagged "converged" if the latest
+recommended delta from the currently-applied value is below
+CONVERGENCE_THRESHOLD -- meaning another recalibration pass wouldn't move
+it much further. Anything above that threshold is still actively drifting
+and would benefit from at least one more cycle.
 
 Run:  python build_recalibration_report.py
 """
@@ -35,13 +37,17 @@ ORIGINAL_ATTACK_RISK_WEIGHTS = {
     "TDMA": 0.3, "Flooding": 0.6, "Grayhole": 0.8, "Blackhole": 1.0,
 }
 
-# --- Cycle 1: values applied to routing_cost.py / digital_twin_sim.py
-# (the recommendations from the pre-Task-8 feedback_loop.py run) ---
-CYCLE_1_DETECTION_MISS_RATE = {
-    "Blackhole": 0.1923, "Grayhole": 0.1589, "Flooding": 0.13, "TDMA": 0.1765,
+# --- Currently applied: whatever values are live RIGHT NOW in
+# routing_cost.py / digital_twin_sim.py, from however many recalibration
+# cycles have actually run so far. THESE ARE HARDCODED -- if you run
+# another recalibration cycle, you MUST update these two dicts to match
+# the new live values in routing_cost.py / digital_twin_sim.py before
+# re-running this script, or the comparison will silently use stale data. ---
+CURRENTLY_APPLIED_DETECTION_MISS_RATE = {
+    "Blackhole": 0.2098, "Grayhole": 0.1094, "Flooding": 0.023, "TDMA": 0.1765,
 }
-CYCLE_1_ATTACK_RISK_WEIGHTS = {
-    "TDMA": 0.25, "Flooding": 0.55, "Grayhole": 0.75, "Blackhole": 0.95,
+CURRENTLY_APPLIED_ATTACK_RISK_WEIGHTS = {
+    "TDMA": 0.2356, "Flooding": 0.4, "Grayhole": 0.6, "Blackhole": 0.8,
 }
 
 # Total compromised route instances observed in the original (pre-Task-8)
@@ -57,46 +63,47 @@ def load_json(path):
         return json.load(f)
 
 
-def build_type_comparison(original, cycle_1_applied, cycle_2_recommended, value_key):
+def build_type_comparison(original, currently_applied, latest_recommended, value_key):
     """
-    For each attack type, builds the original -> cycle1 -> cycle2 chain plus
-    a convergence flag based on how much cycle2 still wants to move from
-    cycle1.
+    For each attack type, builds the original -> currently-applied ->
+    latest-recommended chain plus a convergence flag based on how much the
+    latest recommendation still wants to move from the currently-applied
+    value.
     """
     comparison = {}
-    for atype in cycle_1_applied:
-        cycle_2_value = cycle_2_recommended.get(atype, {}).get(value_key)
-        cycle_1_value = cycle_1_applied[atype]
+    for atype in currently_applied:
+        latest_value = latest_recommended.get(atype, {}).get(value_key)
+        applied_value = currently_applied[atype]
         original_value = original.get(atype)
 
-        delta_cycle1_to_cycle2 = round(abs(cycle_2_value - cycle_1_value), 4) if cycle_2_value is not None else None
-        converged = delta_cycle1_to_cycle2 is not None and delta_cycle1_to_cycle2 < CONVERGENCE_THRESHOLD
+        delta_applied_to_latest = round(abs(latest_value - applied_value), 4) if latest_value is not None else None
+        converged = delta_applied_to_latest is not None and delta_applied_to_latest < CONVERGENCE_THRESHOLD
 
         comparison[atype] = {
             "original": original_value,
-            "cycle_1_applied": cycle_1_value,
-            "cycle_2_recommended": cycle_2_value,
-            "delta_cycle1_to_cycle2": delta_cycle1_to_cycle2,
+            "currently_applied": applied_value,
+            "latest_recommended": latest_value,
+            "delta_applied_to_latest": delta_applied_to_latest,
             "converged": converged,
         }
     return comparison
 
 
 def main():
-    print("Loading cycle 2 feedback_loop_results.json (post-recalibration re-run)...")
+    print("Loading latest feedback_loop_results.json (most recent recalibration cycle)...")
     feedback_data = load_json(FEEDBACK_LOOP_PATH)
 
-    cycle_2_detection_recs = feedback_data["model_feedback"]["recommended_detection_miss_rate_by_type"]
-    cycle_2_risk_recs = feedback_data["routing_feedback"]["recommended_attack_risk_weights_by_type"]
+    latest_detection_recs = feedback_data["model_feedback"]["recommended_detection_miss_rate_by_type"]
+    latest_risk_recs = feedback_data["routing_feedback"]["recommended_attack_risk_weights_by_type"]
     new_total_compromised = feedback_data["routing_feedback"]["total_compromised_route_instances"]
 
     detection_comparison = build_type_comparison(
-        ORIGINAL_DETECTION_MISS_RATE, CYCLE_1_DETECTION_MISS_RATE,
-        cycle_2_detection_recs, "recommended_new_rate",
+        ORIGINAL_DETECTION_MISS_RATE, CURRENTLY_APPLIED_DETECTION_MISS_RATE,
+        latest_detection_recs, "recommended_new_rate",
     )
     risk_weight_comparison = build_type_comparison(
-        ORIGINAL_ATTACK_RISK_WEIGHTS, CYCLE_1_ATTACK_RISK_WEIGHTS,
-        cycle_2_risk_recs, "recommended_new_weight",
+        ORIGINAL_ATTACK_RISK_WEIGHTS, CURRENTLY_APPLIED_ATTACK_RISK_WEIGHTS,
+        latest_risk_recs, "recommended_new_weight",
     )
 
     detection_converged_count = sum(1 for v in detection_comparison.values() if v["converged"])
@@ -155,16 +162,16 @@ def main():
     print(report["detection_miss_rate"]["summary"])
     for atype, v in detection_comparison.items():
         status = "converged" if v["converged"] else "still drifting"
-        print(f"  {atype}: {v['original']} -> {v['cycle_1_applied']} -> {v['cycle_2_recommended']}  ({status})")
+        print(f"  {atype}: {v['original']} -> {v['currently_applied']} -> {v['latest_recommended']}  ({status})")
 
     print("\n--- Attack Risk Weight Convergence ---")
     print(report["attack_risk_weights"]["summary"])
     for atype, v in risk_weight_comparison.items():
         status = "converged" if v["converged"] else "still drifting"
-        print(f"  {atype}: {v['original']} -> {v['cycle_1_applied']} -> {v['cycle_2_recommended']}  ({status})")
+        print(f"  {atype}: {v['original']} -> {v['currently_applied']} -> {v['latest_recommended']}  ({status})")
 
     print(f"\n--- Compromised Routes ---")
-    print(f"Original: {ORIGINAL_TOTAL_COMPROMISED_ROUTE_INSTANCES}  ->  After cycle 1: {new_total_compromised}  "
+    print(f"Original: {ORIGINAL_TOTAL_COMPROMISED_ROUTE_INSTANCES}  ->  After latest recalibration: {new_total_compromised}  "
           f"(change: {compromised_route_change:+d})")
 
     print(f"\n{report['recommendation']}")
