@@ -40,6 +40,8 @@ FILE_MAP = {
     "gnn-node-predictions": "gnn_node_predictions.json",
     "gnn-integration-report": "gnn_integration_report.json",
     "gnn-model-report": "gnn_model_report.json",
+    "gnn-graph-data": "gnn_graph_data.json",
+    "gnn-attention-weights": "gnn_attention_weights.json",
     "mitigation-summary": "mitigation_summary.json",
     "routing-simulation": "routing_simulation.json",
     "recalibration-report": "recalibration_report.json",
@@ -192,8 +194,7 @@ def build_dashboard_payload():
 
  # --- Digital Twin ---
     digital_twin = {"rounds": digital_twin_raw["rounds"]}
-
-    # --- Feedback Loop ---
+ # --- Feedback Loop ---
     feedback_loop = {
         "detectionRateRecommendations": feedback_loop_raw["model_feedback"]["recommended_detection_miss_rate_by_type"],
         "riskWeightRecommendations": feedback_loop_raw["routing_feedback"]["recommended_attack_risk_weights_by_type"],
@@ -237,6 +238,12 @@ def build_dashboard_payload():
         "multiclassClassification": multiclass_classification,
         "gnnModelReport": gnn_model_report,
         "mitigationSummary": mitigation_summary,
+        "gnnGraph": {
+            "numNodes": 11120,
+            "numEdges": 55585,
+            "pctAttacked": 10.09,
+            "featureNames": ["attack_probability_mean", "attack_probability_max", "composite_risk_score_mean", "packet_delivery_ratio_mean", "distance_to_ch_norm", "is_cluster_head"],
+        },
         "ticker": f"{no['total_nodes']:,} nodes monitored — {no['total_attacked']:,} attacks detected — F1 {ad['xgboost_supervised']['f1_score']:.2f}",
     }
 @app.get("/api/dashboard-formatted")
