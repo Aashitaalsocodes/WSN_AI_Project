@@ -12,6 +12,13 @@ lists, per-node attack types, and compromised route paths (not just
 aggregate counts/percentages), so feedback_loop.py can compute real
 per-node risk and routing adjustments instead of approximating from
 round-level stats.
+
+CHANGED for Task 10 evaluation metrics: now exports avg_energy_remaining
+and num_dead_nodes per round, plus a top-level "energy_summary" block with
+First/Half/Last Node Death rounds -- energy_state was already tracked
+internally every round but was never surfaced in the output JSON, so
+FND/HND/LND and avg residual energy were previously uncomputable downstream.
+A node is considered "dead" once its normalized energy hits 0.0.
 """
 
 import json
@@ -27,6 +34,7 @@ from trust_aware_routing import build_graph, route_with_trust
 
 NUM_ROUNDS = 20
 OUTPUT_PATH = "outputs/digital_twin_results.json"
+DEAD_ENERGY_THRESHOLD = 0.0  # node considered dead once normalized energy hits this
 
 # Real attack-type ratios, taken from attack_ground_truth.json
 ATTACK_TYPE_WEIGHTS = {
@@ -56,12 +64,30 @@ def build_energy_trend(energy_forecast):
     return mean_v, std_v
 
 
-def simulate_round(round_num, node_ids, energy_state, mean_v, std_v):
+# Attacked nodes burn extra energy from the attack behavior itself
+# (intercepting/dropping packets for blackhole/grayhole, replaying for
+# flooding, colliding for tdma). Values are relative multipliers applied
+# on top of the node's own base decay for that round.
+ATTACK_ENERGY_PENALTY = {
+    "blackhole": 0.35,
+    "grayhole": 0.25,
+    "flooding": 0.45,
+    "tdma": 0.15,
+}
+
+
+def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multiplier):
     """
     Decay each node's energy for this round and inject probabilistic
     attacks based on the real attack-type distribution. Models imperfect
     attack detection (false negatives) so trust-aware routing occasionally
     has to route through an undetected compromised node.
+
+    Energy decay varies per node via two mechanisms so deaths spread out
+    across rounds instead of happening in lockstep: (1) decay_multiplier,
+    a fixed per-node efficiency factor assigned once at simulation start,
+    and (2) an attack-exposure penalty applied only in rounds where a node
+    is actively attacked.
 
     Returns:
         attacked_nodes: list of node ids attacked this round (ground truth)
@@ -91,16 +117,23 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v):
     }
 
     for nid in node_ids:
-        # energy decay with jitter drawn from the real voltage distribution
-        jitter = random.gauss(0, std_v) / mean_v  # normalized noise
-        energy_state[nid] = max(0.0, energy_state[nid] - base_decay + (jitter * 0.01))
-
-        # probabilistic attack injection using real ratios
+        # probabilistic attack injection using real ratios (moved ahead of
+        # the energy-decay step so that step can apply the attack-exposure
+        # penalty in the same pass)
         attack_type = random.choices(ATTACK_TYPES, weights=ATTACK_WEIGHTS, k=1)[0]
         is_attacked = attack_type != "none"
         if is_attacked:
             attacked_nodes.append(nid)
             attacked_node_types[nid] = attack_type
+
+        # energy decay: base rate * this node's fixed efficiency factor,
+        # plus jitter from the real voltage distribution, plus an extra
+        # penalty if the node is actively attacked this round
+        jitter = random.gauss(0, std_v) / mean_v  # normalized noise
+        node_decay = base_decay * decay_multiplier[nid]
+        if is_attacked:
+            node_decay *= (1.0 + ATTACK_ENERGY_PENALTY[attack_type])
+        energy_state[nid] = max(0.0, energy_state[nid] - node_decay + (jitter * 0.01))
 
         # simulate detection: attacked nodes are usually but not always caught
         if is_attacked:
@@ -143,11 +176,25 @@ def main():
     energy_state = {nid: 1.0 for nid in node_ids}  # normalized 0-1, start full
     engine = TrustEngine()
 
+    # Fixed per-node energy-efficiency factor, assigned once so some nodes
+    # are just inherently less efficient than others (hardware variance,
+    # position in the topology, etc). Centered at 1.0 so the network-wide
+    # average decay trend is unchanged; spread is wide enough that deaths
+    # visibly stagger across rounds instead of happening in lockstep.
+    decay_multiplier = {nid: random.uniform(0.5, 1.6) for nid in node_ids}
+
     results = {"num_rounds": NUM_ROUNDS, "rounds": []}
+
+    # FND/HND/LND tracking
+    total_nodes = len(node_ids)
+    half_node_count = total_nodes // 2
+    first_node_death_round = None
+    half_node_death_round = None
+    last_node_death_round = None
 
     for round_num in range(NUM_ROUNDS):
         attacked_nodes, attacked_node_types, classifier, row_ids, rows = simulate_round(
-            round_num, node_ids, energy_state, mean_v, std_v
+            round_num, node_ids, energy_state, mean_v, std_v, decay_multiplier
         )
 
         # --- trust recalculation (TrustEngine.update_trust, unmodified) ---
@@ -197,6 +244,18 @@ def main():
         avg_hop_count = round(sum(hop_counts) / len(hop_counts), 2) if hop_counts else 0.0
         compromised_pct = round((compromised / len(baseline_routes)) * 100, 2)
 
+        # --- energy state for this round (Task 10 addition) ---
+        avg_energy_remaining = round(sum(energy_state.values()) / total_nodes, 4)
+        dead_nodes = [nid for nid, e in energy_state.items() if e <= DEAD_ENERGY_THRESHOLD]
+        num_dead_nodes = len(dead_nodes)
+
+        if num_dead_nodes >= 1 and first_node_death_round is None:
+            first_node_death_round = round_num
+        if num_dead_nodes >= half_node_count and half_node_death_round is None:
+            half_node_death_round = round_num
+        if num_dead_nodes >= total_nodes and last_node_death_round is None:
+            last_node_death_round = round_num
+
         results["rounds"].append({
             "round": round_num,
             "attacked_nodes": attacked_nodes,  # full list now, not [:5] sample
@@ -209,18 +268,39 @@ def main():
             "compromised_routes_pct": compromised_pct,
             "compromised_routes_detail": compromised_routes_detail,
             "avg_hop_count": avg_hop_count,
+            "avg_energy_remaining": avg_energy_remaining,
+            "num_dead_nodes": num_dead_nodes,
         })
 
         print(f"Round {round_num}: attacked={len(attacked_nodes)}  "
               f"avg_trust={avg_trust}  excluded={len(excluded)}  "
               f"missed={len(missed_detections)}  "
-              f"compromised_routes={compromised_pct}%  avg_hop={avg_hop_count}")
+              f"compromised_routes={compromised_pct}%  avg_hop={avg_hop_count}  "
+              f"avg_energy={avg_energy_remaining}  dead_nodes={num_dead_nodes}")
+
+    results["energy_summary"] = {
+        "total_nodes": total_nodes,
+        "half_node_count": half_node_count,
+        "first_node_death_round": first_node_death_round,
+        "half_node_death_round": half_node_death_round,
+        "last_node_death_round": last_node_death_round,
+        "final_avg_energy_remaining": results["rounds"][-1]["avg_energy_remaining"],
+        "final_num_dead_nodes": results["rounds"][-1]["num_dead_nodes"],
+        "note": (
+            "FND/HND/LND are the round index (0-based) at which the first node, "
+            "50% of nodes, and all nodes respectively first reached "
+            f"energy <= {DEAD_ENERGY_THRESHOLD}. A null value means that threshold "
+            "was not reached within the simulation's 20 rounds."
+        ),
+    }
 
     os.makedirs("outputs", exist_ok=True)
     with open(OUTPUT_PATH, "w") as f:
         json.dump(results, f, indent=2)
 
     print(f"\nWrote {NUM_ROUNDS} rounds to {OUTPUT_PATH}")
+    print(f"Energy summary: FND={first_node_death_round}  HND={half_node_death_round}  "
+          f"LND={last_node_death_round}  final_avg_energy={results['rounds'][-1]['avg_energy_remaining']}")
 
 
 if __name__ == "__main__":
