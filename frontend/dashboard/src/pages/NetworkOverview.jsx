@@ -105,7 +105,7 @@ export default function NetworkOverview({ data }) {
   }
 
   return (
-    <div className="main-content-inner">
+    <div className="main-content-inner" style={{ '--accent-color': '#00f3ff', '--accent-rgb': '0,243,255' }}>
       <h1 className="page-title">Network Overview</h1>
       <p className="page-subtitle">WSN-DS dataset summary and attack distribution across 3,74,661 sensor nodes</p>
 

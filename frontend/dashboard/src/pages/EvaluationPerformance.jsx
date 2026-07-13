@@ -68,7 +68,7 @@ export default function EvaluationPerformance({ data }) {
   ]
 
   return (
-    <div className="main-content-inner">
+    <div className="main-content-inner" style={{ '--accent-color': '#14b8a6', '--accent-rgb': '20,184,166' }}>
       <h1 className="page-title">EVALUATION &amp; PERFORMANCE</h1>
       <p className="page-subtitle">Aggregate security, energy, and network performance metrics across the full WSN AI pipeline</p>
 

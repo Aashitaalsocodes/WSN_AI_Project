@@ -145,7 +145,7 @@ export default function DigitalTwin() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6 md:p-8 font-sans text-slate-200">
+    <div className="min-h-screen bg-slate-950 p-6 md:p-8 font-sans text-slate-200" style={{ '--accent-color': '#10b981', '--accent-rgb': '16,185,129' }}>
       <div className="max-w-7xl mx-auto space-y-6">
 
         {/* 1. Page Header */}

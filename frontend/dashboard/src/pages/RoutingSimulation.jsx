@@ -13,7 +13,7 @@ export default function RoutingSimulation({ data }) {
   const selectedRoute = sampleRoutes[selectedRouteIdx]
 
   return (
-    <div className="main-content-inner">
+    <div className="main-content-inner" style={{ '--accent-color': '#00bcd4', '--accent-rgb': '0,188,212' }}>
       <h1 className="page-title">ROUTING SIMULATION</h1>
       <p className="page-subtitle">Trust-aware secure path routing versus baseline network routing</p>
 

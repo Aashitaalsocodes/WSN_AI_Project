@@ -184,7 +184,7 @@ function StageCard({ stage, index }) {
 
 export default function ArchitectureDiagram() {
   return (
-    <div className="main-content-inner">
+    <div className="main-content-inner" style={{ '--accent-color': '#64748b', '--accent-rgb': '100,116,139' }}>
       <h1 className="page-title">SYSTEM ARCHITECTURE</h1>
       <p className="page-subtitle">End-to-end pipeline: from raw sensor data to trust-aware routing decisions</p>
 

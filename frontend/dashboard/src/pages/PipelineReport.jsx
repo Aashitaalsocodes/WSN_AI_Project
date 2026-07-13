@@ -83,7 +83,7 @@ export default function PipelineReport({ data }) {
   }
 
   return (
-    <div className="main-content-inner">
+    <div className="main-content-inner" style={{ '--accent-color': '#7c3aed', '--accent-rgb': '124,58,237' }}>
       <h1 className="page-title">PIPELINE REPORT</h1>
       <p className="page-subtitle">Security health reports, adaptive policies, and pipeline simulation</p>
 

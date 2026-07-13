@@ -63,7 +63,7 @@ export default function AttackDetection({ data }) {
   }
 
   return (
-    <div className="main-content-inner">
+    <div className="main-content-inner" style={{ '--accent-color': '#ff3860', '--accent-rgb': '255,56,96' }}>
       <h1 className="page-title">ATTACK DETECTION</h1>
       <p className="page-subtitle">Evaluation of machine learning models for anomaly and intrusion classification</p>
 

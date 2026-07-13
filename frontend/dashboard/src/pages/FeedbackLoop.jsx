@@ -271,7 +271,7 @@ export default function FeedbackLoop({ data }) {
   const riskEntries = Object.entries(riskWeightRecommendations || {});
 
   return (
-    <div className="fb-page">
+    <div className="fb-page" style={{ '--accent-color': '#f97316', '--accent-rgb': '249,115,22' }}>
       <ParticleField />
 
       {/* ─── Header ─── */}

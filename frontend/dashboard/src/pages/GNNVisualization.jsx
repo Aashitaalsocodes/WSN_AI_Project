@@ -149,7 +149,7 @@ export default function GNNVisualization({ data }) {
   }
 
   return (
-    <div className="main-content-inner">
+    <div className="main-content-inner" style={{ '--accent-color': '#00f3ff', '--accent-rgb': '0,243,255' }}>
       <h1 className="page-title">GNN VISUALIZATION</h1>
       <p className="page-subtitle">GraphSAGE node-level malicious detection — leveraging neighbor context across 11,120 WSN nodes</p>
 

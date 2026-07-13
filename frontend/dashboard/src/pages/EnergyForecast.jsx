@@ -28,7 +28,7 @@ export default function EnergyForecast({ data }) {
   const formatVoltage = (val) => `${val.toFixed(3)}V`
 
   return (
-    <div className="main-content-inner">
+    <div className="main-content-inner" style={{ '--accent-color': '#ffb020', '--accent-rgb': '255,176,32' }}>
       <h1 className="page-title">ENERGY FORECAST</h1>
       <p className="page-subtitle">LSTM time-series forecasting for sensor battery voltage and outlier cluster heads</p>
 
