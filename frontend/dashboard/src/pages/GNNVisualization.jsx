@@ -4,7 +4,7 @@ import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Responsive
 
 // In dev, /api/* is proxied to Render by vite.config.js — avoids CORS.
 // In prod (deployed on same origin), relative paths work directly.
-const BACKEND = ''
+const BACKEND = import.meta.env.DEV ? '' : 'https://wsn-ai-project.onrender.com'
 
 // Deterministic pseudo-random for per-node variation (returns 0–1)
 const srand = (seed, n) => ((seed * n + 7) % 31) / 31
