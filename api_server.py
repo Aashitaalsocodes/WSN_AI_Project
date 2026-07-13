@@ -10,8 +10,10 @@ app.add_middleware(
     allow_origins=[
         "https://loquacious-sorbet-f6b792.netlify.app",
         "https://wsn-ai-security.netlify.app",
+        "https://wsn-dashboard.vercel.app",
         "http://localhost:5173",  # keep for local dev
     ],
+    allow_origin_regex=r"https://wsn-dashboard.*\.vercel\.app",
     allow_methods=["*"],
     allow_headers=["*"],
 )
