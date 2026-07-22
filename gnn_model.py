@@ -132,17 +132,18 @@ class GATModel(nn.Module):
     """Secondary model, trained only to produce attention weights for Task 13
     (GNN visualization). Not used for final predictions/metrics, since
     SAGEModel scored higher on this graph."""
-    def __init__(self, in_channels, hidden1, hidden2, out_channels, heads=4):
+    def __init__(self, in_channels, hidden1, hidden2, out_channels, heads=4, dropout=0.2):
         super().__init__()
-        self.conv1 = GATConv(in_channels, hidden1, heads=heads, dropout=0.2)
-        self.conv2 = GATConv(hidden1 * heads, hidden2, heads=1, concat=False, dropout=0.2)
+        self.dropout = dropout
+        self.conv1 = GATConv(in_channels, hidden1, heads=heads, dropout=dropout)
+        self.conv2 = GATConv(hidden1 * heads, hidden2, heads=1, concat=False, dropout=dropout)
         self.classifier = nn.Linear(hidden2 + in_channels, out_channels)
 
     def forward(self, x, edge_index, return_attention=False):
         if return_attention:
             h, (edge_idx1, alpha1) = self.conv1(x, edge_index, return_attention_weights=True)
             h = F.elu(h)
-            h = F.dropout(h, p=0.2, training=self.training)
+            h = F.dropout(h, p=self.dropout, training=self.training)
             h, (edge_idx2, alpha2) = self.conv2(h, edge_index, return_attention_weights=True)
             h = F.elu(h)
             h = torch.cat([h, x], dim=1)
@@ -150,7 +151,7 @@ class GATModel(nn.Module):
             return F.log_softmax(out, dim=1), (edge_idx1, alpha1), (edge_idx2, alpha2)
 
         h = F.elu(self.conv1(x, edge_index))
-        h = F.dropout(h, p=0.2, training=self.training)
+        h = F.dropout(h, p=self.dropout, training=self.training)
         h = F.elu(self.conv2(h, edge_index))
         h = torch.cat([h, x], dim=1)
         out = self.classifier(h)
@@ -298,11 +299,11 @@ def export_attention_sample(model, data, node_ids, path, top_k_nodes=200):
           f"(for Task 13 GNN visualization)")
 
 
-def train_gat_for_attention(data, train_mask, test_mask, in_channels, epochs=100):
+def train_gat_for_attention(data, train_mask, test_mask, in_channels, epochs=100, dropout=0.2):
     """Quick GAT training pass used ONLY to produce attention weights for
     Task 13 visualization. Not the final model -- SAGEModel scored higher
     (F1 0.939 vs 0.898) and is used for the actual predictions/metrics."""
-    model = GATModel(in_channels, HIDDEN1, HIDDEN2, NUM_CLASSES)
+    model = GATModel(in_channels, HIDDEN1, HIDDEN2, NUM_CLASSES, dropout=dropout)
     optimizer = torch.optim.Adam(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
     class_weights_np = compute_class_weight(
         "balanced", classes=np.array([0, 1]), y=data.y[train_mask].numpy()
@@ -310,7 +311,7 @@ def train_gat_for_attention(data, train_mask, test_mask, in_channels, epochs=100
     class_weights = torch.tensor(np.sqrt(class_weights_np), dtype=torch.float)
     criterion = nn.NLLLoss(weight=class_weights)
 
-    print(f"\nTraining lightweight GAT ({epochs} epochs) for attention export only...")
+    print(f"\nTraining lightweight GAT ({epochs} epochs, dropout={dropout}) for attention export only...")
     for epoch in range(1, epochs + 1):
         model.train()
         optimizer.zero_grad()
