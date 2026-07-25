@@ -179,4 +179,5 @@ Contributions, issues, and feature requests are welcome. Feel free to check the 
 
 ## 👩‍💻 Author
 
-**Aashita** — B.Tech, Artificial Intelligence and Data Science, Global Academy of Technology, Bengaluru
+**Aashita P** — B.Tech, Artificial Intelligence and Data Science, Global Academy of Technology, Bengaluru
+**Ashmitha M** — B.Tech, Artificial Intelligence and Data Science, Global Academy of Technology, Bengaluru
