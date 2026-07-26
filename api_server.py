@@ -11,13 +11,13 @@ app.add_middleware(
         "https://loquacious-sorbet-f6b792.netlify.app",
         "https://wsn-ai-security.netlify.app",
         "https://wsn-dashboard.vercel.app",
+        "https://wsn-ai-project.vercel.app",
         "http://localhost:5173",  # keep for local dev
     ],
-    allow_origin_regex=r"https://wsn-dashboard.*\.vercel\.app",
+    allow_origin_regex=r"https://wsn-ai-project.*\.vercel\.app",
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 OUTPUT_DIR = "outputs"
 
 # Map each API route to its actual JSON file
