@@ -1,0 +1,4 @@
+node_modules
+dist
+wsn-security-dashboard.zip
+patch_fix_prod_api_url.py
