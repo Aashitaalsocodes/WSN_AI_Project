@@ -8,9 +8,21 @@ comparison. Unlike TA-DT, LEACH has NO trust engine, NO attack
 classifier, and NO exclusion logic -- it routes via plain shortest
 path, blind to which nodes are compromised. Cluster-head rotation
 follows the classic LEACH probability model and adds an extra energy
-cost to whichever node is CH each round (relaying overhead), but does
-not affect routing decisions themselves, since this project's routing
-graph is fixed rather than cluster-based.
+cost to whichever node is CH each round (relaying overhead).
+
+v2 (protocol-aware, per-round forwarding_count):
+Unlike the v1 static patch (a single forwarding-centrality multiplier
+computed once via protocol-blind plain shortest path -- which made
+LEACH/HEED/TBR converge to identical FND/HND, since the multiplier was
+topology-driven rather than protocol-driven), forwarding_count/
+decay_multiplier is now recomputed INSIDE the round loop, using a
+WEIGHTED shortest path where edge weights reflect LEACH's actual
+per-round routing preference: edges touching this round's cluster-heads
+(ch_set) get cost 0.3 vs 1.0 for non-CH edges, since LEACH's real-world
+behavior routes cluster traffic through CHs preferentially. This mirrors
+the same pattern used in baseline_heed.py's v2 patch, but driven by
+LEACH's own per-round randomly-selected ch_set rather than HEED's
+energy/degree-ranked one.
 
 Same random seed (42) as digital_twin_sim.py is used so both baselines
 see the exact same sequence of attacks and energy jitter -- differences
@@ -26,7 +38,7 @@ import networkx as nx
 
 from trust_aware_routing import build_graph
 
-NUM_ROUNDS = 20
+NUM_ROUNDS = 23
 OUTPUT_PATH = "outputs/baseline_leach_results.json"
 DEAD_ENERGY_THRESHOLD = 0.0
 
@@ -69,7 +81,8 @@ def build_energy_trend(energy_forecast):
     return mean_v, std_v
 
 
-def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multiplier):
+def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, G, baseline_routes,
+                    ch_set):
     """
     Decay energy and inject attacks using the same real ratios as the
     digital twin. LEACH has no detection mechanism at all -- attacked
@@ -78,9 +91,34 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multi
     """
     attacked_nodes = []
     attacked_node_types = {}
-    cluster_heads = []
 
     base_decay = 0.03 + (round_num * 0.004)
+
+    # Protocol-aware forwarding_count: weight edges so shortest paths
+    # preferentially route through this round's cluster-heads, the same
+    # way LEACH itself would prefer CHs as relay points. Matches the
+    # averaged-endpoint-cost weighting used in baseline_heed.py's v2 patch,
+    # so forwarding pressure is computed the same way across protocols.
+    for u, v in G.edges():
+        cost_u = 0.3 if u in ch_set else 1.0
+        cost_v = 0.3 if v in ch_set else 1.0
+        G[u][v]['weight'] = (cost_u + cost_v) / 2
+
+    forwarding_count = {nid: 0 for nid in node_ids}
+    for route in baseline_routes:
+        src, dst = route["source"], route["destination"]
+        try:
+            path = nx.shortest_path(G, src, dst, weight='weight')
+            for nid in path[1:-1]:
+                forwarding_count[nid] += 1
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
+            continue
+    max_fc = max(forwarding_count.values()) if forwarding_count.values() else 1
+    max_fc = max(max_fc, 1)
+    decay_multiplier = {
+        nid: 0.7 + 0.3 * min(forwarding_count[nid] / max_fc, 1.0) + random.uniform(-0.05, 0.05)
+        for nid in node_ids
+    }
 
     for nid in node_ids:
         attack_type = random.choices(ATTACK_TYPES, weights=ATTACK_WEIGHTS, k=1)[0]
@@ -89,21 +127,15 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multi
             attacked_nodes.append(nid)
             attacked_node_types[nid] = attack_type
 
-        # LEACH cluster-head rotation: independent probability per node
-        # per round, no energy- or trust-awareness in the selection itself
-        is_ch = random.random() < CH_PROBABILITY
-        if is_ch:
-            cluster_heads.append(nid)
-
         jitter = random.gauss(0, std_v) / mean_v
         node_decay = base_decay * decay_multiplier[nid]
         if is_attacked:
             node_decay *= (1.0 + ATTACK_ENERGY_PENALTY[attack_type])
-        if is_ch:
+        if nid in ch_set:
             node_decay *= (1.0 + CH_ENERGY_PENALTY)
         energy_state[nid] = max(0.0, energy_state[nid] - node_decay + (jitter * 0.01))
 
-    return attacked_nodes, attacked_node_types, cluster_heads
+    return attacked_nodes, attacked_node_types
 
 
 def main():
@@ -118,7 +150,6 @@ def main():
     mean_v, std_v = build_energy_trend(energy_forecast)
 
     energy_state = {nid: 1.0 for nid in node_ids}
-    decay_multiplier = {nid: random.uniform(0.5, 1.6) for nid in node_ids}
 
     results = {"protocol": "LEACH", "num_rounds": NUM_ROUNDS, "rounds": []}
 
@@ -129,12 +160,20 @@ def main():
     last_node_death_round = None
 
     for round_num in range(NUM_ROUNDS):
-        attacked_nodes, attacked_node_types, cluster_heads = simulate_round(
-            round_num, node_ids, energy_state, mean_v, std_v, decay_multiplier
+        # LEACH cluster-head rotation: independent probability per node
+        # per round, no energy- or trust-awareness in the selection itself
+        cluster_heads = [nid for nid in node_ids if random.random() < CH_PROBABILITY]
+        ch_set = set(cluster_heads)
+
+        attacked_nodes, attacked_node_types = simulate_round(
+            round_num, node_ids, energy_state, mean_v, std_v, G, baseline_routes, ch_set
         )
         true_attacked_set = set(attacked_nodes)
 
         # --- routing: plain shortest path, NO trust/attack-awareness ---
+        # (unweighted hop-count path, matching LEACH's real routing
+        # behavior -- the CH-weighted graph above is only used to derive
+        # forwarding_count/energy decay, not to route data traffic itself)
         hop_counts = []
         compromised = 0
         successful_routes = 0
@@ -204,7 +243,6 @@ def main():
     all_pdr = [r["packet_delivery_ratio_pct"] for r in results["rounds"]]
     all_compromised = [r["compromised_routes_pct"] for r in results["rounds"]]
     all_hops = [r["avg_hop_count"] for r in results["rounds"]]
-    all_energy = [r["avg_energy_remaining"] for r in results["rounds"]]
 
     results["summary"] = {
         "avg_packet_delivery_ratio_pct": round(statistics.mean(all_pdr), 2),
@@ -219,7 +257,11 @@ def main():
             "zero -- there is no detection to measure accuracy of. "
             "compromised_routes_pct reflects routes that passed through "
             "an attacked node purely because LEACH's shortest-path "
-            "routing has no way to avoid it."
+            "routing has no way to avoid it. v2: forwarding_count/"
+            "decay_multiplier are recomputed each round from THIS round's "
+            "CH-weighted shortest paths, so energy decay is protocol-aware "
+            "(driven by LEACH's own per-round cluster-head set) rather than "
+            "a static topology-only multiplier."
         ),
     }
 

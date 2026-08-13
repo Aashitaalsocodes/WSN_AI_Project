@@ -1,5 +1,5 @@
 {
-  "num_rounds": 20,
+  "num_rounds": 23,
   "rounds": [
     {
       "round": 0,
@@ -407,7 +407,7 @@
         }
       ],
       "avg_hop_count": 4.25,
-      "avg_energy_remaining": 0.9675,
+      "avg_energy_remaining": 0.9776,
       "num_dead_nodes": 0
     },
     {
@@ -605,7 +605,7 @@
         }
       ],
       "avg_hop_count": 4.24,
-      "avg_energy_remaining": 0.931,
+      "avg_energy_remaining": 0.9525,
       "num_dead_nodes": 0
     },
     {
@@ -813,7 +813,7 @@
         }
       ],
       "avg_hop_count": 4.23,
-      "avg_energy_remaining": 0.8901,
+      "avg_energy_remaining": 0.9243,
       "num_dead_nodes": 0
     },
     {
@@ -1020,7 +1020,7 @@
         }
       ],
       "avg_hop_count": 4.25,
-      "avg_energy_remaining": 0.8447,
+      "avg_energy_remaining": 0.8932,
       "num_dead_nodes": 0
     },
     {
@@ -1357,7 +1357,7 @@
         }
       ],
       "avg_hop_count": 4.23,
-      "avg_energy_remaining": 0.7951,
+      "avg_energy_remaining": 0.8591,
       "num_dead_nodes": 0
     },
     {
@@ -1674,7 +1674,7 @@
         }
       ],
       "avg_hop_count": 4.22,
-      "avg_energy_remaining": 0.7415,
+      "avg_energy_remaining": 0.8222,
       "num_dead_nodes": 0
     },
     {
@@ -2103,7 +2103,7 @@
         }
       ],
       "avg_hop_count": 4.22,
-      "avg_energy_remaining": 0.6833,
+      "avg_energy_remaining": 0.7822,
       "num_dead_nodes": 0
     },
     {
@@ -2392,7 +2392,7 @@
         }
       ],
       "avg_hop_count": 4.23,
-      "avg_energy_remaining": 0.6206,
+      "avg_energy_remaining": 0.7391,
       "num_dead_nodes": 0
     },
     {
@@ -2846,7 +2846,7 @@
         }
       ],
       "avg_hop_count": 4.25,
-      "avg_energy_remaining": 0.5533,
+      "avg_energy_remaining": 0.6928,
       "num_dead_nodes": 0
     },
     {
@@ -3239,7 +3239,7 @@
         }
       ],
       "avg_hop_count": 4.22,
-      "avg_energy_remaining": 0.4824,
+      "avg_energy_remaining": 0.6439,
       "num_dead_nodes": 0
     },
     {
@@ -3401,7 +3401,7 @@
         "3407",
         "343638"
       ],
-      "avg_trust_score": 0.7406,
+      "avg_trust_score": 0.7431,
       "compromised_routes_pct": 2.5,
       "compromised_routes_detail": [
         {
@@ -3496,7 +3496,7 @@
         }
       ],
       "avg_hop_count": 4.25,
-      "avg_energy_remaining": 0.4068,
+      "avg_energy_remaining": 0.592,
       "num_dead_nodes": 0
     },
     {
@@ -3655,7 +3655,7 @@
         "308944",
         "338428"
       ],
-      "avg_trust_score": 0.7387,
+      "avg_trust_score": 0.7434,
       "compromised_routes_pct": 3.5,
       "compromised_routes_detail": [
         {
@@ -3773,8 +3773,8 @@
         }
       ],
       "avg_hop_count": 4.25,
-      "avg_energy_remaining": 0.3276,
-      "num_dead_nodes": 14
+      "avg_energy_remaining": 0.5371,
+      "num_dead_nodes": 0
     },
     {
       "round": 12,
@@ -3950,7 +3950,7 @@
         "81516",
         "99829"
       ],
-      "avg_trust_score": 0.7366,
+      "avg_trust_score": 0.743,
       "compromised_routes_pct": 5.0,
       "compromised_routes_detail": [
         {
@@ -4133,8 +4133,8 @@
         }
       ],
       "avg_hop_count": 4.24,
-      "avg_energy_remaining": 0.2583,
-      "num_dead_nodes": 102
+      "avg_energy_remaining": 0.479,
+      "num_dead_nodes": 0
     },
     {
       "round": 13,
@@ -4310,7 +4310,7 @@
         "349665",
         "83876"
       ],
-      "avg_trust_score": 0.7351,
+      "avg_trust_score": 0.743,
       "compromised_routes_pct": 8.0,
       "compromised_routes_detail": [
         {
@@ -4606,8 +4606,8 @@
         }
       ],
       "avg_hop_count": 4.24,
-      "avg_energy_remaining": 0.2018,
-      "num_dead_nodes": 163
+      "avg_energy_remaining": 0.4178,
+      "num_dead_nodes": 0
     },
     {
       "round": 14,
@@ -4738,7 +4738,7 @@
         "39449",
         "69445"
       ],
-      "avg_trust_score": 0.7365,
+      "avg_trust_score": 0.7456,
       "compromised_routes_pct": 2.0,
       "compromised_routes_detail": [
         {
@@ -4808,8 +4808,8 @@
         }
       ],
       "avg_hop_count": 4.23,
-      "avg_energy_remaining": 0.1567,
-      "num_dead_nodes": 219
+      "avg_energy_remaining": 0.3543,
+      "num_dead_nodes": 0
     },
     {
       "round": 15,
@@ -4970,7 +4970,7 @@
         "69445",
         "96200"
       ],
-      "avg_trust_score": 0.7335,
+      "avg_trust_score": 0.7428,
       "compromised_routes_pct": 6.0,
       "compromised_routes_detail": [
         {
@@ -5183,8 +5183,8 @@
         }
       ],
       "avg_hop_count": 4.24,
-      "avg_energy_remaining": 0.1198,
-      "num_dead_nodes": 259
+      "avg_energy_remaining": 0.2875,
+      "num_dead_nodes": 0
     },
     {
       "round": 16,
@@ -5378,7 +5378,7 @@
         "341911",
         "358935"
       ],
-      "avg_trust_score": 0.73,
+      "avg_trust_score": 0.7372,
       "compromised_routes_pct": 3.5,
       "compromised_routes_detail": [
         {
@@ -5513,8 +5513,8 @@
         }
       ],
       "avg_hop_count": 4.25,
-      "avg_energy_remaining": 0.0887,
-      "num_dead_nodes": 309
+      "avg_energy_remaining": 0.2174,
+      "num_dead_nodes": 3
     },
     {
       "round": 17,
@@ -5636,7 +5636,7 @@
         "149552",
         "227942"
       ],
-      "avg_trust_score": 0.7325,
+      "avg_trust_score": 0.7327,
       "compromised_routes_pct": 4.0,
       "compromised_routes_detail": [
         {
@@ -5787,8 +5787,8 @@
         }
       ],
       "avg_hop_count": 4.24,
-      "avg_energy_remaining": 0.0633,
-      "num_dead_nodes": 330
+      "avg_energy_remaining": 0.1467,
+      "num_dead_nodes": 16
     },
     {
       "round": 18,
@@ -5946,7 +5946,7 @@
         "281137",
         "99724"
       ],
-      "avg_trust_score": 0.7307,
+      "avg_trust_score": 0.7292,
       "compromised_routes_pct": 2.5,
       "compromised_routes_detail": [
         {
@@ -6045,8 +6045,8 @@
         }
       ],
       "avg_hop_count": 4.24,
-      "avg_energy_remaining": 0.0422,
-      "num_dead_nodes": 371
+      "avg_energy_remaining": 0.0767,
+      "num_dead_nodes": 60
     },
     {
       "round": 19,
@@ -6171,7 +6171,7 @@
         "269565",
         "290414"
       ],
-      "avg_trust_score": 0.7306,
+      "avg_trust_score": 0.7297,
       "compromised_routes_pct": 2.5,
       "compromised_routes_detail": [
         {
@@ -6273,18 +6273,839 @@
         }
       ],
       "avg_hop_count": 4.22,
-      "avg_energy_remaining": 0.0276,
-      "num_dead_nodes": 413
+      "avg_energy_remaining": 0.0218,
+      "num_dead_nodes": 245
+    },
+    {
+      "round": 20,
+      "attacked_nodes": [
+        "294254",
+        "288528",
+        "165767",
+        "58485",
+        "130111",
+        "139883",
+        "112321",
+        "338428",
+        "284266",
+        "146068",
+        "191182",
+        "294318",
+        "282713",
+        "360446",
+        "221208",
+        "41291",
+        "319360",
+        "4101",
+        "128393",
+        "24702",
+        "360795",
+        "170017",
+        "225994",
+        "289682",
+        "351224",
+        "222077",
+        "291382",
+        "26522",
+        "85277",
+        "39449",
+        "54309",
+        "122049",
+        "209400",
+        "85197",
+        "177254",
+        "347011",
+        "292002",
+        "352159",
+        "83707",
+        "56673",
+        "281137",
+        "35924",
+        "139258",
+        "157284",
+        "274088",
+        "349665",
+        "196038",
+        "309588",
+        "109842",
+        "60472",
+        "256170",
+        "30662",
+        "283423",
+        "144194"
+      ],
+      "attacked_node_types": {
+        "294254": "tdma",
+        "288528": "tdma",
+        "165767": "blackhole",
+        "58485": "blackhole",
+        "130111": "grayhole",
+        "139883": "blackhole",
+        "112321": "blackhole",
+        "338428": "blackhole",
+        "284266": "tdma",
+        "146068": "blackhole",
+        "191182": "blackhole",
+        "294318": "grayhole",
+        "282713": "tdma",
+        "360446": "tdma",
+        "221208": "flooding",
+        "41291": "blackhole",
+        "319360": "blackhole",
+        "4101": "grayhole",
+        "128393": "tdma",
+        "24702": "tdma",
+        "360795": "grayhole",
+        "170017": "blackhole",
+        "225994": "grayhole",
+        "289682": "flooding",
+        "351224": "tdma",
+        "222077": "grayhole",
+        "291382": "blackhole",
+        "26522": "grayhole",
+        "85277": "grayhole",
+        "39449": "flooding",
+        "54309": "grayhole",
+        "122049": "grayhole",
+        "209400": "grayhole",
+        "85197": "blackhole",
+        "177254": "blackhole",
+        "347011": "blackhole",
+        "292002": "blackhole",
+        "352159": "blackhole",
+        "83707": "grayhole",
+        "56673": "flooding",
+        "281137": "grayhole",
+        "35924": "grayhole",
+        "139258": "tdma",
+        "157284": "grayhole",
+        "274088": "grayhole",
+        "349665": "grayhole",
+        "196038": "blackhole",
+        "309588": "tdma",
+        "109842": "grayhole",
+        "60472": "grayhole",
+        "256170": "tdma",
+        "30662": "blackhole",
+        "283423": "grayhole",
+        "144194": "grayhole"
+      },
+      "attacked_count": 54,
+      "excluded_nodes": [
+        "109842",
+        "112321",
+        "122049",
+        "128393",
+        "130111",
+        "139883",
+        "146068",
+        "157284",
+        "165767",
+        "177254",
+        "191182",
+        "196038",
+        "209400",
+        "225994",
+        "256170",
+        "26522",
+        "274088",
+        "281137",
+        "282713",
+        "284266",
+        "288528",
+        "289682",
+        "292002",
+        "294254",
+        "294318",
+        "30662",
+        "319360",
+        "338428",
+        "347011",
+        "349665",
+        "351224",
+        "352159",
+        "35924",
+        "360446",
+        "360795",
+        "39449",
+        "4101",
+        "41291",
+        "54309",
+        "56673",
+        "58485",
+        "60472",
+        "83707",
+        "85197",
+        "85277"
+      ],
+      "excluded_node_count": 45,
+      "missed_detections": [
+        "139258",
+        "144194",
+        "170017",
+        "221208",
+        "222077",
+        "24702",
+        "283423",
+        "291382",
+        "309588"
+      ],
+      "avg_trust_score": 0.7283,
+      "compromised_routes_pct": 8.0,
+      "compromised_routes_detail": [
+        {
+          "source": "325666",
+          "destination": "237881",
+          "path": [
+            "325666",
+            "139258",
+            "13912",
+            "356263",
+            "237881"
+          ],
+          "attacked_intermediate_nodes": [
+            "139258"
+          ],
+          "attack_types": [
+            "tdma"
+          ]
+        },
+        {
+          "source": "209186",
+          "destination": "189600",
+          "path": [
+            "209186",
+            "298673",
+            "224231",
+            "170017",
+            "335544",
+            "47662",
+            "189600"
+          ],
+          "attacked_intermediate_nodes": [
+            "170017"
+          ],
+          "attack_types": [
+            "blackhole"
+          ]
+        },
+        {
+          "source": "258744",
+          "destination": "207505",
+          "path": [
+            "258744",
+            "101255",
+            "116876",
+            "139258",
+            "207505"
+          ],
+          "attacked_intermediate_nodes": [
+            "139258"
+          ],
+          "attack_types": [
+            "tdma"
+          ]
+        },
+        {
+          "source": "52953",
+          "destination": "224231",
+          "path": [
+            "52953",
+            "335544",
+            "170017",
+            "224231"
+          ],
+          "attacked_intermediate_nodes": [
+            "170017"
+          ],
+          "attack_types": [
+            "blackhole"
+          ]
+        },
+        {
+          "source": "104286",
+          "destination": "97425",
+          "path": [
+            "104286",
+            "24702",
+            "12995",
+            "290048",
+            "24025",
+            "281131",
+            "39523",
+            "235202",
+            "97425"
+          ],
+          "attacked_intermediate_nodes": [
+            "24702"
+          ],
+          "attack_types": [
+            "tdma"
+          ]
+        },
+        {
+          "source": "356263",
+          "destination": "351224",
+          "path": [
+            "356263",
+            "145852",
+            "83465",
+            "114629",
+            "283423",
+            "123930",
+            "351224"
+          ],
+          "attacked_intermediate_nodes": [
+            "283423"
+          ],
+          "attack_types": [
+            "grayhole"
+          ]
+        },
+        {
+          "source": "117806",
+          "destination": "21930",
+          "path": [
+            "117806",
+            "139258",
+            "315631",
+            "290414",
+            "371112",
+            "45580",
+            "21930"
+          ],
+          "attacked_intermediate_nodes": [
+            "139258"
+          ],
+          "attack_types": [
+            "tdma"
+          ]
+        },
+        {
+          "source": "28401",
+          "destination": "56117",
+          "path": [
+            "28401",
+            "315631",
+            "73206",
+            "283423",
+            "123930",
+            "164722",
+            "56117"
+          ],
+          "attacked_intermediate_nodes": [
+            "283423"
+          ],
+          "attack_types": [
+            "grayhole"
+          ]
+        },
+        {
+          "source": "73158",
+          "destination": "346692",
+          "path": [
+            "73158",
+            "123930",
+            "283423",
+            "114629",
+            "328962",
+            "35631",
+            "346692"
+          ],
+          "attacked_intermediate_nodes": [
+            "283423"
+          ],
+          "attack_types": [
+            "grayhole"
+          ]
+        },
+        {
+          "source": "138685",
+          "destination": "311699",
+          "path": [
+            "138685",
+            "144194",
+            "170017",
+            "262451",
+            "45580",
+            "129087",
+            "311699"
+          ],
+          "attacked_intermediate_nodes": [
+            "144194",
+            "170017"
+          ],
+          "attack_types": [
+            "grayhole",
+            "blackhole"
+          ]
+        },
+        {
+          "source": "281527",
+          "destination": "100814",
+          "path": [
+            "281527",
+            "309588",
+            "343638",
+            "193575",
+            "151722",
+            "100814"
+          ],
+          "attacked_intermediate_nodes": [
+            "309588"
+          ],
+          "attack_types": [
+            "tdma"
+          ]
+        },
+        {
+          "source": "29971",
+          "destination": "82704",
+          "path": [
+            "29971",
+            "114629",
+            "283423",
+            "82704"
+          ],
+          "attacked_intermediate_nodes": [
+            "283423"
+          ],
+          "attack_types": [
+            "grayhole"
+          ]
+        },
+        {
+          "source": "1701",
+          "destination": "294076",
+          "path": [
+            "1701",
+            "221208",
+            "125541",
+            "367696",
+            "265229",
+            "294076"
+          ],
+          "attacked_intermediate_nodes": [
+            "221208"
+          ],
+          "attack_types": [
+            "flooding"
+          ]
+        },
+        {
+          "source": "44907",
+          "destination": "308512",
+          "path": [
+            "44907",
+            "50707",
+            "340726",
+            "144194",
+            "308512"
+          ],
+          "attacked_intermediate_nodes": [
+            "144194"
+          ],
+          "attack_types": [
+            "grayhole"
+          ]
+        },
+        {
+          "source": "140373",
+          "destination": "128393",
+          "path": [
+            "140373",
+            "36066",
+            "236708",
+            "100448",
+            "144194",
+            "265229",
+            "128393"
+          ],
+          "attacked_intermediate_nodes": [
+            "144194"
+          ],
+          "attack_types": [
+            "grayhole"
+          ]
+        },
+        {
+          "source": "55789",
+          "destination": "240273",
+          "path": [
+            "55789",
+            "129087",
+            "45580",
+            "262451",
+            "170017",
+            "163429",
+            "240273"
+          ],
+          "attacked_intermediate_nodes": [
+            "170017"
+          ],
+          "attack_types": [
+            "blackhole"
+          ]
+        }
+      ],
+      "avg_hop_count": 4.24,
+      "avg_energy_remaining": 0.0013,
+      "num_dead_nodes": 463
+    },
+    {
+      "round": 21,
+      "attacked_nodes": [
+        "52953",
+        "18889",
+        "26633",
+        "209546",
+        "340723",
+        "53587",
+        "48625",
+        "104633",
+        "111754",
+        "221571",
+        "37149",
+        "365214",
+        "189790",
+        "340726",
+        "319360",
+        "358935",
+        "297365",
+        "99561",
+        "4101",
+        "195779",
+        "84715",
+        "146037",
+        "190306",
+        "85277",
+        "209400",
+        "312690",
+        "82540",
+        "48896",
+        "324734",
+        "145684",
+        "316526",
+        "138403",
+        "149415",
+        "36466",
+        "94036",
+        "62855",
+        "173239",
+        "200078",
+        "16829",
+        "290771"
+      ],
+      "attacked_node_types": {
+        "52953": "flooding",
+        "18889": "flooding",
+        "26633": "grayhole",
+        "209546": "grayhole",
+        "340723": "blackhole",
+        "53587": "tdma",
+        "48625": "grayhole",
+        "104633": "grayhole",
+        "111754": "blackhole",
+        "221571": "blackhole",
+        "37149": "grayhole",
+        "365214": "blackhole",
+        "189790": "grayhole",
+        "340726": "tdma",
+        "319360": "grayhole",
+        "358935": "tdma",
+        "297365": "grayhole",
+        "99561": "blackhole",
+        "4101": "blackhole",
+        "195779": "grayhole",
+        "84715": "grayhole",
+        "146037": "tdma",
+        "190306": "blackhole",
+        "85277": "blackhole",
+        "209400": "tdma",
+        "312690": "tdma",
+        "82540": "blackhole",
+        "48896": "flooding",
+        "324734": "blackhole",
+        "145684": "tdma",
+        "316526": "grayhole",
+        "138403": "blackhole",
+        "149415": "flooding",
+        "36466": "grayhole",
+        "94036": "grayhole",
+        "62855": "grayhole",
+        "173239": "blackhole",
+        "200078": "grayhole",
+        "16829": "grayhole",
+        "290771": "grayhole"
+      },
+      "attacked_count": 40,
+      "excluded_nodes": [
+        "111754",
+        "138403",
+        "145684",
+        "146037",
+        "149415",
+        "16829",
+        "173239",
+        "18889",
+        "189790",
+        "195779",
+        "200078",
+        "209400",
+        "209546",
+        "221571",
+        "26633",
+        "290771",
+        "297365",
+        "312690",
+        "316526",
+        "319360",
+        "324734",
+        "340723",
+        "340726",
+        "358935",
+        "365214",
+        "37149",
+        "4101",
+        "48625",
+        "48896",
+        "52953",
+        "53587",
+        "82540",
+        "84715",
+        "85277",
+        "94036"
+      ],
+      "excluded_node_count": 35,
+      "missed_detections": [
+        "104633",
+        "190306",
+        "36466",
+        "62855",
+        "99561"
+      ],
+      "avg_trust_score": 0.7301,
+      "compromised_routes_pct": 0.0,
+      "compromised_routes_detail": [],
+      "avg_hop_count": 4.24,
+      "avg_energy_remaining": 0.0,
+      "num_dead_nodes": 500
+    },
+    {
+      "round": 22,
+      "attacked_nodes": [
+        "165767",
+        "24025",
+        "139883",
+        "119325",
+        "334030",
+        "244855",
+        "335544",
+        "210325",
+        "246777",
+        "278058",
+        "35631",
+        "336321",
+        "329588",
+        "281131",
+        "72525",
+        "65444",
+        "4101",
+        "247815",
+        "353036",
+        "318029",
+        "296341",
+        "291382",
+        "16663",
+        "60058",
+        "239717",
+        "54309",
+        "325405",
+        "306012",
+        "306491",
+        "6019",
+        "1130",
+        "53893",
+        "281137",
+        "183321",
+        "66818",
+        "311969",
+        "87194",
+        "115141"
+      ],
+      "attacked_node_types": {
+        "165767": "tdma",
+        "24025": "tdma",
+        "139883": "grayhole",
+        "119325": "grayhole",
+        "334030": "grayhole",
+        "244855": "flooding",
+        "335544": "grayhole",
+        "210325": "grayhole",
+        "246777": "grayhole",
+        "278058": "blackhole",
+        "35631": "grayhole",
+        "336321": "grayhole",
+        "329588": "tdma",
+        "281131": "grayhole",
+        "72525": "flooding",
+        "65444": "tdma",
+        "4101": "grayhole",
+        "247815": "tdma",
+        "353036": "blackhole",
+        "318029": "tdma",
+        "296341": "grayhole",
+        "291382": "blackhole",
+        "16663": "blackhole",
+        "60058": "grayhole",
+        "239717": "grayhole",
+        "54309": "blackhole",
+        "325405": "grayhole",
+        "306012": "grayhole",
+        "306491": "flooding",
+        "6019": "blackhole",
+        "1130": "grayhole",
+        "53893": "blackhole",
+        "281137": "grayhole",
+        "183321": "grayhole",
+        "66818": "grayhole",
+        "311969": "grayhole",
+        "87194": "tdma",
+        "115141": "tdma"
+      },
+      "attacked_count": 38,
+      "excluded_nodes": [
+        "1130",
+        "115141",
+        "139883",
+        "165767",
+        "16663",
+        "183321",
+        "210325",
+        "239717",
+        "244855",
+        "246777",
+        "247815",
+        "278058",
+        "281131",
+        "281137",
+        "291382",
+        "296341",
+        "306012",
+        "306491",
+        "311969",
+        "318029",
+        "325405",
+        "329588",
+        "334030",
+        "335544",
+        "336321",
+        "353036",
+        "35631",
+        "4101",
+        "53893",
+        "54309",
+        "60058",
+        "6019",
+        "66818",
+        "72525",
+        "87194"
+      ],
+      "excluded_node_count": 35,
+      "missed_detections": [
+        "119325",
+        "24025",
+        "65444"
+      ],
+      "avg_trust_score": 0.7295,
+      "compromised_routes_pct": 2.0,
+      "compromised_routes_detail": [
+        {
+          "source": "198461",
+          "destination": "225332",
+          "path": [
+            "198461",
+            "267138",
+            "24025",
+            "178349",
+            "125541",
+            "225332"
+          ],
+          "attacked_intermediate_nodes": [
+            "24025"
+          ],
+          "attack_types": [
+            "tdma"
+          ]
+        },
+        {
+          "source": "222077",
+          "destination": "145060",
+          "path": [
+            "222077",
+            "24025",
+            "50707",
+            "145060"
+          ],
+          "attacked_intermediate_nodes": [
+            "24025"
+          ],
+          "attack_types": [
+            "tdma"
+          ]
+        },
+        {
+          "source": "343638",
+          "destination": "106743",
+          "path": [
+            "343638",
+            "354005",
+            "245392",
+            "165388",
+            "229734",
+            "109842",
+            "45580",
+            "119325",
+            "106743"
+          ],
+          "attacked_intermediate_nodes": [
+            "119325"
+          ],
+          "attack_types": [
+            "grayhole"
+          ]
+        },
+        {
+          "source": "78147",
+          "destination": "286046",
+          "path": [
+            "78147",
+            "151722",
+            "30662",
+            "24025",
+            "286046"
+          ],
+          "attacked_intermediate_nodes": [
+            "24025"
+          ],
+          "attack_types": [
+            "tdma"
+          ]
+        }
+      ],
+      "avg_hop_count": 4.25,
+      "avg_energy_remaining": 0.0,
+      "num_dead_nodes": 500
     }
   ],
   "energy_summary": {
     "total_nodes": 500,
     "half_node_count": 250,
-    "first_node_death_round": 11,
-    "half_node_death_round": 15,
-    "last_node_death_round": null,
-    "final_avg_energy_remaining": 0.0276,
-    "final_num_dead_nodes": 413,
-    "note": "FND/HND/LND are the round index (0-based) at which the first node, 50% of nodes, and all nodes respectively first reached energy <= 0.0. A null value means that threshold was not reached within the simulation's 20 rounds."
+    "first_node_death_round": 16,
+    "half_node_death_round": 20,
+    "last_node_death_round": 21,
+    "final_avg_energy_remaining": 0.0,
+    "final_num_dead_nodes": 500,
+    "note": "FND/HND/LND are the round index (0-based) at which the first node, 50% of nodes, and all nodes respectively first reached energy <= 0.0. A null value means that threshold was not reached within the simulation's 23 rounds."
   }
 }

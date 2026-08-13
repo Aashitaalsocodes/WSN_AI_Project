@@ -2,7 +2,7 @@
 digital_twin_sim.py
 Digital Twin backend simulation for the WSN AI Security Pipeline.
 
-Simulates the network over 20 discrete rounds: energy decay, probabilistic
+Simulates the network over 23 discrete rounds: energy decay, probabilistic
 attack injection (using real attack-type ratios), trust recalculation
 (TrustEngine, unmodified), and routing recalculation (trust_aware_routing
 logic, unmodified).
@@ -19,6 +19,18 @@ First/Half/Last Node Death rounds -- energy_state was already tracked
 internally every round but was never surfaced in the output JSON, so
 FND/HND/LND and avg residual energy were previously uncomputable downstream.
 A node is considered "dead" once its normalized energy hits 0.0.
+
+CHANGED for energy-decay rebuild (cross-protocol consistency fix): replaced
+the old per-node decay_multiplier (pure random.uniform(0.5, 1.6) noise,
+uncorrelated with network role) with a static, one-time forwarding-centrality
+multiplier computed from baseline_routes/G before trust/routing recalculation
+begins each round. This makes the energy model protocol-agnostic and
+consistent with the same fix already applied to baseline_leach.py,
+baseline_heed.py, baseline_tbr.py, and baseline_ai_sr.py, so cross-protocol
+comparisons in Section VIII reflect real topological differences rather than
+independent random noise per file. NUM_ROUNDS bumped 20 -> 23 because LND was
+frequently null at 20 rounds (node deaths follow a late-stage collapse
+pattern, not gradual attrition).
 """
 
 import json
@@ -26,13 +38,14 @@ import os
 import random
 import statistics
 
+import networkx as nx
 import pandas as pd
 
 from trust_engine import TrustEngine
 from config import TRUST_THRESHOLD
 from trust_aware_routing import build_graph, route_with_trust
 
-NUM_ROUNDS = 20
+NUM_ROUNDS = 23
 OUTPUT_PATH = "outputs/digital_twin_results.json"
 DEAD_ENERGY_THRESHOLD = 0.0  # node considered dead once normalized energy hits this
 
@@ -85,9 +98,9 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multi
 
     Energy decay varies per node via two mechanisms so deaths spread out
     across rounds instead of happening in lockstep: (1) decay_multiplier,
-    a fixed per-node efficiency factor assigned once at simulation start,
-    and (2) an attack-exposure penalty applied only in rounds where a node
-    is actively attacked.
+    a fixed per-node forwarding-centrality factor assigned once at
+    simulation start, and (2) an attack-exposure penalty applied only in
+    rounds where a node is actively attacked.
 
     Returns:
         attacked_nodes: list of node ids attacked this round (ground truth)
@@ -103,7 +116,7 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multi
     rows = []
 
     # steeper, accelerating decay so nodes visibly cross the low-energy
-    # threshold within the 20-round window
+    # threshold within the round window
     base_decay = 0.03 + (round_num * 0.004)
 
     # real classifiers aren't perfect — model a false-negative rate so some
@@ -126,9 +139,9 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multi
             attacked_nodes.append(nid)
             attacked_node_types[nid] = attack_type
 
-        # energy decay: base rate * this node's fixed efficiency factor,
-        # plus jitter from the real voltage distribution, plus an extra
-        # penalty if the node is actively attacked this round
+        # energy decay: base rate * this node's fixed forwarding-centrality
+        # factor, plus jitter from the real voltage distribution, plus an
+        # extra penalty if the node is actively attacked this round
         jitter = random.gauss(0, std_v) / mean_v  # normalized noise
         node_decay = base_decay * decay_multiplier[nid]
         if is_attacked:
@@ -176,12 +189,31 @@ def main():
     energy_state = {nid: 1.0 for nid in node_ids}  # normalized 0-1, start full
     engine = TrustEngine()
 
-    # Fixed per-node energy-efficiency factor, assigned once so some nodes
-    # are just inherently less efficient than others (hardware variance,
-    # position in the topology, etc). Centered at 1.0 so the network-wide
-    # average decay trend is unchanged; spread is wide enough that deaths
-    # visibly stagger across rounds instead of happening in lockstep.
-    decay_multiplier = {nid: random.uniform(0.5, 1.6) for nid in node_ids}
+    # Static, one-time forwarding-centrality multiplier: computed once from
+    # the fixed baseline_routes/graph G (built once per protocol run, not
+    # regenerated per round), so it's a legitimate static per-node factor
+    # rather than noise. Nodes that sit on more shortest paths between
+    # baseline source/destination pairs carry more forwarding load and burn
+    # energy faster; nodes that forward little are more efficient. Computed
+    # before trust/routing recalculation begins so it's independent of
+    # route_with_trust()'s per-round path choices, keeping the comparison
+    # protocol-agnostic and fair across LEACH/HEED/TBR/AI-SR/TA-DT.
+    forwarding_count = {nid: 0 for nid in node_ids}
+    for route in baseline_routes:
+        src, dst = route["source"], route["destination"]
+        try:
+            path = nx.shortest_path(G, src, dst)
+            for nid in path[1:-1]:
+                forwarding_count[nid] += 1
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
+            continue
+    max_forwarding_count = max(forwarding_count.values()) if forwarding_count.values() else 1
+    max_forwarding_count = max(max_forwarding_count, 1)
+
+    decay_multiplier = {
+        nid: 0.7 + 0.3 * min(forwarding_count[nid] / max_forwarding_count, 1.0) + random.uniform(-0.05, 0.05)
+        for nid in node_ids
+    }
 
     results = {"num_rounds": NUM_ROUNDS, "rounds": []}
 
@@ -290,7 +322,7 @@ def main():
             "FND/HND/LND are the round index (0-based) at which the first node, "
             "50% of nodes, and all nodes respectively first reached "
             f"energy <= {DEAD_ENERGY_THRESHOLD}. A null value means that threshold "
-            "was not reached within the simulation's 20 rounds."
+            f"was not reached within the simulation's {NUM_ROUNDS} rounds."
         ),
     }
 

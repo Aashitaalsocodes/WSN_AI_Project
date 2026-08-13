@@ -39,6 +39,11 @@ global random sequence the 20 test rounds use (seed 42, shared with
 LEACH/HEED/TBR/digital_twin_sim for a fair comparison) -- otherwise the
 attack sequence in the test rounds would silently diverge from the other
 three baselines.
+
+Energy decay: decay_multiplier is a static, per-node forwarding-centrality
+score computed once from the fixed baseline_routes/graph G, matching the
+patch applied to baseline_leach.py / baseline_heed.py / baseline_tbr.py,
+for a fair cross-protocol comparison.
 """
 
 import json
@@ -52,7 +57,7 @@ from xgboost import XGBClassifier
 
 from trust_aware_routing import build_graph
 
-NUM_ROUNDS = 20
+NUM_ROUNDS = 23
 OUTPUT_PATH = "outputs/baseline_ai_sr_results.json"
 DEAD_ENERGY_THRESHOLD = 0.0
 
@@ -253,8 +258,23 @@ def main():
     G = build_graph(node_ids, edges)
     mean_v, std_v = build_energy_trend(energy_forecast)
 
+    forwarding_count = {nid: 0 for nid in node_ids}
+    for route in baseline_routes:
+        src, dst = route["source"], route["destination"]
+        try:
+            path = nx.shortest_path(G, src, dst)
+            for nid in path[1:-1]:
+                forwarding_count[nid] += 1
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
+            continue
+    max_forwarding_count = max(forwarding_count.values()) if forwarding_count.values() else 1
+    max_forwarding_count = max(max_forwarding_count, 1)
+
     energy_state = {nid: 1.0 for nid in node_ids}
-    decay_multiplier = {nid: random.uniform(0.5, 1.6) for nid in node_ids}
+    decay_multiplier = {
+        nid: 0.7 + 0.3 * min(forwarding_count[nid] / max_forwarding_count, 1.0) + random.uniform(-0.05, 0.05)
+        for nid in node_ids
+    }
 
     results = {"protocol": "AI-SR", "num_rounds": NUM_ROUNDS, "rounds": []}
 

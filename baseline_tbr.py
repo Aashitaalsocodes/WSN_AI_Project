@@ -34,6 +34,16 @@ for that round; routing falls back to plain shortest path if no trusted
 path exists (rather than route_with_trust from trust_aware_routing.py,
 which implements TA-DT's own richer multi-factor-informed routing logic
 and would blur the comparison).
+
+Energy decay: decay_multiplier is a static, per-node forwarding-centrality
+score computed once from the fixed baseline_routes/graph G (how often a
+node sits on the shortest path between a source/destination pair), rather
+than pure random noise. This ties energy depletion to actual topological
+load instead of an arbitrary per-node constant, while remaining
+protocol-agnostic (it does not depend on which nodes get excluded by
+trust in a given round) -- consistent with the same patch applied to
+baseline_leach.py and baseline_heed.py, for a fair cross-protocol
+comparison.
 """
 
 import json
@@ -45,7 +55,7 @@ import networkx as nx
 
 from trust_aware_routing import build_graph
 
-NUM_ROUNDS = 20
+NUM_ROUNDS = 23
 OUTPUT_PATH = "outputs/baseline_tbr_results.json"
 DEAD_ENERGY_THRESHOLD = 0.0
 
@@ -159,8 +169,23 @@ def main():
     G = build_graph(node_ids, edges)
     mean_v, std_v = build_energy_trend(energy_forecast)
 
+    forwarding_count = {nid: 0 for nid in node_ids}
+    for route in baseline_routes:
+        src, dst = route["source"], route["destination"]
+        try:
+            path = nx.shortest_path(G, src, dst)
+            for nid in path[1:-1]:
+                forwarding_count[nid] += 1
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
+            continue
+    max_forwarding_count = max(forwarding_count.values()) if forwarding_count.values() else 1
+    max_forwarding_count = max(max_forwarding_count, 1)
+
     energy_state = {nid: 1.0 for nid in node_ids}
-    decay_multiplier = {nid: random.uniform(0.5, 1.6) for nid in node_ids}
+    decay_multiplier = {
+        nid: 0.7 + 0.3 * min(forwarding_count[nid] / max_forwarding_count, 1.0) + random.uniform(-0.05, 0.05)
+        for nid in node_ids
+    }
     trust_scores = {nid: 1.0 for nid in node_ids}
 
     results = {"protocol": "TBR", "num_rounds": NUM_ROUNDS, "rounds": []}

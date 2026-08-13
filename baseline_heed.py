@@ -19,6 +19,16 @@ it still has no concept of trust or attack avoidance, so routing
 behavior (and therefore compromised-route rate) should land close to
 LEACH's, while energy lifetime should improve somewhat since HEED
 avoids repeatedly draining already-low-energy nodes as CHs.
+
+Energy decay model: decay_multiplier is now protocol-aware and computed
+per-round (not once at the top), derived from a forwarding-centrality
+weighting where this round's cluster-heads are cheaper to route through
+than non-CH nodes. This means routing paths -- and therefore which nodes
+bear the forwarding-driven energy cost -- actually reflect HEED's own
+per-round CH selection, rather than a static per-node multiplier computed
+once from raw hop-count shortest paths (which was identical across LEACH/
+HEED/TBR regardless of protocol and prevented FND/HND from differentiating
+between protocols).
 """
 
 import json
@@ -30,7 +40,7 @@ import networkx as nx
 
 from trust_aware_routing import build_graph
 
-NUM_ROUNDS = 20
+NUM_ROUNDS = 23
 OUTPUT_PATH = "outputs/baseline_heed_results.json"
 DEAD_ENERGY_THRESHOLD = 0.0
 
@@ -96,7 +106,7 @@ def select_cluster_heads(node_ids, energy_state, node_degree, target_count):
     return ranked[:target_count]
 
 
-def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multiplier,
+def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, G, baseline_routes,
                     node_degree, target_ch_count):
     attacked_nodes = []
     attacked_node_types = {}
@@ -105,6 +115,32 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multi
 
     cluster_heads = select_cluster_heads(node_ids, energy_state, node_degree, target_ch_count)
     ch_set = set(cluster_heads)
+
+    # Protocol-aware forwarding_count: weight edges so shortest paths
+    # preferentially route through this round's cluster-heads, the same
+    # way HEED itself would prefer CHs as relay/aggregation points. This
+    # makes forwarding-driven energy decay reflect HEED's actual per-round
+    # CH selection instead of a static, protocol-blind topology metric.
+    for u, v in G.edges():
+        cost_u = 0.3 if u in ch_set else 1.0
+        cost_v = 0.3 if v in ch_set else 1.0
+        G[u][v]['weight'] = (cost_u + cost_v) / 2
+
+    forwarding_count = {nid: 0 for nid in node_ids}
+    for route in baseline_routes:
+        src, dst = route["source"], route["destination"]
+        try:
+            path = nx.shortest_path(G, src, dst, weight='weight')
+            for nid in path[1:-1]:
+                forwarding_count[nid] += 1
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
+            continue
+    max_fc = max(forwarding_count.values()) if forwarding_count.values() else 1
+    max_fc = max(max_fc, 1)
+    decay_multiplier = {
+        nid: 0.7 + 0.3 * min(forwarding_count[nid] / max_fc, 1.0) + random.uniform(-0.05, 0.05)
+        for nid in node_ids
+    }
 
     for nid in node_ids:
         attack_type = random.choices(ATTACK_TYPES, weights=ATTACK_WEIGHTS, k=1)[0]
@@ -139,7 +175,6 @@ def main():
     node_degree = {nid: G.degree(nid) for nid in node_ids}
 
     energy_state = {nid: 1.0 for nid in node_ids}
-    decay_multiplier = {nid: random.uniform(0.5, 1.6) for nid in node_ids}
 
     target_ch_count = max(1, int(len(node_ids) * TARGET_CH_COUNT_FRACTION))
 
@@ -153,7 +188,7 @@ def main():
 
     for round_num in range(NUM_ROUNDS):
         attacked_nodes, attacked_node_types, cluster_heads = simulate_round(
-            round_num, node_ids, energy_state, mean_v, std_v, decay_multiplier,
+            round_num, node_ids, energy_state, mean_v, std_v, G, baseline_routes,
             node_degree, target_ch_count
         )
         true_attacked_set = set(attacked_nodes)
