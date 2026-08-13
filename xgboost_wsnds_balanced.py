@@ -144,7 +144,7 @@ ch_scores = {
     "scale_pos_weight": float(scale_pos_weight)
 }
 
-output_path = Path("outputs/ch_scores_balanced.json")
+output_path = Path("outputs/ch_scores_leaky_ORIGINAL.json")
 output_path.parent.mkdir(exist_ok=True)
 with open(output_path, "w") as f:
     json.dump(ch_scores, f, indent=2)
