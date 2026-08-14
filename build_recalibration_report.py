@@ -44,17 +44,15 @@ ORIGINAL_ATTACK_RISK_WEIGHTS = {
 # the new live values in routing_cost.py / digital_twin_sim.py before
 # re-running this script, or the comparison will silently use stale data. ---
 CURRENTLY_APPLIED_DETECTION_MISS_RATE = {
-    "Blackhole": 0.2098, "Grayhole": 0.1094, "Flooding": 0.023, "TDMA": 0.1765,
+    "Blackhole": 0.2344, "Grayhole": 0.1038, "Flooding": 0.0103, "TDMA": 0.1528,
 }
 CURRENTLY_APPLIED_ATTACK_RISK_WEIGHTS = {
-    "TDMA": 0.2356, "Flooding": 0.4, "Grayhole": 0.6, "Blackhole": 0.8,
+    "TDMA": 0.1623, "Flooding": 0.3, "Grayhole": 0.5, "Blackhole": 0.7,
 }
-
 # Total compromised route instances observed in the original (pre-Task-8)
 # Digital Twin run, captured before that data was overwritten by the
 # recalibrated re-run.
-ORIGINAL_TOTAL_COMPROMISED_ROUTE_INSTANCES = 183
-
+ORIGINAL_TOTAL_COMPROMISED_ROUTE_INSTANCES = 188
 
 def load_json(path):
     if not os.path.exists(path):

@@ -3,80 +3,81 @@
   "model_feedback": {
     "miss_rate_analysis_by_type": {
       "Grayhole": {
-        "times_attacked": 385,
-        "times_missed": 39,
-        "observed_miss_rate": 0.1013
+        "times_attacked": 443,
+        "times_missed": 46,
+        "observed_miss_rate": 0.1038
       },
       "TDMA": {
-        "times_attacked": 190,
-        "times_missed": 30,
-        "observed_miss_rate": 0.1579
+        "times_attacked": 216,
+        "times_missed": 31,
+        "observed_miss_rate": 0.1435
       },
       "Blackhole": {
-        "times_attacked": 283,
-        "times_missed": 67,
-        "observed_miss_rate": 0.2367
+        "times_attacked": 320,
+        "times_missed": 78,
+        "observed_miss_rate": 0.2437
       },
       "Flooding": {
-        "times_attacked": 86,
-        "times_missed": 0,
-        "observed_miss_rate": 0.0
+        "times_attacked": 97,
+        "times_missed": 1,
+        "observed_miss_rate": 0.0103
       }
     },
     "recommended_detection_miss_rate_by_type": {
       "Grayhole": {
-        "current_flat_rate": 0.1094,
-        "observed_miss_rate": 0.1013,
-        "recommended_new_rate": 0.1013
+        "current_flat_rate": 0.1038,
+        "observed_miss_rate": 0.1038,
+        "recommended_new_rate": 0.1038
       },
       "TDMA": {
-        "current_flat_rate": 0.1765,
-        "observed_miss_rate": 0.1579,
-        "recommended_new_rate": 0.1579
+        "current_flat_rate": 0.1528,
+        "observed_miss_rate": 0.1435,
+        "recommended_new_rate": 0.1435
       },
       "Blackhole": {
-        "current_flat_rate": 0.2098,
-        "observed_miss_rate": 0.2367,
-        "recommended_new_rate": 0.2367
+        "current_flat_rate": 0.2344,
+        "observed_miss_rate": 0.2437,
+        "recommended_new_rate": 0.2437
       },
       "Flooding": {
-        "current_flat_rate": 0.023,
-        "observed_miss_rate": 0.0,
-        "recommended_new_rate": 0.0
+        "current_flat_rate": 0.0103,
+        "observed_miss_rate": 0.0103,
+        "recommended_new_rate": 0.0103
       }
     }
   },
   "routing_feedback": {
     "compromise_count_by_type": {
-      "Grayhole": 50,
-      "Blackhole": 96,
-      "TDMA": 25
+      "Grayhole": 57,
+      "Blackhole": 114,
+      "TDMA": 26,
+      "Flooding": 1
     },
-    "total_compromised_route_instances": 168,
+    "total_compromised_route_instances": 192,
     "recommended_attack_risk_weights_by_type": {
       "TDMA": {
-        "current_weight": 0.2356,
-        "share_of_compromised_routes": 0.1488,
-        "compromise_count": 25,
-        "recommended_new_weight": 0.1856
+        "current_weight": 0.1623,
+        "share_of_compromised_routes": 0.1354,
+        "compromise_count": 26,
+        "recommended_new_weight": 0.1354
       },
       "Flooding": {
-        "current_weight": 0.4,
-        "share_of_compromised_routes": 0.0,
-        "compromise_count": 0,
-        "recommended_new_weight": 0.35
+        "current_weight": 0.3,
+        "share_of_compromised_routes": 0.0052,
+        "compromise_count": 1,
+        "recommended_new_weight": 0.25
       },
       "Grayhole": {
-        "current_weight": 0.6,
-        "share_of_compromised_routes": 0.2976,
-        "compromise_count": 50,
-        "recommended_new_weight": 0.55
+        "current_weight": 0.5,
+        "share_of_compromised_routes": 0.2969,
+        "compromise_count": 57,
+        "recommended_new_weight": 0.45
       },
       "Blackhole": {
-        "current_weight": 0.8,
-        "share_of_compromised_routes": 0.5714,
-        "compromise_count": 96,
-        "recommended_new_weight": 0.75
+        "current_weight": 0.7,
+        "share_of_compromised_routes": 0.5938,
+        "compromise_count": 114,
+        "recommended_new_weight": 0.65
       }
     }
   }

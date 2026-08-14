@@ -31,8 +31,16 @@ comparisons in Section VIII reflect real topological differences rather than
 independent random noise per file. NUM_ROUNDS bumped 20 -> 23 because LND was
 frequently null at 20 rounds (node deaths follow a late-stage collapse
 pattern, not gradual attrition).
+
+CHANGED for multi-seed robustness run (aggregate_seeds.py companion script):
+accepts --seed on the command line and writes each run to a seed-specific
+output file (outputs/digital_twin_results_seed{N}.json) instead of
+overwriting the single shared outputs/digital_twin_results.json, so 5
+independent runs can be aggregated into mean+-std without clobbering each
+other or the original single-seed=42 result already cited in the paper.
 """
 
+import argparse
 import json
 import os
 import random
@@ -46,7 +54,13 @@ from config import TRUST_THRESHOLD
 from trust_aware_routing import build_graph, route_with_trust
 
 NUM_ROUNDS = 23
-OUTPUT_PATH = "outputs/digital_twin_results.json"
+
+_parser = argparse.ArgumentParser()
+_parser.add_argument("--seed", type=int, default=42)
+_args = _parser.parse_args()
+
+SEED = _args.seed
+OUTPUT_PATH = f"outputs/digital_twin_results_seed{SEED}.json"
 DEAD_ENERGY_THRESHOLD = 0.0  # node considered dead once normalized energy hits this
 
 # Real attack-type ratios, taken from attack_ground_truth.json
@@ -176,7 +190,7 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multi
 
 
 def main():
-    random.seed(42)  # reproducible simulation across runs
+    random.seed(SEED)  # reproducible simulation across runs
 
     sim, energy_forecast = load_inputs()
     node_ids = sim["node_ids"]

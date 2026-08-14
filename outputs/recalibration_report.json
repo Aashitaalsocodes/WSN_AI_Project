@@ -4,64 +4,64 @@
     "by_type": {
       "Blackhole": {
         "original": 0.18,
-        "currently_applied": 0.2098,
-        "latest_recommended": 0.2367,
-        "delta_applied_to_latest": 0.0269,
-        "converged": false
+        "currently_applied": 0.2344,
+        "latest_recommended": 0.2437,
+        "delta_applied_to_latest": 0.0093,
+        "converged": true
       },
       "Grayhole": {
         "original": 0.18,
-        "currently_applied": 0.1094,
-        "latest_recommended": 0.1013,
-        "delta_applied_to_latest": 0.0081,
+        "currently_applied": 0.1038,
+        "latest_recommended": 0.1038,
+        "delta_applied_to_latest": 0.0,
         "converged": true
       },
       "Flooding": {
         "original": 0.18,
-        "currently_applied": 0.023,
-        "latest_recommended": 0.0,
-        "delta_applied_to_latest": 0.023,
-        "converged": false
+        "currently_applied": 0.0103,
+        "latest_recommended": 0.0103,
+        "delta_applied_to_latest": 0.0,
+        "converged": true
       },
       "TDMA": {
         "original": 0.18,
-        "currently_applied": 0.1765,
-        "latest_recommended": 0.1579,
-        "delta_applied_to_latest": 0.0186,
-        "converged": false
+        "currently_applied": 0.1528,
+        "latest_recommended": 0.1435,
+        "delta_applied_to_latest": 0.0093,
+        "converged": true
       }
     },
-    "converged_count": 1,
+    "converged_count": 4,
     "total_types": 4,
-    "summary": "1/4 attack types converged (delta < 0.01) after one recalibration cycle."
+    "summary": "4/4 attack types converged (delta < 0.01) after one recalibration cycle."
   },
   "attack_risk_weights": {
     "by_type": {
       "TDMA": {
         "original": 0.3,
-        "currently_applied": 0.2356,
-        "latest_recommended": 0.1856,
-        "delta_applied_to_latest": 0.05,
+        "currently_applied": 0.1623,
+        "latest_recommended": 0.1354,
+        "delta_applied_to_latest": 0.0269,
         "converged": false
       },
       "Flooding": {
         "original": 0.6,
-        "currently_applied": 0.4,
-        "latest_recommended": 0.35,
+        "currently_applied": 0.3,
+        "latest_recommended": 0.25,
         "delta_applied_to_latest": 0.05,
         "converged": false
       },
       "Grayhole": {
         "original": 0.8,
-        "currently_applied": 0.6,
-        "latest_recommended": 0.55,
+        "currently_applied": 0.5,
+        "latest_recommended": 0.45,
         "delta_applied_to_latest": 0.05,
         "converged": false
       },
       "Blackhole": {
         "original": 1.0,
-        "currently_applied": 0.8,
-        "latest_recommended": 0.75,
+        "currently_applied": 0.7,
+        "latest_recommended": 0.65,
         "delta_applied_to_latest": 0.05,
         "converged": false
       }
@@ -71,9 +71,9 @@
     "summary": "0/4 attack types converged (delta < 0.01) after one recalibration cycle. Some types are still actively drifting and would benefit from another cycle."
   },
   "compromised_routes": {
-    "original_total_instances": 183,
-    "post_recalibration_total_instances": 168,
-    "change": -15,
+    "original_total_instances": 188,
+    "post_recalibration_total_instances": 192,
+    "change": 4,
     "note": "Total compromised route instances across all 20 Digital Twin rounds. A small or negative change after one cycle is expected -- recalibration tunes detection/routing parameters gradually (capped step size) rather than in one large jump, matching how the feedback loop was designed to avoid overcorrecting from a single noisy simulation run."
   },
   "recommendation": "Run a second recalibration cycle for attack_risk_weights_by_type, which has not yet converged, before treating these as final tuned values."

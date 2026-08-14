@@ -64,35 +64,24 @@ def main():
 ROUTING_COST_PATH = "routing_cost.py"
 DIGITAL_TWIN_PATH = "digital_twin_sim.py"
 
-# Exact current dict block in routing_cost.py -- matched verbatim so the
+# Exact current block in routing_cost.py -- matched verbatim so the
 # replacement only touches this block, nothing else in the file.
-#
-# NOTE (fixed): this previously read 0.3/0.6/0.8/1.0, which was a stale
-# placeholder that never matched the real file. The actual baseline used in
-# the Task 8 report -- and currently still sitting in routing_cost.py -- is
-# 0.25/0.55/0.75/0.95. Updated to match verbatim.
+# Cycle-1 applied values (updated for cycle 2 recalibration run).
 CURRENT_ATTACK_RISK_WEIGHT_BLOCK = '''ATTACK_RISK_WEIGHT = {
     "Normal": 0.0,
-    "TDMA": 0.25,
-    "Flooding": 0.55,
-    "Grayhole": 0.75,
-    "Blackhole": 0.95,
+    "TDMA": 0.1623,
+    "Flooding": 0.3,
+    "Grayhole": 0.5,
+    "Blackhole": 0.7,
 }'''
 
 # Exact current block in digital_twin_sim.py.
-#
-# NOTE (fixed): this previously expected a single flat line
-# "DETECTION_MISS_RATE = 0.18", which also never matched the real file --
-# digital_twin_sim.py already has a per-type dict with the real baseline
-# values (matching the Task 8 report's "before" column). Updated to match
-# the actual current block verbatim so this script can replace the VALUES
-# in place without needing to redo the flat->dict structural conversion
-# (that conversion already happened, just not through this script).
+# Cycle-1 applied values (updated for cycle 2 recalibration run).
 CURRENT_DETECTION_MISS_RATE_BLOCK = '''    DETECTION_MISS_RATE_BY_TYPE = {
-        "blackhole": 0.1923,
-        "grayhole": 0.1589,
-        "flooding": 0.13,
-        "tdma": 0.1765,
+        "blackhole": 0.2344,
+        "grayhole": 0.1038,
+        "flooding": 0.0103,
+        "tdma": 0.1528,
     }'''
 CURRENT_DETECTION_USAGE_LINE = "            detected = random.random() > DETECTION_MISS_RATE_BY_TYPE[attack_type]"
 
