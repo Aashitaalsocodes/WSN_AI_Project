@@ -78,10 +78,10 @@ OUT_PATH = os.path.join(OUTPUTS_DIR, "feedback_loop_results.json")
 # Current baseline values (from digital_twin_sim.py / routing_cost.py) —
 # used as the starting point for recommended adjustments.
 CURRENT_DETECTION_MISS_RATE_BY_TYPE = {
-    "Blackhole": 0.2344, "Grayhole": 0.1038, "Flooding": 0.0103, "TDMA": 0.1528
+    "Blackhole": 0.2469, "Grayhole": 0.1038, "Flooding": 0.0103, "TDMA": 0.1343
 }
 CURRENT_ATTACK_RISK_WEIGHTS = {
-    "Normal": 0.0, "TDMA": 0.1623, "Flooding": 0.3, "Grayhole": 0.5, "Blackhole": 0.7
+    "Normal": 0.0, "TDMA": 0.1354, "Flooding": 0.25, "Grayhole": 0.45, "Blackhole": 0.65
 }
 # Twin's attack_type strings are lowercase ("blackhole"), routing's are
 # capitalized ("Blackhole") — normalize here so they join correctly.

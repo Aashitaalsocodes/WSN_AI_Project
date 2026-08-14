@@ -44,10 +44,10 @@ ORIGINAL_ATTACK_RISK_WEIGHTS = {
 # the new live values in routing_cost.py / digital_twin_sim.py before
 # re-running this script, or the comparison will silently use stale data. ---
 CURRENTLY_APPLIED_DETECTION_MISS_RATE = {
-    "Blackhole": 0.2344, "Grayhole": 0.1038, "Flooding": 0.0103, "TDMA": 0.1528,
+    "Blackhole": 0.2469, "Grayhole": 0.1038, "Flooding": 0.0103, "TDMA": 0.1343,
 }
 CURRENTLY_APPLIED_ATTACK_RISK_WEIGHTS = {
-    "TDMA": 0.1623, "Flooding": 0.3, "Grayhole": 0.5, "Blackhole": 0.7,
+    "TDMA": 0.1354, "Flooding": 0.25, "Grayhole": 0.45, "Blackhole": 0.65,
 }
 # Total compromised route instances observed in the original (pre-Task-8)
 # Digital Twin run, captured before that data was overwritten by the

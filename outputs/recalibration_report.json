@@ -4,10 +4,10 @@
     "by_type": {
       "Blackhole": {
         "original": 0.18,
-        "currently_applied": 0.2344,
+        "currently_applied": 0.2469,
         "latest_recommended": 0.2469,
-        "delta_applied_to_latest": 0.0125,
-        "converged": false
+        "delta_applied_to_latest": 0.0,
+        "converged": true
       },
       "Grayhole": {
         "original": 0.18,
@@ -25,50 +25,50 @@
       },
       "TDMA": {
         "original": 0.18,
-        "currently_applied": 0.1528,
+        "currently_applied": 0.1343,
         "latest_recommended": 0.1343,
-        "delta_applied_to_latest": 0.0185,
-        "converged": false
+        "delta_applied_to_latest": 0.0,
+        "converged": true
       }
     },
-    "converged_count": 2,
+    "converged_count": 4,
     "total_types": 4,
-    "summary": "2/4 attack types converged (delta < 0.01) after one recalibration cycle."
+    "summary": "4/4 attack types converged (delta < 0.01) after one recalibration cycle."
   },
   "attack_risk_weights": {
     "by_type": {
       "TDMA": {
         "original": 0.3,
-        "currently_applied": 0.1623,
+        "currently_applied": 0.1354,
         "latest_recommended": 0.1354,
-        "delta_applied_to_latest": 0.0269,
-        "converged": false
+        "delta_applied_to_latest": 0.0,
+        "converged": true
       },
       "Flooding": {
         "original": 0.6,
-        "currently_applied": 0.3,
-        "latest_recommended": 0.25,
+        "currently_applied": 0.25,
+        "latest_recommended": 0.2,
         "delta_applied_to_latest": 0.05,
         "converged": false
       },
       "Grayhole": {
         "original": 0.8,
-        "currently_applied": 0.5,
-        "latest_recommended": 0.45,
+        "currently_applied": 0.45,
+        "latest_recommended": 0.4,
         "delta_applied_to_latest": 0.05,
         "converged": false
       },
       "Blackhole": {
         "original": 1.0,
-        "currently_applied": 0.7,
-        "latest_recommended": 0.65,
+        "currently_applied": 0.65,
+        "latest_recommended": 0.6,
         "delta_applied_to_latest": 0.05,
         "converged": false
       }
     },
-    "converged_count": 0,
+    "converged_count": 1,
     "total_types": 4,
-    "summary": "0/4 attack types converged (delta < 0.01) after one recalibration cycle. Some types are still actively drifting and would benefit from another cycle."
+    "summary": "1/4 attack types converged (delta < 0.01) after one recalibration cycle. Some types are still actively drifting and would benefit from another cycle."
   },
   "compromised_routes": {
     "original_total_instances": 188,
