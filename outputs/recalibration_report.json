@@ -5,9 +5,9 @@
       "Blackhole": {
         "original": 0.18,
         "currently_applied": 0.2344,
-        "latest_recommended": 0.2437,
-        "delta_applied_to_latest": 0.0093,
-        "converged": true
+        "latest_recommended": 0.2469,
+        "delta_applied_to_latest": 0.0125,
+        "converged": false
       },
       "Grayhole": {
         "original": 0.18,
@@ -26,14 +26,14 @@
       "TDMA": {
         "original": 0.18,
         "currently_applied": 0.1528,
-        "latest_recommended": 0.1435,
-        "delta_applied_to_latest": 0.0093,
-        "converged": true
+        "latest_recommended": 0.1343,
+        "delta_applied_to_latest": 0.0185,
+        "converged": false
       }
     },
-    "converged_count": 4,
+    "converged_count": 2,
     "total_types": 4,
-    "summary": "4/4 attack types converged (delta < 0.01) after one recalibration cycle."
+    "summary": "2/4 attack types converged (delta < 0.01) after one recalibration cycle."
   },
   "attack_risk_weights": {
     "by_type": {

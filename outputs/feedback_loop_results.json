@@ -9,13 +9,13 @@
       },
       "TDMA": {
         "times_attacked": 216,
-        "times_missed": 31,
-        "observed_miss_rate": 0.1435
+        "times_missed": 29,
+        "observed_miss_rate": 0.1343
       },
       "Blackhole": {
         "times_attacked": 320,
-        "times_missed": 78,
-        "observed_miss_rate": 0.2437
+        "times_missed": 79,
+        "observed_miss_rate": 0.2469
       },
       "Flooding": {
         "times_attacked": 97,
@@ -31,13 +31,13 @@
       },
       "TDMA": {
         "current_flat_rate": 0.1528,
-        "observed_miss_rate": 0.1435,
-        "recommended_new_rate": 0.1435
+        "observed_miss_rate": 0.1343,
+        "recommended_new_rate": 0.1343
       },
       "Blackhole": {
         "current_flat_rate": 0.2344,
-        "observed_miss_rate": 0.2437,
-        "recommended_new_rate": 0.2437
+        "observed_miss_rate": 0.2469,
+        "recommended_new_rate": 0.2469
       },
       "Flooding": {
         "current_flat_rate": 0.0103,
