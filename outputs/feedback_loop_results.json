@@ -62,22 +62,22 @@
         "recommended_new_weight": 0.1354
       },
       "Flooding": {
-        "current_weight": 0.25,
+        "current_weight": 0.0052,
         "share_of_compromised_routes": 0.0052,
         "compromise_count": 1,
-        "recommended_new_weight": 0.2
+        "recommended_new_weight": 0.0052
       },
       "Grayhole": {
-        "current_weight": 0.45,
+        "current_weight": 0.2969,
         "share_of_compromised_routes": 0.2969,
         "compromise_count": 57,
-        "recommended_new_weight": 0.4
+        "recommended_new_weight": 0.2969
       },
       "Blackhole": {
-        "current_weight": 0.65,
+        "current_weight": 0.5938,
         "share_of_compromised_routes": 0.5938,
         "compromise_count": 114,
-        "recommended_new_weight": 0.6
+        "recommended_new_weight": 0.5938
       }
     }
   }

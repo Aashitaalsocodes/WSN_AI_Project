@@ -81,7 +81,7 @@ CURRENT_DETECTION_MISS_RATE_BY_TYPE = {
     "Blackhole": 0.2469, "Grayhole": 0.1038, "Flooding": 0.0103, "TDMA": 0.1343
 }
 CURRENT_ATTACK_RISK_WEIGHTS = {
-    "Normal": 0.0, "TDMA": 0.1354, "Flooding": 0.2, "Grayhole": 0.4, "Blackhole": 0.6
+    "Normal": 0.0, "TDMA": 0.1354, "Flooding": 0.0052, "Grayhole": 0.2969, "Blackhole": 0.5938
 }
 # Twin's attack_type strings are lowercase ("blackhole"), routing's are
 # capitalized ("Blackhole") — normalize here so they join correctly.

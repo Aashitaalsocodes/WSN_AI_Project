@@ -57,9 +57,9 @@ RESULT_PATH = OUTPUTS / "routing_cost_results.json"
 ATTACK_RISK_WEIGHT = {
     "Normal": 0.0,
     "TDMA": 0.1354,
-    "Flooding": 0.2,
-    "Grayhole": 0.4,
-    "Blackhole": 0.6,
+    "Flooding": 0.0052,
+    "Grayhole": 0.2969,
+    "Blackhole": 0.5938,
 }
 # Combination weights for the four cost components -- attack risk weighted
 # higher since it's the factor most directly tied to routing failure.

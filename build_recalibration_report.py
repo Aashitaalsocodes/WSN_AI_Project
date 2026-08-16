@@ -47,7 +47,7 @@ CURRENTLY_APPLIED_DETECTION_MISS_RATE = {
     "Blackhole": 0.2469, "Grayhole": 0.1038, "Flooding": 0.0103, "TDMA": 0.1343,
 }
 CURRENTLY_APPLIED_ATTACK_RISK_WEIGHTS = {
-    "TDMA": 0.1354, "Flooding": 0.2, "Grayhole": 0.4, "Blackhole": 0.6,
+    "TDMA": 0.1354, "Flooding": 0.0052, "Grayhole": 0.2969, "Blackhole": 0.5938,
 }
 # Total compromised route instances observed in the original (pre-Task-8)
 # Digital Twin run, captured before that data was overwritten by the

@@ -46,22 +46,22 @@
       },
       "Flooding": {
         "original": 0.6,
-        "currently_applied": 0.2,
-        "latest_recommended": 0.2,
+        "currently_applied": 0.0052,
+        "latest_recommended": 0.0052,
         "delta_applied_to_latest": 0.0,
         "converged": true
       },
       "Grayhole": {
         "original": 0.8,
-        "currently_applied": 0.4,
-        "latest_recommended": 0.4,
+        "currently_applied": 0.2969,
+        "latest_recommended": 0.2969,
         "delta_applied_to_latest": 0.0,
         "converged": true
       },
       "Blackhole": {
         "original": 1.0,
-        "currently_applied": 0.6,
-        "latest_recommended": 0.6,
+        "currently_applied": 0.5938,
+        "latest_recommended": 0.5938,
         "delta_applied_to_latest": 0.0,
         "converged": true
       }
