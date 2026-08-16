@@ -35,6 +35,12 @@ Usage:
 import json
 import math
 import random
+import argparse
+_parser = argparse.ArgumentParser()
+_parser.add_argument("--seed", type=int, default=42)
+_args, _ = _parser.parse_known_args()
+SEED = _args.seed
+
 from pathlib import Path
 
 import networkx as nx
@@ -45,11 +51,11 @@ from trust_engine import TrustEngine
 BASE_DIR = Path(__file__).parent
 OUTPUTS = BASE_DIR / "outputs"
 
-SIM_PATH = OUTPUTS / "routing_simulation.json"
+SIM_PATH = OUTPUTS / f"routing_simulation_seed{SEED}.json"
 CLASSIFIER_PATH = OUTPUTS / "attack_classification_results.json"
 NODES_PATH = OUTPUTS / "preprocessed_nodes.json"
 STUB_CLASSIFIER_PATH = OUTPUTS / "attack_classifier_predictions.json"  # only for reproducing the sample order
-RESULT_PATH = OUTPUTS / "routing_cost_results.json"
+RESULT_PATH = OUTPUTS / f"routing_cost_results_seed{SEED}.json"
 
 # How disruptive each attack type is to routing, used as a penalty weight.
 # Blackhole = drops ~everything -> worst. TDMA = slot collision / protocol
@@ -79,7 +85,7 @@ def reconstruct_positions():
     with open(STUB_CLASSIFIER_PATH) as f:
         attack_preds = json.load(f)
     all_ids = list(attack_preds.keys())
-    random.seed(42)
+    random.seed(SEED)
     sampled_ids = random.sample(all_ids, 500)
     positions = {nid: (random.uniform(0, 1), random.uniform(0, 1)) for nid in sampled_ids}
     return positions

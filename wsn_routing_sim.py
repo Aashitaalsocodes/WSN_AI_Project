@@ -1,5 +1,11 @@
 import json
 import random
+import argparse
+_parser = argparse.ArgumentParser()
+_parser.add_argument("--seed", type=int, default=42)
+_args, _ = _parser.parse_known_args()
+SEED = _args.seed
+
 import math
 import networkx as nx
 
@@ -10,7 +16,7 @@ with open('outputs/attack_classifier_predictions.json') as f:
 
 # Sample 500 real row indices
 all_ids = list(attack_preds.keys())
-random.seed(42)
+random.seed(SEED)
 sampled_ids = random.sample(all_ids, 500)
 sampled_ids_set = set(sampled_ids)
 
@@ -96,7 +102,7 @@ output = {
     }
 }
 
-with open('outputs/routing_simulation.json', 'w') as f:
+with open(f'outputs/routing_simulation_seed{SEED}.json', 'w') as f:
     json.dump(output, f)
 
 print("Saved to outputs/routing_simulation.json")

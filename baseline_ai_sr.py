@@ -49,6 +49,12 @@ for a fair cross-protocol comparison.
 import json
 import os
 import random
+import argparse
+_parser = argparse.ArgumentParser()
+_parser.add_argument("--seed", type=int, default=42)
+_args, _ = _parser.parse_known_args()
+SEED = _args.seed
+
 import statistics
 
 import networkx as nx
@@ -58,7 +64,7 @@ from xgboost import XGBClassifier
 from trust_aware_routing import build_graph
 
 NUM_ROUNDS = 23
-OUTPUT_PATH = "outputs/baseline_ai_sr_results.json"
+OUTPUT_PATH = f"outputs/baseline_ai_sr_results_seed{SEED}.json"
 DEAD_ENERGY_THRESHOLD = 0.0
 
 ATTACK_TYPE_WEIGHTS = {
@@ -96,7 +102,7 @@ CLASSIFIER_THRESHOLD = 0.5    # predicted_attacked if predicted probability >= t
 
 
 def load_inputs():
-    with open("outputs/routing_simulation.json") as f:
+    with open(f"outputs/routing_simulation_seed{SEED}.json") as f:
         sim = json.load(f)
     with open("outputs/energy_forecast_ibrl.json") as f:
         energy = json.load(f)
@@ -248,7 +254,7 @@ def main():
     model = train_classifier()
     print("Classifier trained.\n")
 
-    random.seed(42)  # same seed as LEACH/HEED/TBR/digital twin for a fair comparison
+    random.seed(SEED)  # same seed as LEACH/HEED/TBR/digital twin for a fair comparison
 
     sim, energy_forecast = load_inputs()
     node_ids = sim["node_ids"]

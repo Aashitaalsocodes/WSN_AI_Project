@@ -1,0 +1,3531 @@
+{
+  "trust_threshold_used": 0.4,
+  "attack_prob_threshold_used": 0.5,
+  "excluded_nodes": [
+    "338784",
+    "22780",
+    "146002",
+    "198691",
+    "274088",
+    "198461",
+    "141530",
+    "305402",
+    "145060",
+    "130111",
+    "145684",
+    "11028",
+    "209546",
+    "254615",
+    "130367",
+    "235202",
+    "145738",
+    "20302",
+    "120031",
+    "92826",
+    "345496",
+    "130825",
+    "267075",
+    "106743",
+    "325666",
+    "67314",
+    "198943",
+    "145852",
+    "146068",
+    "330879",
+    "229690",
+    "179768",
+    "60472",
+    "146037",
+    "165767",
+    "222077",
+    "289239",
+    "351364",
+    "302100",
+    "365214",
+    "232328",
+    "316526",
+    "290049",
+    "235514",
+    "356664"
+  ],
+  "trust_aware_routes": [
+    {
+      "route_id": 0,
+      "source": "315631",
+      "destination": "178349",
+      "path": [
+        "315631",
+        "215535",
+        "178349"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 1,
+      "source": "342871",
+      "destination": "264979",
+      "path": [
+        "342871",
+        "350737",
+        "52953",
+        "178389",
+        "299",
+        "264979"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 2,
+      "source": "200078",
+      "destination": "303657",
+      "path": [
+        "200078",
+        "269565",
+        "99561",
+        "308944",
+        "26633",
+        "53736",
+        "311969",
+        "303657"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 3,
+      "source": "56673",
+      "destination": "125140",
+      "path": [
+        "56673",
+        "125140"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 4,
+      "source": "73158",
+      "destination": "136716",
+      "path": [
+        "73158",
+        "254798",
+        "136716"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 5,
+      "source": "106743",
+      "destination": "221333",
+      "path": [
+        "106743",
+        "332911",
+        "129087",
+        "128075",
+        "344652",
+        "49123",
+        "173617",
+        "157284",
+        "221333"
+      ],
+      "hop_count": 8,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 6,
+      "source": "335243",
+      "destination": "303520",
+      "path": [
+        "335243",
+        "193738",
+        "180331",
+        "303520"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 7,
+      "source": "235514",
+      "destination": "169951",
+      "path": [
+        "235514",
+        "160007",
+        "70407",
+        "366026",
+        "169951"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 8,
+      "source": "261740",
+      "destination": "229690",
+      "path": [
+        "261740",
+        "41313",
+        "60058",
+        "229690"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 9,
+      "source": "41313",
+      "destination": "58369",
+      "path": [
+        "41313",
+        "125541",
+        "338428",
+        "58369"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 10,
+      "source": "142788",
+      "destination": "188208",
+      "path": [
+        "142788",
+        "109842",
+        "137340",
+        "188208"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 11,
+      "source": "85669",
+      "destination": "53893",
+      "path": [
+        "85669",
+        "137340",
+        "299391",
+        "340726",
+        "183321",
+        "119484",
+        "53893"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 12,
+      "source": "122049",
+      "destination": "327837",
+      "path": [
+        "122049",
+        "303520",
+        "111477",
+        "221571",
+        "340726",
+        "183321",
+        "327837"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 13,
+      "source": "311969",
+      "destination": "115457",
+      "path": [
+        "311969",
+        "131659",
+        "225332",
+        "161225",
+        "81516",
+        "115457"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 14,
+      "source": "236708",
+      "destination": "196038",
+      "path": [
+        "236708",
+        "210325",
+        "196038"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 15,
+      "source": "35337",
+      "destination": "281131",
+      "path": [
+        "35337",
+        "356263",
+        "33568",
+        "138873",
+        "219794",
+        "281131"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 16,
+      "source": "70407",
+      "destination": "308944",
+      "path": [
+        "70407",
+        "163429",
+        "170017",
+        "335544",
+        "240570",
+        "308944"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 17,
+      "source": "319275",
+      "destination": "122049",
+      "path": [
+        "319275",
+        "200562",
+        "297365",
+        "244855",
+        "138873",
+        "180331",
+        "122049"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 18,
+      "source": "346692",
+      "destination": "291382",
+      "path": [
+        "346692",
+        "37220",
+        "180331",
+        "291382"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 19,
+      "source": "306491",
+      "destination": "204693",
+      "path": [
+        "306491",
+        "123930",
+        "283423",
+        "256131",
+        "219949",
+        "204693"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 20,
+      "source": "199191",
+      "destination": "178389",
+      "path": [
+        "199191",
+        "186264",
+        "3770",
+        "178389"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 21,
+      "source": "5069",
+      "destination": "295170",
+      "path": [
+        "5069",
+        "256131",
+        "299",
+        "294318",
+        "324282",
+        "295170"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 22,
+      "source": "124118",
+      "destination": "47662",
+      "path": [
+        "124118",
+        "34701",
+        "47662"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 23,
+      "source": "347011",
+      "destination": "179768",
+      "path": [
+        "347011",
+        "221571",
+        "173617",
+        "119484",
+        "139973",
+        "179768"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 24,
+      "source": "124118",
+      "destination": "128075",
+      "path": [
+        "124118",
+        "68617",
+        "178389",
+        "3770",
+        "128075"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 25,
+      "source": "187595",
+      "destination": "357599",
+      "path": [
+        "187595",
+        "219949",
+        "357412",
+        "357599"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 26,
+      "source": "306491",
+      "destination": "371112",
+      "path": [
+        "306491",
+        "3770",
+        "371112"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 27,
+      "source": "289239",
+      "destination": "115141",
+      "path": [
+        "289239",
+        "57288",
+        "115141"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 28,
+      "source": "354785",
+      "destination": "128393",
+      "path": [
+        "354785",
+        "336321",
+        "338428",
+        "48625",
+        "128393"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 29,
+      "source": "114137",
+      "destination": "123314",
+      "path": [
+        "114137",
+        "119484",
+        "183321",
+        "340726",
+        "299391",
+        "336048",
+        "123314"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 30,
+      "source": "264979",
+      "destination": "232328",
+      "path": [
+        "264979",
+        "254798",
+        "73158",
+        "232328"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 31,
+      "source": "200562",
+      "destination": "317105",
+      "path": [
+        "200562",
+        "264979",
+        "114629",
+        "104248",
+        "291382",
+        "317105"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 32,
+      "source": "266161",
+      "destination": "351364",
+      "path": [
+        "266161",
+        "261740",
+        "351364"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 33,
+      "source": "149552",
+      "destination": "236708",
+      "path": [
+        "149552",
+        "199295",
+        "350737",
+        "236708"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 34,
+      "source": "3407",
+      "destination": "69445",
+      "path": [
+        "3407",
+        "84715",
+        "224231",
+        "29327",
+        "242357",
+        "290414",
+        "94036",
+        "219949",
+        "264951",
+        "57288",
+        "69445"
+      ],
+      "hop_count": 10,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 35,
+      "source": "119325",
+      "destination": "161225",
+      "path": [
+        "119325",
+        "3770",
+        "371112",
+        "229734",
+        "165388",
+        "245392",
+        "161225"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 36,
+      "source": "249974",
+      "destination": "151722",
+      "path": [
+        "249974",
+        "183321",
+        "340726",
+        "311969",
+        "30662",
+        "151722"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 37,
+      "source": "357412",
+      "destination": "327837",
+      "path": [
+        "357412",
+        "219949",
+        "94036",
+        "290414",
+        "242357",
+        "49123",
+        "183321",
+        "327837"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 38,
+      "source": "99724",
+      "destination": "183321",
+      "path": [
+        "99724",
+        "129973",
+        "294254",
+        "183321"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 39,
+      "source": "302100",
+      "destination": "185753",
+      "path": [
+        "302100",
+        "110430",
+        "299",
+        "294318",
+        "185753"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 40,
+      "source": "110615",
+      "destination": "281168",
+      "path": [
+        "110615",
+        "183321",
+        "340726",
+        "60058",
+        "68617",
+        "342598",
+        "271358",
+        "281168"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 41,
+      "source": "139258",
+      "destination": "138685",
+      "path": [
+        "139258",
+        "215535",
+        "178349",
+        "356768",
+        "173617",
+        "138685"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 42,
+      "source": "352159",
+      "destination": "337039",
+      "path": [
+        "352159",
+        "29971",
+        "104248",
+        "68617",
+        "60058",
+        "41313",
+        "367955",
+        "294076",
+        "337039"
+      ],
+      "hop_count": 8,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 43,
+      "source": "302698",
+      "destination": "266171",
+      "path": [
+        "302698",
+        "283423",
+        "73206",
+        "187595",
+        "266171"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 44,
+      "source": "319360",
+      "destination": "156960",
+      "path": [
+        "319360",
+        "57288",
+        "36396",
+        "352157",
+        "256131",
+        "114987",
+        "182981",
+        "45580",
+        "156960"
+      ],
+      "hop_count": 8,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 45,
+      "source": "149415",
+      "destination": "45580",
+      "path": [
+        "149415",
+        "264979",
+        "114987",
+        "182981",
+        "45580"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 46,
+      "source": "314019",
+      "destination": "73495",
+      "path": [
+        "314019",
+        "369972",
+        "256170",
+        "354785",
+        "343638",
+        "73495"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 47,
+      "source": "60517",
+      "destination": "186264",
+      "path": [
+        "60517",
+        "210325",
+        "36066",
+        "329588",
+        "186264"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 48,
+      "source": "221571",
+      "destination": "231649",
+      "path": [
+        "221571",
+        "311969",
+        "219794",
+        "138873",
+        "231649"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 49,
+      "source": "190306",
+      "destination": "129087",
+      "path": [
+        "190306",
+        "318029",
+        "297365",
+        "299",
+        "294318",
+        "129087"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 50,
+      "source": "225994",
+      "destination": "219794",
+      "path": [
+        "225994",
+        "131659",
+        "299391",
+        "219794"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 51,
+      "source": "319360",
+      "destination": "1858",
+      "path": [
+        "319360",
+        "1858"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 52,
+      "source": "327837",
+      "destination": "14470",
+      "path": [
+        "327837",
+        "183321",
+        "340726",
+        "56673",
+        "368857",
+        "14470"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 53,
+      "source": "345899",
+      "destination": "12406",
+      "path": [
+        "345899",
+        "324282",
+        "308944",
+        "240570",
+        "335544",
+        "225994",
+        "12406"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 54,
+      "source": "146002",
+      "destination": "139883",
+      "path": [
+        "146002",
+        "172103",
+        "139883"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 55,
+      "source": "111043",
+      "destination": "72525",
+      "path": [
+        "111043",
+        "183321",
+        "340726",
+        "60058",
+        "314019",
+        "72525"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 56,
+      "source": "277317",
+      "destination": "294254",
+      "path": [
+        "277317",
+        "122049",
+        "303520",
+        "111477",
+        "56673",
+        "340726",
+        "183321",
+        "294254"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 57,
+      "source": "325666",
+      "destination": "240273",
+      "path": [
+        "325666",
+        "111477",
+        "221571",
+        "173617",
+        "119484",
+        "240273"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 58,
+      "source": "41833",
+      "destination": "94036",
+      "path": [
+        "41833",
+        "210260",
+        "368857",
+        "24025",
+        "94036"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 59,
+      "source": "58650",
+      "destination": "238555",
+      "path": [
+        "58650",
+        "125541",
+        "41313",
+        "238555"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 60,
+      "source": "277317",
+      "destination": "279291",
+      "path": [
+        "277317",
+        "58485",
+        "215535",
+        "178349",
+        "279291"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 61,
+      "source": "305939",
+      "destination": "104286",
+      "path": [
+        "305939",
+        "23114",
+        "294318",
+        "104286"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 62,
+      "source": "1701",
+      "destination": "346047",
+      "path": [
+        "1701",
+        "111477",
+        "346047"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 63,
+      "source": "165868",
+      "destination": "68587",
+      "path": [
+        "165868",
+        "360446",
+        "284266",
+        "303520",
+        "180331",
+        "68587"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 64,
+      "source": "222075",
+      "destination": "239717",
+      "path": [
+        "222075",
+        "335544",
+        "199295",
+        "358375",
+        "239717"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 65,
+      "source": "112886",
+      "destination": "366026",
+      "path": [
+        "112886",
+        "336321",
+        "338428",
+        "48625",
+        "366026"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 66,
+      "source": "267075",
+      "destination": "174879",
+      "path": [
+        "267075",
+        "200562",
+        "297365",
+        "244855",
+        "105461",
+        "193738",
+        "174879"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 67,
+      "source": "209400",
+      "destination": "292002",
+      "path": [
+        "209400",
+        "37220",
+        "292002"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 68,
+      "source": "209400",
+      "destination": "221333",
+      "path": [
+        "209400",
+        "74905",
+        "210260",
+        "41833",
+        "306012",
+        "221333"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 69,
+      "source": "349665",
+      "destination": "229734",
+      "path": [
+        "349665",
+        "335544",
+        "229734"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 70,
+      "source": "136716",
+      "destination": "161225",
+      "path": [
+        "136716",
+        "26289",
+        "188208",
+        "219794",
+        "281131",
+        "39523",
+        "161225"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 71,
+      "source": "191182",
+      "destination": "114629",
+      "path": [
+        "191182",
+        "224622",
+        "34701",
+        "342598",
+        "114629"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 72,
+      "source": "30866",
+      "destination": "124118",
+      "path": [
+        "30866",
+        "112886",
+        "354785",
+        "256170",
+        "53587",
+        "124118"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 73,
+      "source": "38409",
+      "destination": "343638",
+      "path": [
+        "38409",
+        "26289",
+        "188208",
+        "121981",
+        "180331",
+        "303520",
+        "193575",
+        "343638"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 74,
+      "source": "146002",
+      "destination": "209546",
+      "path": [
+        "146002",
+        "294254",
+        "183321",
+        "358375",
+        "83707",
+        "336321",
+        "112886",
+        "209546"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 75,
+      "source": "294318",
+      "destination": "112886",
+      "path": [
+        "294318",
+        "23114",
+        "178389",
+        "34701",
+        "276653",
+        "74905",
+        "354785",
+        "112886"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 76,
+      "source": "210260",
+      "destination": "277317",
+      "path": [
+        "210260",
+        "303520",
+        "122049",
+        "277317"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 77,
+      "source": "266248",
+      "destination": "296341",
+      "path": [
+        "266248",
+        "306012",
+        "41833",
+        "210260",
+        "368857",
+        "195779",
+        "296341"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 78,
+      "source": "82920",
+      "destination": "324282",
+      "path": [
+        "82920",
+        "297365",
+        "299",
+        "294318",
+        "324282"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 79,
+      "source": "352157",
+      "destination": "138403",
+      "path": [
+        "352157",
+        "256131",
+        "114987",
+        "182981",
+        "45580",
+        "138403"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 80,
+      "source": "42982",
+      "destination": "146068",
+      "path": [
+        "42982",
+        "290414",
+        "311969",
+        "221208",
+        "356768",
+        "146068"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 81,
+      "source": "176472",
+      "destination": "68617",
+      "path": [
+        "176472",
+        "29327",
+        "242357",
+        "53736",
+        "68617"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 82,
+      "source": "191182",
+      "destination": "238555",
+      "path": [
+        "191182",
+        "238555"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 83,
+      "source": "130970",
+      "destination": "173617",
+      "path": [
+        "130970",
+        "183321",
+        "173617"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 84,
+      "source": "110140",
+      "destination": "309588",
+      "path": [
+        "110140",
+        "338428",
+        "306012",
+        "41291",
+        "309588"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 85,
+      "source": "83465",
+      "destination": "236708",
+      "path": [
+        "83465",
+        "114629",
+        "342598",
+        "178389",
+        "52953",
+        "236708"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 86,
+      "source": "373790",
+      "destination": "1130",
+      "path": [
+        "373790",
+        "1130"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 87,
+      "source": "286046",
+      "destination": "149552",
+      "path": [
+        "286046",
+        "149552"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 88,
+      "source": "139041",
+      "destination": "139883",
+      "path": [
+        "139041",
+        "37220",
+        "180331",
+        "368857",
+        "56673",
+        "41313",
+        "139883"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 89,
+      "source": "52953",
+      "destination": "208910",
+      "path": [
+        "52953",
+        "178389",
+        "73206",
+        "123314",
+        "208910"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 90,
+      "source": "269565",
+      "destination": "219794",
+      "path": [
+        "269565",
+        "99561",
+        "308944",
+        "33306",
+        "129303",
+        "219794"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 91,
+      "source": "306277",
+      "destination": "156960",
+      "path": [
+        "306277",
+        "111043",
+        "224231",
+        "116619",
+        "156960"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 92,
+      "source": "221187",
+      "destination": "225994",
+      "path": [
+        "221187",
+        "69369",
+        "367696",
+        "225994"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 93,
+      "source": "111477",
+      "destination": "63441",
+      "path": [
+        "111477",
+        "276653",
+        "121981",
+        "204693",
+        "63441"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 94,
+      "source": "77643",
+      "destination": "191182",
+      "path": [
+        "77643",
+        "224622",
+        "191182"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 95,
+      "source": "114137",
+      "destination": "315631",
+      "path": [
+        "114137",
+        "367955",
+        "41313",
+        "60058",
+        "68617",
+        "315631"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 96,
+      "source": "365214",
+      "destination": "356768",
+      "path": [
+        "365214",
+        "356768"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 97,
+      "source": "85277",
+      "destination": "164419",
+      "path": [
+        "85277",
+        "352159",
+        "356263",
+        "164419"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 98,
+      "source": "131813",
+      "destination": "111043",
+      "path": [
+        "131813",
+        "350737",
+        "130970",
+        "111043"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 99,
+      "source": "242357",
+      "destination": "50707",
+      "path": [
+        "242357",
+        "50707"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 100,
+      "source": "174879",
+      "destination": "39449",
+      "path": [
+        "174879",
+        "100814",
+        "68587",
+        "188208",
+        "26289",
+        "24702",
+        "104286",
+        "39449"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 101,
+      "source": "38409",
+      "destination": "111477",
+      "path": [
+        "38409",
+        "26289",
+        "342598",
+        "94036",
+        "137752",
+        "111477"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 102,
+      "source": "353036",
+      "destination": "191277",
+      "path": [
+        "353036",
+        "336321",
+        "354785",
+        "191277"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 103,
+      "source": "277408",
+      "destination": "200562",
+      "path": [
+        "277408",
+        "37435",
+        "200562"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 104,
+      "source": "209546",
+      "destination": "325405",
+      "path": [
+        "209546",
+        "112886",
+        "336321",
+        "83707",
+        "358375",
+        "183321",
+        "294254",
+        "60517",
+        "325405"
+      ],
+      "hop_count": 8,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 105,
+      "source": "158606",
+      "destination": "60517",
+      "path": [
+        "158606",
+        "60058",
+        "199295",
+        "170017",
+        "60517"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 106,
+      "source": "100814",
+      "destination": "334993",
+      "path": [
+        "100814",
+        "57487",
+        "187595",
+        "34701",
+        "224622",
+        "191182",
+        "334993"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 107,
+      "source": "109842",
+      "destination": "53893",
+      "path": [
+        "109842",
+        "335544",
+        "49123",
+        "183321",
+        "119484",
+        "53893"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 108,
+      "source": "41313",
+      "destination": "15622",
+      "path": [
+        "41313",
+        "15622"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 109,
+      "source": "60058",
+      "destination": "196038",
+      "path": [
+        "60058",
+        "41313",
+        "183321",
+        "224231",
+        "196038"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 110,
+      "source": "362293",
+      "destination": "290049",
+      "path": [
+        "362293",
+        "328962",
+        "138873",
+        "219794",
+        "311969",
+        "340726",
+        "183321",
+        "119484",
+        "290049"
+      ],
+      "hop_count": 8,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 111,
+      "source": "130367",
+      "destination": "128351",
+      "path": [
+        "130367",
+        "371112",
+        "335544",
+        "170017",
+        "35924",
+        "128351"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 112,
+      "source": "81158",
+      "destination": "86574",
+      "path": [
+        "81158",
+        "84715",
+        "163429",
+        "183321",
+        "340726",
+        "56673",
+        "368857",
+        "14470",
+        "86574"
+      ],
+      "hop_count": 8,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 113,
+      "source": "347011",
+      "destination": "173617",
+      "path": [
+        "347011",
+        "221571",
+        "173617"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 114,
+      "source": "185429",
+      "destination": "104286",
+      "path": [
+        "185429",
+        "225994",
+        "335544",
+        "240570",
+        "308944",
+        "324282",
+        "104286"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 115,
+      "source": "20836",
+      "destination": "280043",
+      "path": [
+        "20836",
+        "280043"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 116,
+      "source": "20836",
+      "destination": "60058",
+      "path": [
+        "20836",
+        "305939",
+        "48896",
+        "60058"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 117,
+      "source": "86317",
+      "destination": "125541",
+      "path": [
+        "86317",
+        "256131",
+        "267138",
+        "24025",
+        "178349",
+        "125541"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 118,
+      "source": "100448",
+      "destination": "332547",
+      "path": [
+        "100448",
+        "335544",
+        "47662",
+        "189600",
+        "283423",
+        "332547"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 119,
+      "source": "178349",
+      "destination": "142788",
+      "path": [
+        "178349",
+        "56673",
+        "50707",
+        "47662",
+        "142788"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 120,
+      "source": "352159",
+      "destination": "16829",
+      "path": [
+        "352159",
+        "83465",
+        "16829"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 121,
+      "source": "99724",
+      "destination": "199295",
+      "path": [
+        "99724",
+        "129973",
+        "60517",
+        "170017",
+        "199295"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 122,
+      "source": "139042",
+      "destination": "35631",
+      "path": [
+        "139042",
+        "299391",
+        "219794",
+        "121981",
+        "204693",
+        "35631"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 123,
+      "source": "51332",
+      "destination": "130970",
+      "path": [
+        "51332",
+        "264951",
+        "204693",
+        "121981",
+        "24025",
+        "286046",
+        "238555",
+        "130970"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 124,
+      "source": "63441",
+      "destination": "24702",
+      "path": [
+        "63441",
+        "357412",
+        "114629",
+        "26289",
+        "24702"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 125,
+      "source": "303520",
+      "destination": "99724",
+      "path": [
+        "303520",
+        "111477",
+        "346047",
+        "38033",
+        "65444",
+        "60517",
+        "129973",
+        "99724"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 126,
+      "source": "6019",
+      "destination": "281527",
+      "path": [
+        "6019",
+        "183321",
+        "358375",
+        "83707",
+        "221187",
+        "281527"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 127,
+      "source": "81030",
+      "destination": "26633",
+      "path": [
+        "81030",
+        "240870",
+        "14470",
+        "291382",
+        "34701",
+        "26633"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 128,
+      "source": "20916",
+      "destination": "139042",
+      "path": [
+        "20916",
+        "356263",
+        "13912",
+        "139258",
+        "219794",
+        "299391",
+        "139042"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 129,
+      "source": "294254",
+      "destination": "117806",
+      "path": [
+        "294254",
+        "183321",
+        "340726",
+        "56673",
+        "368857",
+        "180331",
+        "117806"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 130,
+      "source": "146341",
+      "destination": "281137",
+      "path": [
+        "146341",
+        "41313",
+        "56673",
+        "245392",
+        "281137"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 131,
+      "source": "299",
+      "destination": "289428",
+      "path": [
+        "299",
+        "26633",
+        "289428"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 132,
+      "source": "20916",
+      "destination": "356768",
+      "path": [
+        "20916",
+        "356263",
+        "351129",
+        "58485",
+        "215535",
+        "178349",
+        "356768"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 133,
+      "source": "352159",
+      "destination": "33306",
+      "path": [
+        "352159",
+        "357412",
+        "114629",
+        "342598",
+        "33306"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 134,
+      "source": "70407",
+      "destination": "238555",
+      "path": [
+        "70407",
+        "119484",
+        "183321",
+        "238555"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 135,
+      "source": "58650",
+      "destination": "81499",
+      "path": [
+        "58650",
+        "245392",
+        "111477",
+        "215535",
+        "81499"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 136,
+      "source": "329588",
+      "destination": "231649",
+      "path": [
+        "329588",
+        "23114",
+        "137340",
+        "94036",
+        "219949",
+        "231649"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 137,
+      "source": "114137",
+      "destination": "351224",
+      "path": [
+        "114137",
+        "6019",
+        "130970",
+        "344652",
+        "280043",
+        "289428",
+        "324282",
+        "351224"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 138,
+      "source": "342598",
+      "destination": "26289",
+      "path": [
+        "342598",
+        "26289"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 139,
+      "source": "274088",
+      "destination": "221846",
+      "path": [
+        "274088",
+        "104633",
+        "254496",
+        "221846"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 140,
+      "source": "138091",
+      "destination": "139973",
+      "path": [
+        "138091",
+        "185753",
+        "308944",
+        "240570",
+        "335544",
+        "170017",
+        "163429",
+        "139973"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 141,
+      "source": "311969",
+      "destination": "178349",
+      "path": [
+        "311969",
+        "178349"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 142,
+      "source": "12995",
+      "destination": "246777",
+      "path": [
+        "12995",
+        "290048",
+        "137752",
+        "111477",
+        "39523",
+        "120087",
+        "82540",
+        "246777"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 143,
+      "source": "282789",
+      "destination": "356664",
+      "path": [
+        "282789",
+        "100814",
+        "105461",
+        "244855",
+        "26289",
+        "24702",
+        "104286",
+        "356664"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 144,
+      "source": "50819",
+      "destination": "325666",
+      "path": [
+        "50819",
+        "99829",
+        "4883",
+        "42982",
+        "187595",
+        "325666"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 145,
+      "source": "116619",
+      "destination": "337039",
+      "path": [
+        "116619",
+        "60517",
+        "16663",
+        "337039"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 146,
+      "source": "246777",
+      "destination": "104248",
+      "path": [
+        "246777",
+        "82540",
+        "120087",
+        "39523",
+        "281131",
+        "219794",
+        "104248"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 147,
+      "source": "216161",
+      "destination": "318029",
+      "path": [
+        "216161",
+        "349665",
+        "52953",
+        "178389",
+        "342598",
+        "297365",
+        "318029"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 148,
+      "source": "281875",
+      "destination": "112886",
+      "path": [
+        "281875",
+        "84715",
+        "163429",
+        "183321",
+        "358375",
+        "83707",
+        "336321",
+        "112886"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 149,
+      "source": "47662",
+      "destination": "373790",
+      "path": [
+        "47662",
+        "142788",
+        "36066",
+        "373790"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 150,
+      "source": "213416",
+      "destination": "351129",
+      "path": [
+        "213416",
+        "57288",
+        "115141",
+        "351129"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 151,
+      "source": "82704",
+      "destination": "298673",
+      "path": [
+        "82704",
+        "289428",
+        "305939",
+        "350737",
+        "170017",
+        "60517",
+        "298673"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 152,
+      "source": "24025",
+      "destination": "30662",
+      "path": [
+        "24025",
+        "30662"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 153,
+      "source": "306012",
+      "destination": "342871",
+      "path": [
+        "306012",
+        "282579",
+        "261740",
+        "183321",
+        "342871"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 154,
+      "source": "146037",
+      "destination": "246777",
+      "path": [
+        "146037",
+        "183321",
+        "358375",
+        "83707",
+        "336321",
+        "112886",
+        "165868",
+        "246777"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 155,
+      "source": "122049",
+      "destination": "351224",
+      "path": [
+        "122049",
+        "37220",
+        "209400",
+        "187595",
+        "278058",
+        "283423",
+        "123930",
+        "351224"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 156,
+      "source": "254615",
+      "destination": "106743",
+      "path": [
+        "254615",
+        "354785",
+        "74905",
+        "276653",
+        "34701",
+        "26633",
+        "308944",
+        "324282",
+        "106743"
+      ],
+      "hop_count": 8,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 157,
+      "source": "299",
+      "destination": "188208",
+      "path": [
+        "299",
+        "342598",
+        "188208"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 158,
+      "source": "69369",
+      "destination": "265229",
+      "path": [
+        "69369",
+        "53893",
+        "265229"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 159,
+      "source": "264979",
+      "destination": "311699",
+      "path": [
+        "264979",
+        "114987",
+        "182981",
+        "54309",
+        "311699"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 160,
+      "source": "351129",
+      "destination": "242357",
+      "path": [
+        "351129",
+        "37220",
+        "180331",
+        "276653",
+        "299391",
+        "242357"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 161,
+      "source": "368857",
+      "destination": "354785",
+      "path": [
+        "368857",
+        "256170",
+        "354785"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 162,
+      "source": "114987",
+      "destination": "58654",
+      "path": [
+        "114987",
+        "24702",
+        "185753",
+        "58654"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 163,
+      "source": "130825",
+      "destination": "308443",
+      "path": [
+        "130825",
+        "303520",
+        "210260",
+        "356768",
+        "308443"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 164,
+      "source": "204693",
+      "destination": "42982",
+      "path": [
+        "204693",
+        "121981",
+        "94036",
+        "42982"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 165,
+      "source": "104286",
+      "destination": "14470",
+      "path": [
+        "104286",
+        "24702",
+        "189600",
+        "68617",
+        "291382",
+        "14470"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 166,
+      "source": "100448",
+      "destination": "30866",
+      "path": [
+        "100448",
+        "41313",
+        "125541",
+        "58650",
+        "120087",
+        "360446",
+        "30866"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 167,
+      "source": "244855",
+      "destination": "299391",
+      "path": [
+        "244855",
+        "342598",
+        "34701",
+        "299391"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 168,
+      "source": "137340",
+      "destination": "138873",
+      "path": [
+        "137340",
+        "94036",
+        "138873"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 169,
+      "source": "67314",
+      "destination": "278058",
+      "path": [
+        "67314",
+        "164722",
+        "123930",
+        "283423",
+        "278058"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 170,
+      "source": "7737",
+      "destination": "20916",
+      "path": [
+        "7737",
+        "112886",
+        "284266",
+        "151722",
+        "37220",
+        "289682",
+        "356263",
+        "20916"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 171,
+      "source": "241331",
+      "destination": "157284",
+      "path": [
+        "241331",
+        "239717",
+        "157284"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 172,
+      "source": "200562",
+      "destination": "182981",
+      "path": [
+        "200562",
+        "114987",
+        "182981"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 173,
+      "source": "317105",
+      "destination": "237881",
+      "path": [
+        "317105",
+        "211089",
+        "57487",
+        "264951",
+        "57288",
+        "237881"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 174,
+      "source": "315631",
+      "destination": "73495",
+      "path": [
+        "315631",
+        "215535",
+        "303520",
+        "284266",
+        "360446",
+        "73495"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 175,
+      "source": "269565",
+      "destination": "33568",
+      "path": [
+        "269565",
+        "99561",
+        "294318",
+        "299",
+        "110430",
+        "219949",
+        "33568"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 176,
+      "source": "120646",
+      "destination": "341911",
+      "path": [
+        "120646",
+        "340726",
+        "56673",
+        "368857",
+        "180331",
+        "37220",
+        "341911"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 177,
+      "source": "193738",
+      "destination": "30741",
+      "path": [
+        "193738",
+        "180331",
+        "368857",
+        "56673",
+        "41313",
+        "30741"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 178,
+      "source": "115141",
+      "destination": "299",
+      "path": [
+        "115141",
+        "57288",
+        "36396",
+        "352157",
+        "256131",
+        "299"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 179,
+      "source": "264951",
+      "destination": "110430",
+      "path": [
+        "264951",
+        "219949",
+        "110430"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 180,
+      "source": "126286",
+      "destination": "224622",
+      "path": [
+        "126286",
+        "290048",
+        "224622"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 181,
+      "source": "127400",
+      "destination": "357599",
+      "path": [
+        "127400",
+        "26522",
+        "26289",
+        "114629",
+        "357412",
+        "357599"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 182,
+      "source": "58485",
+      "destination": "215535",
+      "path": [
+        "58485",
+        "215535"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 183,
+      "source": "49453",
+      "destination": "119484",
+      "path": [
+        "49453",
+        "21930",
+        "138966",
+        "210325",
+        "60517",
+        "6019",
+        "119484"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 184,
+      "source": "249184",
+      "destination": "26522",
+      "path": [
+        "249184",
+        "306012",
+        "361689",
+        "131659",
+        "299391",
+        "137340",
+        "299",
+        "26522"
+      ],
+      "hop_count": 7,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 185,
+      "source": "347806",
+      "destination": "227942",
+      "path": [
+        "347806",
+        "68617",
+        "227942"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 186,
+      "source": "44907",
+      "destination": "229690",
+      "path": [
+        "44907",
+        "229690"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 187,
+      "source": "131659",
+      "destination": "235514",
+      "path": [
+        "131659",
+        "340726",
+        "183321",
+        "163429",
+        "84715",
+        "235514"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 188,
+      "source": "49453",
+      "destination": "195779",
+      "path": [
+        "49453",
+        "99829",
+        "4883",
+        "42982",
+        "187595",
+        "195779"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 189,
+      "source": "344652",
+      "destination": "221846",
+      "path": [
+        "344652",
+        "305939",
+        "289428",
+        "324282",
+        "221846"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 190,
+      "source": "83465",
+      "destination": "190306",
+      "path": [
+        "83465",
+        "190306"
+      ],
+      "hop_count": 1,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 191,
+      "source": "82704",
+      "destination": "104633",
+      "path": [
+        "82704",
+        "254798",
+        "318029",
+        "104633"
+      ],
+      "hop_count": 3,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 192,
+      "source": "128075",
+      "destination": "73495",
+      "path": [
+        "128075",
+        "131813",
+        "224622",
+        "279291",
+        "356768",
+        "58650",
+        "120087",
+        "360446",
+        "73495"
+      ],
+      "hop_count": 8,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 193,
+      "source": "315631",
+      "destination": "114137",
+      "path": [
+        "315631",
+        "68617",
+        "60058",
+        "41313",
+        "367955",
+        "114137"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 194,
+      "source": "3407",
+      "destination": "45580",
+      "path": [
+        "3407",
+        "84715",
+        "60517",
+        "210325",
+        "36066",
+        "45580"
+      ],
+      "hop_count": 5,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 195,
+      "source": "107090",
+      "destination": "82540",
+      "path": [
+        "107090",
+        "74905",
+        "354785",
+        "112886",
+        "82540"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 196,
+      "source": "204693",
+      "destination": "239717",
+      "path": [
+        "204693",
+        "121981",
+        "215535",
+        "178349",
+        "356768",
+        "358375",
+        "239717"
+      ],
+      "hop_count": 6,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 197,
+      "source": "221333",
+      "destination": "265229",
+      "path": [
+        "221333",
+        "53893",
+        "265229"
+      ],
+      "hop_count": 2,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 198,
+      "source": "60058",
+      "destination": "13912",
+      "path": [
+        "60058",
+        "68617",
+        "187595",
+        "57487",
+        "13912"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    },
+    {
+      "route_id": 199,
+      "source": "48896",
+      "destination": "209186",
+      "path": [
+        "48896",
+        "262451",
+        "170017",
+        "35924",
+        "209186"
+      ],
+      "hop_count": 4,
+      "passes_through_attacked_node": false,
+      "attacked_nodes_in_path": [],
+      "routing_mode": "trust_aware",
+      "path_found": true
+    }
+  ],
+  "trust_aware_summary": {
+    "total_routes": 200,
+    "routes_found": 200,
+    "avg_hop_count": 4.29,
+    "routes_through_attacked_node": 0,
+    "pct_compromised_routes": 0.0,
+    "routes_fully_trust_aware": 200,
+    "routes_forced_fallback": 0,
+    "routes_no_path": 0
+  },
+  "comparison_vs_baseline": {
+    "baseline_pct_compromised": 28.0,
+    "trust_aware_pct_compromised": 0.0,
+    "improvement_percentage_points": 28.0,
+    "baseline_avg_hops": 4.28,
+    "trust_aware_avg_hops": 4.29,
+    "hop_count_tradeoff": 0.01,
+    "excluded_nodes": 45,
+    "excluded_pct": 9.0
+  }
+}

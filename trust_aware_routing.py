@@ -16,6 +16,12 @@ Output:
 """
 
 import json
+import argparse
+_parser = argparse.ArgumentParser()
+_parser.add_argument("--seed", type=int, default=42)
+_args, _ = _parser.parse_known_args()
+SEED = _args.seed
+
 from pathlib import Path
 
 import networkx as nx
@@ -26,7 +32,7 @@ ATTACK_PROB_THRESHOLD = 0.5  # supervised classifier: >50% = predicted attacked
 
 
 def load_inputs():
-    with open(OUTPUTS_DIR / "routing_simulation.json", encoding="utf-8") as f:
+    with open(OUTPUTS_DIR / f"routing_simulation_seed{SEED}.json", encoding="utf-8") as f:
         sim = json.load(f)
     with open(OUTPUTS_DIR / "attack_classifier_predictions.json", encoding="utf-8") as f:
         classifier = json.load(f)
@@ -213,7 +219,7 @@ def main():
         "comparison_vs_baseline": comparison,
     }
 
-    output_path = OUTPUTS_DIR / "trust_aware_routing_results.json"
+    output_path = OUTPUTS_DIR / f"trust_aware_routing_results_seed{SEED}.json"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
 

@@ -49,6 +49,12 @@ comparison.
 import json
 import os
 import random
+import argparse
+_parser = argparse.ArgumentParser()
+_parser.add_argument("--seed", type=int, default=42)
+_args, _ = _parser.parse_known_args()
+SEED = _args.seed
+
 import statistics
 
 import networkx as nx
@@ -56,7 +62,7 @@ import networkx as nx
 from trust_aware_routing import build_graph
 
 NUM_ROUNDS = 23
-OUTPUT_PATH = "outputs/baseline_tbr_results.json"
+OUTPUT_PATH = f"outputs/baseline_tbr_results_seed{SEED}.json"
 DEAD_ENERGY_THRESHOLD = 0.0
 
 ATTACK_TYPE_WEIGHTS = {
@@ -89,7 +95,7 @@ TRUST_THRESHOLD = 0.5  # node excluded from routing below this trust score
 
 
 def load_inputs():
-    with open("outputs/routing_simulation.json") as f:
+    with open(f"outputs/routing_simulation_seed{SEED}.json") as f:
         sim = json.load(f)
     with open("outputs/energy_forecast_ibrl.json") as f:
         energy = json.load(f)
@@ -159,7 +165,7 @@ def route_avoiding_excluded(G, src, dst, excluded):
 
 
 def main():
-    random.seed(42)
+    random.seed(SEED)
 
     sim, energy_forecast = load_inputs()
     node_ids = sim["node_ids"]
