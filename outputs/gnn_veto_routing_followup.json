@@ -1,0 +1,53 @@
+{
+  "baseline": {
+    "excluded_count": 45,
+    "routes_found": 200,
+    "compromised_routes": 0,
+    "pct_compromised": 0.0,
+    "avg_hop_count": 4.29
+  },
+  "veto_filtered": {
+    "excluded_count": 6,
+    "routes_found": 200,
+    "compromised_routes": 44,
+    "pct_compromised": 22.0,
+    "avg_hop_count": 4.28
+  },
+  "vetoed_node_count": 39,
+  "vetoed_true_attack_count": 33,
+  "vetoed_true_attack_row_indices": [
+    "338784",
+    "145738",
+    "146002",
+    "345496",
+    "232328",
+    "305402",
+    "179768",
+    "325666",
+    "146037",
+    "165767",
+    "145060",
+    "302100",
+    "145684",
+    "209546",
+    "254615",
+    "130111",
+    "145852",
+    "222077",
+    "198691",
+    "267075",
+    "120031",
+    "20302",
+    "274088",
+    "22780",
+    "235514",
+    "130367",
+    "235202",
+    "67314",
+    "229690",
+    "330879",
+    "60472",
+    "316526",
+    "130825"
+  ]
+}
