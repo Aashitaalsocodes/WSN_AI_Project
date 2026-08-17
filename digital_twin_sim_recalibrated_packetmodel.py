@@ -31,16 +31,8 @@ comparisons in Section VIII reflect real topological differences rather than
 independent random noise per file. NUM_ROUNDS bumped 20 -> 23 because LND was
 frequently null at 20 rounds (node deaths follow a late-stage collapse
 pattern, not gradual attrition).
-
-CHANGED for multi-seed robustness run (aggregate_seeds.py companion script):
-accepts --seed on the command line and writes each run to a seed-specific
-output file (outputs/digital_twin_results_seed{N}.json) instead of
-overwriting the single shared outputs/digital_twin_results.json, so 5
-independent runs can be aggregated into mean+-std without clobbering each
-other or the original single-seed=42 result already cited in the paper.
 """
 
-import argparse
 import json
 import os
 import random
@@ -55,13 +47,7 @@ from trust_aware_routing import build_graph, route_with_trust
 from packet_transmission_model import simulate_packet_delivery
 
 NUM_ROUNDS = 23
-
-_parser = argparse.ArgumentParser()
-_parser.add_argument("--seed", type=int, default=42)
-_args = _parser.parse_args()
-
-SEED = _args.seed
-OUTPUT_PATH = f"outputs/digital_twin_results_packetmodel_seed{SEED}.json"
+OUTPUT_PATH = "outputs/digital_twin_results_packetmodel.json"
 DEAD_ENERGY_THRESHOLD = 0.0  # node considered dead once normalized energy hits this
 
 # Real attack-type ratios, taken from attack_ground_truth.json
@@ -138,10 +124,10 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multi
     # attacks go undetected, which is what actually produces compromised
     # routes in a trust-aware system
     DETECTION_MISS_RATE_BY_TYPE = {
-        "blackhole": 0.2344,
+        "blackhole": 0.2437,
         "grayhole": 0.1038,
         "flooding": 0.0103,
-        "tdma": 0.1528,
+        "tdma": 0.1435,
     }
 
     for nid in node_ids:
@@ -191,7 +177,7 @@ def simulate_round(round_num, node_ids, energy_state, mean_v, std_v, decay_multi
 
 
 def main():
-    random.seed(SEED)  # reproducible simulation across runs
+    random.seed(42)  # reproducible simulation across runs
 
     sim, energy_forecast = load_inputs()
     node_ids = sim["node_ids"]
@@ -265,7 +251,7 @@ def main():
         hop_counts = []
         compromised = 0
         compromised_routes_detail = []
-        paths_this_round = {}
+        paths_this_round = {}  # (source, destination) -> path list or None, for the packet model below
         for route in baseline_routes:
             result = route_with_trust(
                 G, route["source"], route["destination"], excluded, classifier
@@ -295,6 +281,11 @@ def main():
         avg_hop_count = round(sum(hop_counts) / len(hop_counts), 2) if hop_counts else 0.0
         compromised_pct = round((compromised / len(baseline_routes)) * 100, 2)
 
+        # --- packet-level delivery simulation (Task: real PDR/delay/throughput) ---
+        # Consumes the paths just computed above -- does not affect routing,
+        # trust, or detection in any way. Replaces the old route-existence
+        # PDR (which was ~always 100% on a connected topology) with an
+        # actual per-packet, per-hop drop/delay simulation.
         packet_result = simulate_packet_delivery(
             baseline_routes, paths_this_round, attacked_node_types
         )
@@ -328,6 +319,8 @@ def main():
             "packet_delivery_ratio_pct": packet_result["pdr_pct"],
             "avg_delay_ms": packet_result["avg_delay_ms"],
             "throughput_kbps": packet_result["throughput_kbps"],
+            "total_packets_sent": packet_result["total_packets_sent"],
+            "total_packets_delivered": packet_result["total_packets_delivered"],
         })
 
         print(f"Round {round_num}: attacked={len(attacked_nodes)}  "
@@ -351,6 +344,20 @@ def main():
             "50% of nodes, and all nodes respectively first reached "
             f"energy <= {DEAD_ENERGY_THRESHOLD}. A null value means that threshold "
             f"was not reached within the simulation's {NUM_ROUNDS} rounds."
+        ),
+    }
+
+    all_pdr = [r["packet_delivery_ratio_pct"] for r in results["rounds"]]
+    all_delay = [r["avg_delay_ms"] for r in results["rounds"] if r["avg_delay_ms"] is not None]
+    all_throughput = [r["throughput_kbps"] for r in results["rounds"]]
+    results["packet_delivery_summary"] = {
+        "avg_pdr_pct": round(statistics.mean(all_pdr), 4) if all_pdr else None,
+        "avg_delay_ms": round(statistics.mean(all_delay), 4) if all_delay else None,
+        "avg_throughput_kbps": round(statistics.mean(all_throughput), 4) if all_throughput else None,
+        "note": (
+            "Real per-packet, per-hop simulation (packet_transmission_model.py), "
+            "not derived from hop count or route existence. See that module's "
+            "docstring for the drop-probability and timing calibration used."
         ),
     }
 
