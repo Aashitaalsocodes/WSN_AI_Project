@@ -43,9 +43,10 @@ import statistics
 import networkx as nx
 
 from trust_aware_routing import build_graph
+from packet_transmission_model import simulate_packet_delivery
 
 NUM_ROUNDS = 23
-OUTPUT_PATH = f"outputs/baseline_leach_results_seed{SEED}.json"
+OUTPUT_PATH = f"outputs/baseline_leach_results_packetmodel_seed{SEED}.json"
 DEAD_ENERGY_THRESHOLD = 0.0
 
 # Same real attack-type ratios as digital_twin_sim.py, for a fair comparison
@@ -185,6 +186,7 @@ def main():
         successful_routes = 0
         compromised_routes_detail = []
 
+        paths_this_round = {}  # (source, destination) -> path list or None, for the packet model
         for route in baseline_routes:
             src, dst = route["source"], route["destination"]
             try:
@@ -197,6 +199,7 @@ def main():
             if path_found:
                 successful_routes += 1
                 hop_counts.append(len(path) - 1)
+                paths_this_round[(src, dst)] = path
                 intermediate_nodes = path[1:-1] if len(path) > 2 else []
                 attacked_intermediates = [nid for nid in intermediate_nodes if nid in true_attacked_set]
                 if attacked_intermediates:
@@ -208,10 +211,17 @@ def main():
                         "attacked_intermediate_nodes": attacked_intermediates,
                         "attack_types": [attacked_node_types.get(nid, "unknown") for nid in attacked_intermediates],
                     })
+            else:
+                paths_this_round[(src, dst)] = None
 
         avg_hop_count = round(sum(hop_counts) / len(hop_counts), 2) if hop_counts else 0.0
         compromised_pct = round((compromised / len(baseline_routes)) * 100, 2)
-        pdr = round((successful_routes / len(baseline_routes)) * 100, 2)
+
+        # --- packet-level delivery simulation (real PDR/delay/throughput) ---
+        packet_result = simulate_packet_delivery(
+            baseline_routes, paths_this_round, attacked_node_types
+        )
+        pdr = packet_result["pdr_pct"]
 
         avg_energy_remaining = round(sum(energy_state.values()) / total_nodes, 4)
         dead_nodes = [nid for nid, e in energy_state.items() if e <= DEAD_ENERGY_THRESHOLD]
@@ -234,6 +244,8 @@ def main():
             "compromised_routes_pct": compromised_pct,
             "compromised_routes_detail": compromised_routes_detail,
             "packet_delivery_ratio_pct": pdr,
+            "avg_delay_ms": packet_result["avg_delay_ms"],
+            "throughput_kbps": packet_result["throughput_kbps"],
             "avg_hop_count": avg_hop_count,
             "avg_energy_remaining": avg_energy_remaining,
             "num_dead_nodes": num_dead_nodes,
@@ -242,6 +254,7 @@ def main():
         print(f"[LEACH] Round {round_num}: attacked={len(attacked_nodes)}  "
               f"CHs={len(cluster_heads)}  "
               f"compromised_routes={compromised_pct}%  pdr={pdr}%  "
+              f"delay={packet_result['avg_delay_ms']}ms  throughput={packet_result['throughput_kbps']}kbps  "
               f"avg_hop={avg_hop_count}  avg_energy={avg_energy_remaining}  "
               f"dead_nodes={num_dead_nodes}")
 

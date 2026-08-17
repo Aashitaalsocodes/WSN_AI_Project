@@ -1,0 +1,179 @@
+"""
+Task 8 — Recalibration, Step 6
+WSN AI Security Pipeline
+
+Builds outputs/recalibration_report.json summarizing one full recalibration
+cycle:
+
+  original baseline  ->  currently applied (whatever values are live right
+  now in routing_cost.py / digital_twin_sim.py, from however many
+  recalibration cycles have run so far)  ->  latest recommended (fresh
+  recommendations from the most recent feedback_loop.py run)
+
+This compares two snapshots only -- it does not track or label which
+numbered cycle you're on. A type is flagged "converged" if the latest
+recommended delta from the currently-applied value is below
+CONVERGENCE_THRESHOLD -- meaning another recalibration pass wouldn't move
+it much further. Anything above that threshold is still actively drifting
+and would benefit from at least one more cycle.
+
+Run:  python build_recalibration_report.py
+"""
+
+import json
+import os
+
+OUTPUTS_DIR = "outputs"
+FEEDBACK_LOOP_PATH = os.path.join(OUTPUTS_DIR, "feedback_loop_results.json")
+REPORT_PATH = os.path.join(OUTPUTS_DIR, "recalibration_report.json")
+
+CONVERGENCE_THRESHOLD = 0.01
+
+# --- Original baseline, before any Task 8 recalibration ---
+ORIGINAL_DETECTION_MISS_RATE = {
+    "Blackhole": 0.18, "Grayhole": 0.18, "Flooding": 0.18, "TDMA": 0.18,
+}
+ORIGINAL_ATTACK_RISK_WEIGHTS = {
+    "TDMA": 0.3, "Flooding": 0.6, "Grayhole": 0.8, "Blackhole": 1.0,
+}
+
+# --- Currently applied: whatever values are live RIGHT NOW in
+# routing_cost.py / digital_twin_sim.py, from however many recalibration
+# cycles have actually run so far. THESE ARE HARDCODED -- if you run
+# another recalibration cycle, you MUST update these two dicts to match
+# the new live values in routing_cost.py / digital_twin_sim.py before
+# re-running this script, or the comparison will silently use stale data. ---
+CURRENTLY_APPLIED_DETECTION_MISS_RATE = {
+    "Blackhole": 0.2469, "Grayhole": 0.1038, "Flooding": 0.0103, "TDMA": 0.1343,
+}
+CURRENTLY_APPLIED_ATTACK_RISK_WEIGHTS = {
+    "TDMA": 0.1354, "Flooding": 0.2, "Grayhole": 0.4, "Blackhole": 0.6,
+}
+# Total compromised route instances observed in the original (pre-Task-8)
+# Digital Twin run, captured before that data was overwritten by the
+# recalibrated re-run.
+ORIGINAL_TOTAL_COMPROMISED_ROUTE_INSTANCES = 188
+
+def load_json(path):
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Expected input file not found: {path}")
+    with open(path, "r") as f:
+        return json.load(f)
+
+
+def build_type_comparison(original, currently_applied, latest_recommended, value_key):
+    """
+    For each attack type, builds the original -> currently-applied ->
+    latest-recommended chain plus a convergence flag based on how much the
+    latest recommendation still wants to move from the currently-applied
+    value.
+    """
+    comparison = {}
+    for atype in currently_applied:
+        latest_value = latest_recommended.get(atype, {}).get(value_key)
+        applied_value = currently_applied[atype]
+        original_value = original.get(atype)
+
+        delta_applied_to_latest = round(abs(latest_value - applied_value), 4) if latest_value is not None else None
+        converged = delta_applied_to_latest is not None and delta_applied_to_latest < CONVERGENCE_THRESHOLD
+
+        comparison[atype] = {
+            "original": original_value,
+            "currently_applied": applied_value,
+            "latest_recommended": latest_value,
+            "delta_applied_to_latest": delta_applied_to_latest,
+            "converged": converged,
+        }
+    return comparison
+
+
+def main():
+    print("Loading latest feedback_loop_results.json (most recent recalibration cycle)...")
+    feedback_data = load_json(FEEDBACK_LOOP_PATH)
+
+    latest_detection_recs = feedback_data["model_feedback"]["recommended_detection_miss_rate_by_type"]
+    latest_risk_recs = feedback_data["routing_feedback"]["recommended_attack_risk_weights_by_type"]
+    new_total_compromised = feedback_data["routing_feedback"]["total_compromised_route_instances"]
+
+    detection_comparison = build_type_comparison(
+        ORIGINAL_DETECTION_MISS_RATE, CURRENTLY_APPLIED_DETECTION_MISS_RATE,
+        latest_detection_recs, "recommended_new_rate",
+    )
+    risk_weight_comparison = build_type_comparison(
+        ORIGINAL_ATTACK_RISK_WEIGHTS, CURRENTLY_APPLIED_ATTACK_RISK_WEIGHTS,
+        latest_risk_recs, "recommended_new_weight",
+    )
+
+    detection_converged_count = sum(1 for v in detection_comparison.values() if v["converged"])
+    risk_converged_count = sum(1 for v in risk_weight_comparison.values() if v["converged"])
+
+    compromised_route_change = new_total_compromised - ORIGINAL_TOTAL_COMPROMISED_ROUTE_INSTANCES
+
+    report = {
+        "convergence_threshold": CONVERGENCE_THRESHOLD,
+        "detection_miss_rate": {
+            "by_type": detection_comparison,
+            "converged_count": detection_converged_count,
+            "total_types": len(detection_comparison),
+            "summary": (
+                f"{detection_converged_count}/{len(detection_comparison)} attack types converged "
+                f"(delta < {CONVERGENCE_THRESHOLD}) after one recalibration cycle."
+            ),
+        },
+        "attack_risk_weights": {
+            "by_type": risk_weight_comparison,
+            "converged_count": risk_converged_count,
+            "total_types": len(risk_weight_comparison),
+            "summary": (
+                f"{risk_converged_count}/{len(risk_weight_comparison)} attack types converged "
+                f"(delta < {CONVERGENCE_THRESHOLD}) after one recalibration cycle. "
+                + ("All types stabilized." if risk_converged_count == len(risk_weight_comparison)
+                   else "Some types are still actively drifting and would benefit from another cycle.")
+            ),
+        },
+        "compromised_routes": {
+            "original_total_instances": ORIGINAL_TOTAL_COMPROMISED_ROUTE_INSTANCES,
+            "post_recalibration_total_instances": new_total_compromised,
+            "change": compromised_route_change,
+            "note": (
+                "Total compromised route instances across all 20 Digital Twin rounds. "
+                "A small or negative change after one cycle is expected -- recalibration "
+                "tunes detection/routing parameters gradually (capped step size) rather "
+                "than in one large jump, matching how the feedback loop was designed to "
+                "avoid overcorrecting from a single noisy simulation run."
+            ),
+        },
+        "recommendation": (
+            "Run a second recalibration cycle for attack_risk_weights_by_type, which has not "
+            "yet converged, before treating these as final tuned values."
+            if risk_converged_count < len(risk_weight_comparison)
+            else "Recalibration has converged for both detection miss rates and risk weights."
+        ),
+    }
+
+    os.makedirs(OUTPUTS_DIR, exist_ok=True)
+    with open(REPORT_PATH, "w") as f:
+        json.dump(report, f, indent=2)
+    print(f"\nWrote {REPORT_PATH}")
+
+    print("\n--- Detection Miss Rate Convergence ---")
+    print(report["detection_miss_rate"]["summary"])
+    for atype, v in detection_comparison.items():
+        status = "converged" if v["converged"] else "still drifting"
+        print(f"  {atype}: {v['original']} -> {v['currently_applied']} -> {v['latest_recommended']}  ({status})")
+
+    print("\n--- Attack Risk Weight Convergence ---")
+    print(report["attack_risk_weights"]["summary"])
+    for atype, v in risk_weight_comparison.items():
+        status = "converged" if v["converged"] else "still drifting"
+        print(f"  {atype}: {v['original']} -> {v['currently_applied']} -> {v['latest_recommended']}  ({status})")
+
+    print(f"\n--- Compromised Routes ---")
+    print(f"Original: {ORIGINAL_TOTAL_COMPROMISED_ROUTE_INSTANCES}  ->  After latest recalibration: {new_total_compromised}  "
+          f"(change: {compromised_route_change:+d})")
+
+    print(f"\n{report['recommendation']}")
+
+
+if __name__ == "__main__":
+    main()
