@@ -1,0 +1,155 @@
+{
+  "quick_mode": false,
+  "seeds_used": [
+    42,
+    7,
+    123,
+    2024,
+    99
+  ],
+  "num_rounds": 23,
+  "section_viii_digital_twin": {
+    "without_recalibration": {
+      "avg_pdr_pct": {
+        "mean": 92.3543,
+        "std": 0.3242,
+        "raw": [
+          92.1228,
+          92.3674,
+          92.2957,
+          92.0293,
+          92.9565
+        ]
+      },
+      "avg_compromised_routes_pct": {
+        "mean": 5.7826,
+        "std": 0.6819,
+        "raw": [
+          5.9565,
+          6.3478,
+          5.8261,
+          6.3043,
+          4.4783
+        ]
+      },
+      "detection_accuracy_pct": {
+        "mean": 98.3687,
+        "std": 0.1415,
+        "raw": [
+          98.2783,
+          98.5043,
+          98.2348,
+          98.2522,
+          98.5739
+        ]
+      },
+      "detection_recall_pct": {
+        "mean": 82.4194,
+        "std": 1.675,
+        "raw": [
+          81.1429,
+          83.9102,
+          80.3675,
+          81.8756,
+          84.8007
+        ]
+      }
+    },
+    "with_recalibration": {
+      "avg_pdr_pct": {
+        "mean": 92.052,
+        "std": 0.2203,
+        "raw": [
+          91.6739,
+          92.0739,
+          92.0185,
+          92.3522,
+          92.1413
+        ]
+      },
+      "avg_compromised_routes_pct": {
+        "mean": 4.713,
+        "std": 0.181,
+        "raw": [
+          4.4783,
+          4.7826,
+          4.5217,
+          4.9348,
+          4.8478
+        ]
+      },
+      "detection_accuracy_pct": {
+        "mean": 98.7304,
+        "std": 0.0875,
+        "raw": [
+          98.7043,
+          98.6435,
+          98.6783,
+          98.7304,
+          98.8957
+        ]
+      },
+      "detection_recall_pct": {
+        "mean": 86.1355,
+        "std": 1.0263,
+        "raw": [
+          86.0225,
+          84.9421,
+          85.2713,
+          86.6178,
+          87.8236
+        ]
+      }
+    }
+  },
+  "section_vi_routing_cost": {
+    "without_recalibration": {
+      "pct_compromised_routes": {
+        "mean": 0.2,
+        "std": 0.2449,
+        "raw": [
+          0.5,
+          0.5,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "avg_hop_count": {
+        "mean": 4.374,
+        "std": 0.1013,
+        "raw": [
+          4.29,
+          4.54,
+          4.25,
+          4.41,
+          4.38
+        ]
+      }
+    },
+    "with_recalibration": {
+      "pct_compromised_routes": {
+        "mean": 1.6,
+        "std": 0.9165,
+        "raw": [
+          2.5,
+          1.5,
+          1.5,
+          0.0,
+          2.5
+        ]
+      },
+      "avg_hop_count": {
+        "mean": 4.366,
+        "std": 0.1033,
+        "raw": [
+          4.28,
+          4.54,
+          4.25,
+          4.41,
+          4.35
+        ]
+      }
+    }
+  }
+}
