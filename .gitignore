@@ -9,3 +9,4 @@ outputs/mitigation_actions.json
 outputs/stub_classifier_predictions.json
 .vercel
 .env*
+*.bak_* 

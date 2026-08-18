@@ -1,0 +1,68 @@
+{
+  "description": "EXPERIMENT 3: attacker-blind bridge-node deployment. +10% extra nodes placed at the lowest-density grid cells of the topology BEFORE malicious nodes are chosen (zero knowledge of attacker locations). Bridge nodes are full participants: normal starting trust, eligible to be selected as malicious, eligible for routing/CH election. Compare against the standard-topology results in synthetic_trust_routing_grid_results.json (v2) for the same num_nodes_base/malicious_pct/distribution.",
+  "add_bridge_pct": 0.1,
+  "seeds_per_config": 15,
+  "node_counts_tested": [
+    500
+  ],
+  "malicious_pcts_tested": [
+    0.25
+  ],
+  "distributions_tested": [
+    "random",
+    "clustered"
+  ],
+  "target_avg_degree": 8,
+  "results": [
+    {
+      "num_nodes_base": 500,
+      "malicious_pct": 0.25,
+      "distribution": "random",
+      "baseline_compromised_pct_mean": 88.125,
+      "baseline_compromised_pct_std": 5.143,
+      "trust_aware_compromised_pct_mean": 6.811,
+      "trust_aware_compromised_pct_std": 6.452,
+      "trust_aware_clustering_compromised_pct_mean": 6.811,
+      "trust_aware_clustering_compromised_pct_std": 6.452,
+      "soft_cost_compromised_pct_mean": 9.741,
+      "soft_cost_compromised_pct_std": 8.578,
+      "baseline_avg_hops_mean": 10.68,
+      "baseline_avg_hops_std": 0.899,
+      "trust_aware_avg_hops_mean": 12.864,
+      "trust_aware_avg_hops_std": 1.44,
+      "trust_aware_clustering_avg_hops_mean": 13.001,
+      "trust_aware_clustering_avg_hops_std": 1.375,
+      "soft_cost_avg_hops_mean": 12.64,
+      "soft_cost_avg_hops_std": 1.249,
+      "valid_route_pairs_mean": 49.933,
+      "valid_route_pairs_std": 0.258,
+      "num_runs": 15,
+      "min_valid_route_pairs": 49
+    },
+    {
+      "num_nodes_base": 500,
+      "malicious_pct": 0.25,
+      "distribution": "clustered",
+      "baseline_compromised_pct_mean": 53.148,
+      "baseline_compromised_pct_std": 15.046,
+      "trust_aware_compromised_pct_mean": 35.524,
+      "trust_aware_compromised_pct_std": 6.759,
+      "trust_aware_clustering_compromised_pct_mean": 35.524,
+      "trust_aware_clustering_compromised_pct_std": 6.759,
+      "soft_cost_compromised_pct_mean": 35.793,
+      "soft_cost_compromised_pct_std": 7.003,
+      "baseline_avg_hops_mean": 10.68,
+      "baseline_avg_hops_std": 0.899,
+      "trust_aware_avg_hops_mean": 11.502,
+      "trust_aware_avg_hops_std": 1.666,
+      "trust_aware_clustering_avg_hops_mean": 12.92,
+      "trust_aware_clustering_avg_hops_std": 2.093,
+      "soft_cost_avg_hops_mean": 13.189,
+      "soft_cost_avg_hops_std": 2.483,
+      "valid_route_pairs_mean": 49.933,
+      "valid_route_pairs_std": 0.258,
+      "num_runs": 15,
+      "min_valid_route_pairs": 49
+    }
+  ]
+}

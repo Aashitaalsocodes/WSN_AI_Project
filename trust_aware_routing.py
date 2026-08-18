@@ -72,6 +72,186 @@ def get_excluded_nodes(
     return excluded
 
 
+def compute_cluster_density(G, excluded: set, radius: int = 2) -> dict:
+    """
+    For every node in G, estimate the local density of *observed* excluded
+    nodes (flagged by classifier OR low trust) within `radius` hops.
+
+    This is a proxy for "am I near a routing chokepoint that clustered
+    attackers have concentrated around" -- built only from information a
+    real deployed system actually has (which nodes got flagged / lost
+    trust), not oracle knowledge of the true malicious set. Detected
+    attackers are already excluded outright; this additionally penalizes
+    routing *near* dense excluded regions, where undetected attackers in
+    the same cluster are statistically more likely to be sitting on the
+    only remaining path.
+
+    Returns: {node_id: density_score in [0, 1]}
+    """
+    density = {}
+    for node in G.nodes():
+        try:
+            neighborhood = nx.single_source_shortest_path_length(G, node, cutoff=radius)
+        except nx.NodeNotFound:
+            density[node] = 0.0
+            continue
+        neighborhood_nodes = set(neighborhood.keys())
+        if len(neighborhood_nodes) <= 1:
+            density[node] = 0.0
+            continue
+        excluded_nearby = len(neighborhood_nodes & excluded)
+        density[node] = excluded_nearby / len(neighborhood_nodes)
+    return density
+
+
+def route_with_trust_clustering_aware(
+    G: nx.Graph,
+    source: str,
+    destination: str,
+    excluded: set,
+    classifier: dict,
+    density: dict = None,
+    density_penalty: float = 8.0,
+) -> dict:
+    """
+    Clustering-aware variant of route_with_trust: same hard exclusion of
+    flagged/low-trust nodes, but routes via weighted Dijkstra instead of
+    plain shortest_path. Edge weight rises with the excluded-node density
+    near each endpoint, so paths bend away from cluster chokepoints instead
+    of cutting straight through them when a shorter-but-riskier path exists.
+
+    Falls back to baseline routing if no trust-aware path exists at all,
+    same as route_with_trust.
+    """
+    nodes_to_remove = excluded - {source, destination}
+    G_trusted = G.copy()
+    G_trusted.remove_nodes_from(nodes_to_remove)
+
+    if density is None:
+        density = compute_cluster_density(G, excluded)
+
+    def edge_weight(u, v, edge_attrs):
+        du = density.get(u, 0.0)
+        dv = density.get(v, 0.0)
+        avg_density = (du + dv) / 2
+        return 1.0 + density_penalty * avg_density
+
+    try:
+        path = nx.dijkstra_path(G_trusted, source=source, target=destination, weight=edge_weight)
+        attacked_in_path = [
+            n for n in path
+            if classifier.get(n, {}).get("predicted_attacked", 0) == 1
+            and n not in (source, destination)
+        ]
+        return {
+            "path": path,
+            "hop_count": len(path) - 1,
+            "passes_through_attacked_node": len(attacked_in_path) > 0,
+            "attacked_nodes_in_path": attacked_in_path,
+            "routing_mode": "trust_aware_clustering",
+            "path_found": True,
+        }
+    except nx.NetworkXNoPath:
+        # No trusted path exists -- the exclusion has fragmented the graph
+        # for this pair. Instead of falling back to a blind unweighted
+        # shortest path (which can cut straight through the densest part
+        # of the attacker cluster), fall back to density-WEIGHTED routing
+        # on the full graph: among routes forced to cross excluded
+        # territory, prefer the one with lowest attacker density.
+        try:
+            path = nx.dijkstra_path(G, source=source, target=destination, weight=edge_weight)
+            attacked_in_path = [
+                n for n in path
+                if classifier.get(n, {}).get("predicted_attacked", 0) == 1
+            ]
+            return {
+                "path": path,
+                "hop_count": len(path) - 1,
+                "passes_through_attacked_node": len(attacked_in_path) > 0,
+                "attacked_nodes_in_path": attacked_in_path,
+                "routing_mode": "fallback_density_weighted",
+                "path_found": True,
+            }
+        except nx.NetworkXNoPath:
+            return {
+                "path": [],
+                "hop_count": -1,
+                "passes_through_attacked_node": False,
+                "attacked_nodes_in_path": [],
+                "routing_mode": "no_path",
+                "path_found": False,
+            }
+
+
+
+def route_with_soft_cost(
+    G: nx.Graph,
+    source: str,
+    destination: str,
+    classifier: dict,
+    trust_scores: dict,
+    malicious_penalty: float = 15.0,
+    trust_weight: float = 10.0,
+) -> dict:
+    """
+    Full cost-based routing: no hard exclusion of any node. Every node
+    stays in the graph, but edge cost rises for edges touching nodes that
+    are flagged by the classifier and/or have low trust scores. This never
+    fragments the graph (a path is found whenever one topologically
+    exists), and it honestly reports when a route was forced through
+    confirmed-malicious territory rather than hiding that behind a
+    disconnected component or a blind unweighted fallback.
+
+    Cost model per node n:
+        node_cost(n) = 1.0
+                       + malicious_penalty * predicted_attacked(n)
+                       + trust_weight * max(0, TRUST_MIDPOINT - trust(n))
+
+    Edge (u, v) weight = average of node_cost(u) and node_cost(v).
+
+    Adapted from the teammate's cost model in routing_cost.py, but omits
+    attack_type-specific weighting since this pipeline's classifier dict
+    only carries a binary predicted_attacked flag, not an attack-type
+    label (unlike the routing_cost.py pipeline used for the main paper
+    results).
+    """
+    TRUST_MIDPOINT = 0.5
+
+    def node_cost(n):
+        pred = classifier.get(n, {})
+        flagged = 1.0 if pred.get("predicted_attacked", 0) == 1 else 0.0
+        trust = trust_scores.get(int(n), trust_scores.get(n, 1.0))
+        trust_penalty = max(0.0, TRUST_MIDPOINT - trust)
+        return 1.0 + malicious_penalty * flagged + trust_weight * trust_penalty
+
+    def edge_weight(u, v, edge_attrs):
+        return (node_cost(u) + node_cost(v)) / 2
+
+    try:
+        path = nx.dijkstra_path(G, source=source, target=destination, weight=edge_weight)
+        attacked_in_path = [
+            n for n in path
+            if classifier.get(n, {}).get("predicted_attacked", 0) == 1
+            and n not in (source, destination)
+        ]
+        return {
+            "path": path,
+            "hop_count": len(path) - 1,
+            "passes_through_attacked_node": len(attacked_in_path) > 0,
+            "attacked_nodes_in_path": attacked_in_path,
+            "routing_mode": "soft_cost",
+            "path_found": True,
+        }
+    except nx.NetworkXNoPath:
+        return {
+            "path": [],
+            "hop_count": -1,
+            "passes_through_attacked_node": False,
+            "attacked_nodes_in_path": [],
+            "routing_mode": "no_path",
+            "path_found": False,
+        }
+
 def route_with_trust(
     G: nx.Graph,
     source: str,
