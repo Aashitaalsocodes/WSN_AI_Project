@@ -1,0 +1,50 @@
+{
+  "quick_mode": true,
+  "seeds_used": [
+    42
+  ],
+  "uav_trigger_pct": 15.0,
+  "uav_connect_k": 6,
+  "uav_connect_radius": 0.35,
+  "weights_used": {
+    "W_DISTANCE": 1.0,
+    "W_ENERGY": 1.0,
+    "W_ATTACK": 2.0,
+    "attack_risk_weights_by_type": {
+      "Normal": 0.0,
+      "TDMA": 0.1354,
+      "Flooding": 0.0052,
+      "Grayhole": 0.2969,
+      "Blackhole": 0.5938
+    }
+  },
+  "per_seed_results": [
+    {
+      "seed": 42,
+      "pct_compromised_routes": 0.0,
+      "avg_hop_count": 4.76,
+      "uav_deployed": false,
+      "uav_anchor_node": null,
+      "uav_pct_compromised_routes": null,
+      "uav_avg_hop_count": null
+    }
+  ],
+  "pre_uav_pct_compromised_routes": {
+    "mean": 0.0,
+    "std": 0.0,
+    "raw": [
+      0.0
+    ]
+  },
+  "uav_trigger_count": 0,
+  "uav_pct_compromised_routes_among_triggered": {
+    "mean": null,
+    "std": 0.0,
+    "raw": []
+  },
+  "pre_uav_pct_compromised_routes_among_triggered": {
+    "mean": null,
+    "std": 0.0,
+    "raw": []
+  }
+}

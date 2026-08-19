@@ -1,0 +1,87 @@
+{
+  "quick_mode": true,
+  "seeds_used": [
+    42
+  ],
+  "target_malicious_pct": 0.25,
+  "uav_trigger_pct": 15.0,
+  "uav_max_count": 10,
+  "weights_used": {
+    "W_DISTANCE": 1.0,
+    "W_ENERGY": 1.0,
+    "W_ATTACK": 2.0,
+    "attack_risk_weights_by_type": {
+      "Normal": 0.0,
+      "TDMA": 0.1354,
+      "Flooding": 0.0052,
+      "Grayhole": 0.2969,
+      "Blackhole": 0.5938
+    }
+  },
+  "per_seed_results": [
+    {
+      "seed": 42,
+      "real_attacked_count": 41,
+      "real_attacked_pct": 8.2,
+      "injected_attacker_count": 84,
+      "final_malicious_pct": 25.0,
+      "baseline_pct_compromised": 0.0,
+      "baseline_avg_hop_count": 4.76,
+      "stressed_pct_compromised": 19.5,
+      "stressed_avg_hop_count": 4.9,
+      "uav_deployed": true,
+      "uav_chokepoint_nodes": [
+        "57288",
+        "48390",
+        "193738",
+        "296341",
+        "204693",
+        "215535",
+        "68587",
+        "115141",
+        "122049"
+      ],
+      "uav_used_by_route_count": 92,
+      "uav_routes_fixed": 13,
+      "uav_routes_newly_broken": 15,
+      "stressed_uav_pct_compromised": 20.5,
+      "stressed_uav_avg_hop_count": 5.03,
+      "improvement_percentage_points": -1.0,
+      "stressed_uav_surgical_pct_compromised": 13.0,
+      "stressed_uav_surgical_avg_hop_count": 4.92,
+      "uav_used_by_route_count_surgical": 39,
+      "uav_routes_fixed_surgical": 13,
+      "uav_routes_newly_broken_surgical": 0,
+      "improvement_percentage_points_surgical": 6.5
+    }
+  ],
+  "baseline_pct_compromised": {
+    "mean": 0.0,
+    "std": 0.0,
+    "raw": [
+      0.0
+    ]
+  },
+  "stressed_pct_compromised": {
+    "mean": 19.5,
+    "std": 0.0,
+    "raw": [
+      19.5
+    ]
+  },
+  "uav_trigger_count": 1,
+  "stressed_uav_pct_compromised_among_triggered": {
+    "mean": 20.5,
+    "std": 0.0,
+    "raw": [
+      20.5
+    ]
+  },
+  "improvement_percentage_points_among_triggered": {
+    "mean": -1.0,
+    "std": 0.0,
+    "raw": [
+      -1.0
+    ]
+  }
+}
