@@ -38,6 +38,14 @@ output file (outputs/digital_twin_results_seed{N}.json) instead of
 overwriting the single shared outputs/digital_twin_results.json, so 5
 independent runs can be aggregated into mean+-std without clobbering each
 other or the original single-seed=42 result already cited in the paper.
+
+CHANGED for LSTM energy-forecasting integration: each round now also logs
+"node_energy_snapshot" -- a {node_id: energy_value} map of every node's
+current normalized energy at the end of that round. Aggregate metrics
+(avg_energy_remaining, num_dead_nodes) already existed but collapsed all
+500 nodes into a single number per round, which is unusable for training a
+per-node forecasting model. The top-level results dict also now records
+"num_nodes" so downstream extraction scripts don't have to infer it.
 """
 
 import argparse
@@ -230,10 +238,10 @@ def main():
         for nid in node_ids
     }
 
-    results = {"num_rounds": NUM_ROUNDS, "rounds": []}
+    total_nodes = len(node_ids)
+    results = {"num_rounds": NUM_ROUNDS, "num_nodes": total_nodes, "rounds": []}
 
     # FND/HND/LND tracking
-    total_nodes = len(node_ids)
     half_node_count = total_nodes // 2
     first_node_death_round = None
     half_node_death_round = None
@@ -311,6 +319,12 @@ def main():
         if num_dead_nodes >= total_nodes and last_node_death_round is None:
             last_node_death_round = round_num
 
+        # --- per-node energy snapshot (LSTM integration addition) ---
+        # Full {node_id: energy_value} map for this round, so downstream
+        # extraction can build per-node sliding-window training data
+        # instead of only having the network-wide average.
+        node_energy_snapshot = {str(nid): round(float(energy_state[nid]), 6) for nid in node_ids}
+
         results["rounds"].append({
             "round": round_num,
             "attacked_nodes": attacked_nodes,  # full list now, not [:5] sample
@@ -325,6 +339,7 @@ def main():
             "avg_hop_count": avg_hop_count,
             "avg_energy_remaining": avg_energy_remaining,
             "num_dead_nodes": num_dead_nodes,
+            "node_energy_snapshot": node_energy_snapshot,
             "packet_delivery_ratio_pct": packet_result["pdr_pct"],
             "avg_delay_ms": packet_result["avg_delay_ms"],
             "throughput_kbps": packet_result["throughput_kbps"],
