@@ -11,3 +11,4 @@ outputs/stub_classifier_predictions.json
 .env*
 *.bak_* 
 venv_tf/ 
+Conference_paper_v*.docx 
