@@ -1,0 +1,223 @@
+{
+  "quick_mode": false,
+  "seeds_used": [
+    42,
+    7,
+    123,
+    2024,
+    99
+  ],
+  "target_malicious_pct": 0.25,
+  "uav_trigger_pct": 15.0,
+  "uav_max_count": 10,
+  "weights_used": {
+    "W_DISTANCE": 1.0,
+    "W_ENERGY": 1.0,
+    "W_ATTACK": 2.0,
+    "attack_risk_weights_by_type": {
+      "Normal": 0.0,
+      "TDMA": 0.1354,
+      "Flooding": 0.0052,
+      "Grayhole": 0.2969,
+      "Blackhole": 0.5938
+    }
+  },
+  "per_seed_results": [
+    {
+      "seed": 42,
+      "real_attacked_count": 41,
+      "real_attacked_pct": 8.2,
+      "injected_attacker_count": 84,
+      "final_malicious_pct": 25.0,
+      "baseline_pct_compromised": 0.0,
+      "baseline_avg_hop_count": 4.76,
+      "stressed_pct_compromised": 19.5,
+      "stressed_avg_hop_count": 4.9,
+      "uav_deployed": true,
+      "uav_chokepoint_nodes": [
+        "57288",
+        "48390",
+        "193738",
+        "296341",
+        "204693",
+        "215535",
+        "68587",
+        "115141",
+        "122049"
+      ],
+      "uav_used_by_route_count": 92,
+      "uav_routes_fixed": 13,
+      "uav_routes_newly_broken": 15,
+      "stressed_uav_pct_compromised": 20.5,
+      "stressed_uav_avg_hop_count": 5.03,
+      "improvement_percentage_points": -1.0,
+      "stressed_uav_surgical_pct_compromised": 13.0,
+      "stressed_uav_surgical_avg_hop_count": 4.92,
+      "uav_used_by_route_count_surgical": 39,
+      "uav_routes_fixed_surgical": 13,
+      "uav_routes_newly_broken_surgical": 0,
+      "improvement_percentage_points_surgical": 6.5
+    },
+    {
+      "seed": 7,
+      "real_attacked_count": 41,
+      "real_attacked_pct": 8.2,
+      "injected_attacker_count": 84,
+      "final_malicious_pct": 25.0,
+      "baseline_pct_compromised": 0.0,
+      "baseline_avg_hop_count": 5.08,
+      "stressed_pct_compromised": 18.0,
+      "stressed_avg_hop_count": 5.22,
+      "uav_deployed": true,
+      "uav_chokepoint_nodes": [
+        "116938",
+        "138808",
+        "36865",
+        "221091",
+        "32635",
+        "42225",
+        "344597",
+        "115910",
+        "350996",
+        "251865"
+      ],
+      "uav_used_by_route_count": 67,
+      "uav_routes_fixed": 14,
+      "uav_routes_newly_broken": 3,
+      "stressed_uav_pct_compromised": 12.5,
+      "stressed_uav_avg_hop_count": 5.3,
+      "improvement_percentage_points": 5.5,
+      "stressed_uav_surgical_pct_compromised": 11.0,
+      "stressed_uav_surgical_avg_hop_count": 5.2,
+      "uav_used_by_route_count_surgical": 36,
+      "uav_routes_fixed_surgical": 14,
+      "uav_routes_newly_broken_surgical": 0,
+      "improvement_percentage_points_surgical": 7.0
+    },
+    {
+      "seed": 123,
+      "real_attacked_count": 57,
+      "real_attacked_pct": 11.4,
+      "injected_attacker_count": 68,
+      "final_malicious_pct": 25.0,
+      "baseline_pct_compromised": 0.0,
+      "baseline_avg_hop_count": 4.85,
+      "stressed_pct_compromised": 14.5,
+      "stressed_avg_hop_count": 4.89,
+      "uav_deployed": false,
+      "uav_chokepoint_nodes": [],
+      "uav_used_by_route_count": 0,
+      "uav_routes_fixed": 0,
+      "uav_routes_newly_broken": 0,
+      "stressed_uav_pct_compromised": null,
+      "stressed_uav_avg_hop_count": null,
+      "improvement_percentage_points": null,
+      "stressed_uav_surgical_pct_compromised": null,
+      "stressed_uav_surgical_avg_hop_count": null,
+      "uav_used_by_route_count_surgical": 0,
+      "uav_routes_fixed_surgical": 0,
+      "uav_routes_newly_broken_surgical": 0,
+      "improvement_percentage_points_surgical": null
+    },
+    {
+      "seed": 2024,
+      "real_attacked_count": 44,
+      "real_attacked_pct": 8.8,
+      "injected_attacker_count": 81,
+      "final_malicious_pct": 25.0,
+      "baseline_pct_compromised": 0.0,
+      "baseline_avg_hop_count": 4.95,
+      "stressed_pct_compromised": 14.5,
+      "stressed_avg_hop_count": 5.07,
+      "uav_deployed": false,
+      "uav_chokepoint_nodes": [],
+      "uav_used_by_route_count": 0,
+      "uav_routes_fixed": 0,
+      "uav_routes_newly_broken": 0,
+      "stressed_uav_pct_compromised": null,
+      "stressed_uav_avg_hop_count": null,
+      "improvement_percentage_points": null,
+      "stressed_uav_surgical_pct_compromised": null,
+      "stressed_uav_surgical_avg_hop_count": null,
+      "uav_used_by_route_count_surgical": 0,
+      "uav_routes_fixed_surgical": 0,
+      "uav_routes_newly_broken_surgical": 0,
+      "improvement_percentage_points_surgical": null
+    },
+    {
+      "seed": 99,
+      "real_attacked_count": 46,
+      "real_attacked_pct": 9.2,
+      "injected_attacker_count": 79,
+      "final_malicious_pct": 25.0,
+      "baseline_pct_compromised": 0.0,
+      "baseline_avg_hop_count": 4.83,
+      "stressed_pct_compromised": 22.0,
+      "stressed_avg_hop_count": 4.91,
+      "uav_deployed": true,
+      "uav_chokepoint_nodes": [
+        "202343",
+        "105274",
+        "98816",
+        "144436",
+        "320385",
+        "366871",
+        "208280",
+        "92286"
+      ],
+      "uav_used_by_route_count": 72,
+      "uav_routes_fixed": 29,
+      "uav_routes_newly_broken": 1,
+      "stressed_uav_pct_compromised": 8.0,
+      "stressed_uav_avg_hop_count": 4.97,
+      "improvement_percentage_points": 14.0,
+      "stressed_uav_surgical_pct_compromised": 7.5,
+      "stressed_uav_surgical_avg_hop_count": 4.92,
+      "uav_used_by_route_count_surgical": 44,
+      "uav_routes_fixed_surgical": 29,
+      "uav_routes_newly_broken_surgical": 0,
+      "improvement_percentage_points_surgical": 14.5
+    }
+  ],
+  "baseline_pct_compromised": {
+    "mean": 0.0,
+    "std": 0.0,
+    "raw": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "stressed_pct_compromised": {
+    "mean": 17.7,
+    "std": 2.9086,
+    "raw": [
+      19.5,
+      18.0,
+      14.5,
+      14.5,
+      22.0
+    ]
+  },
+  "uav_trigger_count": 3,
+  "stressed_uav_pct_compromised_among_triggered": {
+    "mean": 13.6667,
+    "std": 5.1694,
+    "raw": [
+      20.5,
+      12.5,
+      8.0
+    ]
+  },
+  "improvement_percentage_points_among_triggered": {
+    "mean": 6.1667,
+    "std": 6.1418,
+    "raw": [
+      -1.0,
+      5.5,
+      14.0
+    ]
+  }
+}
