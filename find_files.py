@@ -1,0 +1,10 @@
+﻿import os
+
+for root, dirs, files in os.walk("."):
+    if "node_modules" in root or ".git" in root:
+        continue
+    for f in files:
+        if f.endswith(".json") and ("digital_twin" in f or "packetmodel" in f or "history" in f or "trust" in f):
+            path = os.path.join(root, f)
+            size_mb = os.path.getsize(path) / 1e6
+            print(f"{path}  ({size_mb:.2f} MB)")
