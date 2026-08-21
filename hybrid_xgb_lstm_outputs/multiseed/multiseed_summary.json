@@ -1,0 +1,132 @@
+{
+  "time_frac=0.7_seq_len=10": {
+    "xgb_only": {
+      "recall_macro": {
+        "mean": 0.6663399180115471,
+        "std": 0.0,
+        "n": 3
+      },
+      "per_round_pooled_recall": {
+        "mean": 0.9828437132784958,
+        "std": 0.0,
+        "n": 3
+      },
+      "blackhole_recall": {
+        "mean": 0.4160708205652026,
+        "std": 0.0,
+        "n": 3
+      }
+    },
+    "lstm_only": {
+      "recall_macro": {
+        "mean": 0.6464961051629212,
+        "std": 0.009678623378255273,
+        "n": 3
+      },
+      "per_round_pooled_recall": {
+        "mean": 0.9688993341167255,
+        "std": 0.02806083229700309,
+        "n": 3
+      },
+      "blackhole_recall": {
+        "mean": 0.4645329701509477,
+        "std": 0.09923930392217611,
+        "n": 3
+      }
+    },
+    "hybrid": {
+      "recall_macro": {
+        "mean": 0.6439238932882781,
+        "std": 0.002023578314569038,
+        "n": 3
+      },
+      "per_round_pooled_recall": {
+        "mean": 0.945123384253819,
+        "std": 0.023767010801591538,
+        "n": 3
+      },
+      "blackhole_recall": {
+        "mean": 0.3842923618204517,
+        "std": 0.03365508903685944,
+        "n": 3
+      }
+    },
+    "delta_hybrid_minus_xgb": {
+      "recall_macro": {
+        "mean": -0.02241602472326898,
+        "std": 0.002023578314569038,
+        "n": 3
+      },
+      "blackhole_recall": {
+        "mean": -0.031778458744750916,
+        "std": 0.03365508903685944,
+        "n": 3
+      }
+    }
+  },
+  "time_frac=0.5_seq_len=5": {
+    "xgb_only": {
+      "recall_macro": {
+        "mean": 0.8919771582875609,
+        "std": 0.0,
+        "n": 3
+      },
+      "per_round_pooled_recall": {
+        "mean": 0.8782336970442088,
+        "std": 0.0,
+        "n": 3
+      },
+      "blackhole_recall": {
+        "mean": 0.8813279254919634,
+        "std": 0.0,
+        "n": 3
+      }
+    },
+    "lstm_only": {
+      "recall_macro": {
+        "mean": 0.6938763703884859,
+        "std": 0.037725652857670364,
+        "n": 3
+      },
+      "per_round_pooled_recall": {
+        "mean": 0.5784881239007564,
+        "std": 0.12162412659025414,
+        "n": 3
+      },
+      "blackhole_recall": {
+        "mean": 0.578839317009664,
+        "std": 0.1982761554033411,
+        "n": 3
+      }
+    },
+    "hybrid": {
+      "recall_macro": {
+        "mean": 0.7157644582367721,
+        "std": 0.038829070577709,
+        "n": 3
+      },
+      "per_round_pooled_recall": {
+        "mean": 0.5447466830592695,
+        "std": 0.10214640643409661,
+        "n": 3
+      },
+      "blackhole_recall": {
+        "mean": 0.5949626959090681,
+        "std": 0.19530675105852763,
+        "n": 3
+      }
+    },
+    "delta_hybrid_minus_xgb": {
+      "recall_macro": {
+        "mean": -0.17621270005078868,
+        "std": 0.038829070577709,
+        "n": 3
+      },
+      "blackhole_recall": {
+        "mean": -0.28636522958289523,
+        "std": 0.19530675105852763,
+        "n": 3
+      }
+    }
+  }
+}

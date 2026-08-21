@@ -1,0 +1,69 @@
+{
+  "torch_seed": 42,
+  "time_frac": 0.5,
+  "split_mode": "time",
+  "n_test_rows_compared": 144122,
+  "seq_len": 5,
+  "ensemble_mode": "stacking",
+  "ensemble_weights": null,
+  "xgb_only": {
+    "accuracy": 0.9685266649088966,
+    "recall_macro": 0.8919771582875609,
+    "recall_weighted": 0.9685266649088966,
+    "precision_weighted": 0.9673284277025732,
+    "f1_weighted": 0.9677298922386185,
+    "recall_per_class": {
+      "Blackhole": 0.8813279254919634,
+      "Flooding": 0.9601063829787234,
+      "Grayhole": 0.7165345149253731,
+      "Normal": 0.9924077655877561,
+      "TDMA": 0.9095092024539877
+    },
+    "per_round_pooled_recall": 0.8782336970442088,
+    "per_round_detail": {
+      "total_tp": 17144,
+      "total_actual_attacks": 19521,
+      "n_rounds": 131
+    }
+  },
+  "lstm_only": {
+    "accuracy": 0.8794146625775384,
+    "recall_macro": 0.6586132223179911,
+    "recall_weighted": 0.8794146625775384,
+    "precision_weighted": 0.8730663815612066,
+    "f1_weighted": 0.8730526980917022,
+    "recall_per_class": {
+      "Blackhole": 0.38786240048069703,
+      "Flooding": 1.0,
+      "Grayhole": 0.23542444029850745,
+      "Normal": 0.9547997207085015,
+      "TDMA": 0.7149795501022495
+    },
+    "per_round_pooled_recall": 0.4738999026689206,
+    "per_round_detail": {
+      "total_tp": 9251,
+      "total_actual_attacks": 19521,
+      "n_rounds": 131
+    }
+  },
+  "hybrid": {
+    "accuracy": 0.9198387477276196,
+    "recall_macro": 0.6828887592757036,
+    "recall_weighted": 0.9198387477276196,
+    "precision_weighted": 0.911429686501497,
+    "f1_weighted": 0.901741363909416,
+    "recall_per_class": {
+      "Blackhole": 0.3979269941415052,
+      "Flooding": 0.9547872340425532,
+      "Grayhole": 0.22318097014925373,
+      "Normal": 0.9980578004991935,
+      "TDMA": 0.8404907975460123
+    },
+    "per_round_pooled_recall": 0.46616464320475387,
+    "per_round_detail": {
+      "total_tp": 9100,
+      "total_actual_attacks": 19521,
+      "n_rounds": 131
+    }
+  }
+}

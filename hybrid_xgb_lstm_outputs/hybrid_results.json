@@ -1,0 +1,71 @@
+{
+  "torch_seed": 42,
+  "time_frac": 0.7,
+  "split_mode": "time",
+  "n_test_rows_compared": 49342,
+  "seq_len": 10,
+  "ensemble_weights": {
+    "xgb": 0.6,
+    "lstm": 0.4
+  },
+  "xgb_only": {
+    "accuracy": 0.9608649831786308,
+    "recall_macro": 0.6663399180115471,
+    "recall_weighted": 0.9608649831786308,
+    "precision_weighted": 0.97139062131264,
+    "f1_weighted": 0.9571987847607109,
+    "recall_per_class": {
+      "Blackhole": 0.4160708205652026,
+      "Flooding": 0.0,
+      "Grayhole": 0.9881215469613259,
+      "Normal": 0.9991918103448276,
+      "TDMA": 0.9283154121863799
+    },
+    "per_round_pooled_recall": 0.9828437132784958,
+    "per_round_detail": {
+      "total_tp": 8364,
+      "total_actual_attacks": 8510,
+      "n_rounds": 76
+    }
+  },
+  "lstm_only": {
+    "accuracy": 0.846864739978112,
+    "recall_macro": 0.7603630199415241,
+    "recall_weighted": 0.846864739978112,
+    "precision_weighted": 0.946040757852154,
+    "f1_weighted": 0.8718063683761956,
+    "recall_per_class": {
+      "Blackhole": 0.3421859039836568,
+      "Flooding": 0.0,
+      "Grayhole": 0.994475138121547,
+      "Normal": 0.8706896551724138,
+      "TDMA": 0.8341013824884793
+    },
+    "per_round_pooled_recall": 0.999882491186839,
+    "per_round_detail": {
+      "total_tp": 8509,
+      "total_actual_attacks": 8510,
+      "n_rounds": 76
+    }
+  },
+  "hybrid": {
+    "accuracy": 0.9607839163390215,
+    "recall_macro": 0.6683471313571161,
+    "recall_weighted": 0.9607839163390215,
+    "precision_weighted": 0.9719635617416444,
+    "f1_weighted": 0.9570172677064024,
+    "recall_per_class": {
+      "Blackhole": 0.4061967994552264,
+      "Flooding": 0.0,
+      "Grayhole": 0.9895027624309393,
+      "Normal": 0.9987754702194357,
+      "TDMA": 0.9472606246799795
+    },
+    "per_round_pooled_recall": 0.9871915393654525,
+    "per_round_detail": {
+      "total_tp": 8401,
+      "total_actual_attacks": 8510,
+      "n_rounds": 76
+    }
+  }
+}
