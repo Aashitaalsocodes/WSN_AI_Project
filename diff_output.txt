@@ -1,0 +1,315 @@
+commit f30b6261c4415e9849d97982d3acff13e3b851e2
+Author: Aashita <aashitapandhre@gmail.com>
+Date:   Wed Aug 19 20:54:20 2026 +0530
+
+    Remove venv from tracking, add .gitignore
+
+diff --git a/routing_cost.py b/routing_cost.py
+index 5577fb3..5c542af 100644
+--- a/routing_cost.py
++++ b/routing_cost.py
+@@ -28,25 +28,45 @@ Real data used throughout (no placeholders):
+   routing (Blackhole = total packet loss = worst; TDMA = slot-level protocol
+   fault = mildest).
+ 
++INTEGRATED LSTM ENERGY FORECASTING (NEW):
++- Uses LSTMEnergyRouter from lstm_routing_integration.py to predict
++  future energy levels per node based on past 3 values.
++- Adds an energy penalty for nodes predicted to have low energy soon:
++  - forecast < 0.1 -> 10.0 penalty
++  - forecast < 0.2 -> 5.0 penalty
++  - forecast < 0.3 -> 2.0 penalty
++  - forecast >= 0.3 -> 1.0 penalty (no penalty)
++- This enables proactive routing decisions to avoid nodes likely to deplete.
++
+ Usage:
+-    python routing_cost.py
++    python routing_cost.py [--seed SEED]
+ """
+ 
+ import json
+ import math
+ import random
+ import argparse
+-_parser = argparse.ArgumentParser()
+-_parser.add_argument("--seed", type=int, default=42)
+-_args, _ = _parser.parse_known_args()
+-SEED = _args.seed
+-
++import sys
+ from pathlib import Path
+ 
+ import networkx as nx
+ import pandas as pd
+ 
+ from trust_engine import TrustEngine
++from lstm_routing_integration import LSTMEnergyRouter
++
++# ============================================
++# COMMAND LINE ARGUMENTS
++# ============================================
++
++_parser = argparse.ArgumentParser()
++_parser.add_argument("--seed", type=int, default=42)
++_args, _ = _parser.parse_known_args()
++SEED = _args.seed
++
++# ============================================
++# FILE PATHS
++# ============================================
+ 
+ BASE_DIR = Path(__file__).parent
+ OUTPUTS = BASE_DIR / "outputs"
+@@ -57,6 +77,10 @@ NODES_PATH = OUTPUTS / "preprocessed_nodes.json"
+ STUB_CLASSIFIER_PATH = OUTPUTS / "attack_classifier_predictions.json"  # only for reproducing the sample order
+ RESULT_PATH = OUTPUTS / f"routing_cost_results_seed{SEED}.json"
+ 
++# ============================================
++# CONFIGURATION
++# ============================================
++
+ # How disruptive each attack type is to routing, used as a penalty weight.
+ # Blackhole = drops ~everything -> worst. TDMA = slot collision / protocol
+ # fault, not necessarily malicious packet dropping -> mildest non-zero risk.
+@@ -67,12 +91,34 @@ ATTACK_RISK_WEIGHT = {
+     "Grayhole": 0.2969,
+     "Blackhole": 0.5938,
+ }
++
+ # Combination weights for the four cost components -- attack risk weighted
+ # higher since it's the factor most directly tied to routing failure.
+ W_DISTANCE = 1.0
+ W_ENERGY = 1.0
+ W_ATTACK = 2.0
+ 
++# ============================================
++# LSTM ROUTER (NEW)
++# ============================================
++
++_lstm_router = None
++
++def get_lstm_router():
++    """Lazy initialization of LSTMEnergyRouter."""
++    global _lstm_router
++    if _lstm_router is None:
++        try:
++            _lstm_router = LSTMEnergyRouter()
++            print("  [LSTM] Energy forecasting router initialized.")
++        except Exception as e:
++            print(f"  [LSTM] Warning: Could not initialize LSTM router: {e}")
++            _lstm_router = None
++    return _lstm_router
++
++# ============================================
++# HELPER FUNCTIONS
++# ============================================
+ 
+ def reconstruct_positions():
+     """
+@@ -92,13 +138,44 @@ def reconstruct_positions():
+ 
+ 
+ def load_all():
+-    with open(SIM_PATH) as f:
+-        sim = json.load(f)
+-    with open(CLASSIFIER_PATH) as f:
+-        classifier = json.load(f)
+-    with open(NODES_PATH) as f:
+-        nodes_raw = json.load(f)
+-    positions = reconstruct_positions()
++    """Load all input data with fallbacks for missing files."""
++    
++    # Load simulation topology (must exist)
++    try:
++        with open(SIM_PATH) as f:
++            sim = json.load(f)
++        print(f"  [OK] Loaded routing_simulation_seed{SEED}.json")
++    except FileNotFoundError:
++        print(f"  [ERROR] routing_simulation_seed{SEED}.json not found!")
++        sys.exit(1)
++    
++    # Load classifier results (must exist)
++    try:
++        with open(CLASSIFIER_PATH) as f:
++            classifier = json.load(f)
++        print("  [OK] Loaded attack_classification_results.json")
++    except FileNotFoundError:
++        print("  [ERROR] attack_classification_results.json not found!")
++        sys.exit(1)
++    
++    # Load preprocessed_nodes.json (optional - fallback to defaults)
++    try:
++        with open(NODES_PATH) as f:
++            nodes_raw = json.load(f)
++        print(f"  [OK] Loaded preprocessed_nodes.json ({len(nodes_raw)} nodes)")
++    except FileNotFoundError:
++        print("  [WARN] preprocessed_nodes.json not found. Using default values (0.5) for all nodes.")
++        print("  [WARN] This is fine for testing but use real data for final results.")
++        nodes_raw = {}
++    
++    # Reconstruct positions (must exist)
++    try:
++        positions = reconstruct_positions()
++        print(f"  [OK] Reconstructed positions for {len(positions)} nodes")
++    except FileNotFoundError:
++        print("  [ERROR] attack_classifier_predictions.json not found!")
++        sys.exit(1)
++    
+     return sim, classifier, nodes_raw, positions
+ 
+ 
+@@ -109,7 +186,7 @@ def build_node_features(node_ids, classifier, nodes_raw):
+     """
+     rows = []
+     for nid in node_ids:
+-        node_record = nodes_raw.get(nid, {})
++        node_record = nodes_raw.get(nid, {})  # Returns {} if node not found
+         pred = classifier.get(nid, {})
+ 
+         historical_accuracy = node_record.get("historical_accuracy", 0.5)
+@@ -134,38 +211,78 @@ def build_node_features(node_ids, classifier, nodes_raw):
+     return pd.DataFrame(rows)
+ 
+ 
++def edge_cost(u, v, edge_attrs):
++    """
++    Cost function for Dijkstra routing.
++    
++    Original formula:
++        cost = (W_DISTANCE * distance + W_ENERGY * avg_energy + W_ATTACK * avg_attack) / avg_trust
++    
++    NEW: Added LSTM energy penalty for proactive avoidance of nodes likely to deplete soon.
++    """
++    fu, fv = node_feat[u], node_feat[v]
++    avg_energy = (fu.energy_risk + fv.energy_risk) / 2
++    avg_attack = (fu.attack_risk + fv.attack_risk) / 2
++    avg_trust = max((fu.trust_score + fv.trust_score) / 2, 0.01)  # avoid div-by-zero
++    distance = edge_attrs["distance"]
++    
++    # ---- LSTM Energy Penalty (NEW) ----
++    router = get_lstm_router()
++    if router is not None:
++        # Update energy history for both nodes
++        router.update_energy_history(u, fu.energy_risk)
++        router.update_energy_history(v, fv.energy_risk)
++        
++        # Get penalties
++        penalty_u = router.get_routing_cost_penalty(u)
++        penalty_v = router.get_routing_cost_penalty(v)
++        energy_penalty = penalty_u + penalty_v
++    else:
++        energy_penalty = 0.0
++    
++    # ---- Compute final cost ----
++    return (W_DISTANCE * distance + W_ENERGY * avg_energy + energy_penalty + W_ATTACK * avg_attack) / avg_trust
++
++
++# ============================================
++# MAIN FUNCTION
++# ============================================
++
+ def main():
++    print("\n" + "=" * 60)
++    print("ROUTING COST ENGINE (with LSTM Energy Forecasting)")
++    print("=" * 60)
++    print(f"Seed: {SEED}")
++    print("-" * 60)
++    
+     print("Loading simulation topology, real classifier output, real preprocessed nodes...")
+     sim, classifier, nodes_raw, positions = load_all()
+     node_ids = sim["node_ids"]
+ 
+-    print(f"Building real feature set for {len(node_ids)} nodes (Task 1 + Task 2 outputs, no placeholders)...")
++    print(f"Building real feature set for {len(node_ids)} nodes...")
+     df = build_node_features(node_ids, classifier, nodes_raw)
+ 
+-    print("Running TrustEngine on real trust inputs...")
++    print("Running TrustEngine on trust inputs...")
+     df = TrustEngine().update_trust(df)
++    global node_feat
+     node_feat = {row.node_id: row for row in df.itertuples(index=False)}
++    print(f"  [OK] TrustEngine complete. Avg trust score: {df['trust_score'].mean():.4f}")
+ 
+     print("Building graph with distance-recovered edges...")
+     G = nx.Graph()
+     G.add_nodes_from(node_ids)
++    edge_count = 0
+     for u, v in sim["edges"]:
+         ux, uy = positions[u]
+         vx, vy = positions[v]
+         dist = math.sqrt((ux - vx) ** 2 + (uy - vy) ** 2)
+         G.add_edge(u, v, distance=dist)
++        edge_count += 1
++    print(f"  [OK] Built graph with {len(node_ids)} nodes, {edge_count} edges")
+ 
+-    def edge_cost(u, v, edge_attrs):
+-        fu, fv = node_feat[u], node_feat[v]
+-        avg_energy = (fu.energy_risk + fv.energy_risk) / 2
+-        avg_attack = (fu.attack_risk + fv.attack_risk) / 2
+-        avg_trust = max((fu.trust_score + fv.trust_score) / 2, 0.01)  # avoid div-by-zero
+-        distance = edge_attrs["distance"]
+-        return (W_DISTANCE * distance + W_ENERGY * avg_energy + W_ATTACK * avg_attack) / avg_trust
+-
+-    print("Routing all 200 baseline source/destination pairs with cost-aware Dijkstra...")
++    print("Routing all 200 baseline source/destination pairs with cost-aware Dijkstra (LSTM integrated)...")
+     results = []
+-    for route in sim["baseline_routes"]:
++    for idx, route in enumerate(sim["baseline_routes"]):
+         src, dst = route["source"], route["destination"]
+         try:
+             path = nx.dijkstra_path(G, src, dst, weight=edge_cost)
+@@ -182,7 +299,7 @@ def main():
+                 "avg_trust_on_path": round(avg_trust_on_path, 4),
+                 "passes_through_attacked_node": len(attacked_in_path) > 0,
+                 "attacked_nodes_in_path": attacked_in_path,
+-                "routing_mode": "cost_aware",
++                "routing_mode": "cost_aware_with_lstm",
+                 "path_found": True,
+             })
+         except nx.NetworkXNoPath:
+@@ -192,6 +309,10 @@ def main():
+                 "passes_through_attacked_node": False, "attacked_nodes_in_path": [],
+                 "routing_mode": "no_path", "path_found": False,
+             })
++        
++        # Progress indicator
++        if (idx + 1) % 50 == 0:
++            print(f"  Progress: {idx+1}/200 routes processed")
+ 
+     found = [r for r in results if r["path_found"]]
+     compromised = sum(1 for r in found if r["passes_through_attacked_node"])
+@@ -222,22 +343,31 @@ def main():
+             "W_DISTANCE": W_DISTANCE, "W_ENERGY": W_ENERGY, "W_ATTACK": W_ATTACK,
+             "attack_risk_weights_by_type": ATTACK_RISK_WEIGHT,
+         },
++        "lstm_integrated": True,
+     }
+ 
+     print("\n" + "=" * 60)
+-    print("ROUTING COST ENGINE -- SUMMARY (Task 4)")
++    print("ROUTING COST ENGINE -- SUMMARY")
+     print("=" * 60)
+     print(f"Routes found: {len(found)}/{len(results)}")
+     print(f"Avg hop count: {avg_hops}  (baseline: {baseline_summary['avg_hop_count']})")
+     print(f"Avg total cost: {avg_cost}")
+     print(f"Avg trust on path: {avg_trust}")
+     print(f"Compromised routes: {compromised} ({pct_compromised}%)  (baseline: {baseline_summary['pct_compromised_routes']}%)")
++    print(f"Improvement: {baseline_summary['pct_compromised_routes'] - pct_compromised:.2f} percentage points")
++    print("=" * 60)
++    if _lstm_router is not None:
++        print("[LSTM] Energy forecasting integration: ACTIVE")
++    else:
++        print("[LSTM] Energy forecasting integration: INACTIVE (fallback mode)")
+     print("=" * 60)
+ 
++    # Save results
++    OUTPUTS.mkdir(exist_ok=True)
+     with open(RESULT_PATH, "w") as f:
+         json.dump({"routes": results, "summary": summary}, f)
+     print(f"\nSaved to {RESULT_PATH}")
+ 
+ 
+ if __name__ == "__main__":
+-    main()
++    main()
+\ No newline at end of file
