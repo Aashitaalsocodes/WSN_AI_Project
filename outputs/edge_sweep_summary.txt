@@ -1,0 +1,18 @@
+EDGE SWEEP SUMMARY -- DESKTOP CPU TIMING ONLY, NOT EDGE HARDWARE
+(inference numbers below are from a desktop CPU, single-thread; do not
+ caption these as Raspberry Pi / edge-deployment results -- see Phase 6)
+======================================================================
+
+[XGBoost]
+  Smallest model:  n=50,depth=3,lr=0.1 (57.97 KB, f1_mean=0.324374)
+  Best metric:     n=300,depth=7,lr=0.08 (f1_mean=0.373094, 2086.08 KB)
+  Fastest desktop inference: n=80,depth=4,lr=0.08 (0.00230 ms/sample median)
+
+[LSTM]
+  Smallest model:  units=8,layers=1,dense=4 (38.30 KB, test_mse (lower=better)=0.000035)
+  Best metric:     units=8,layers=1,dense=4 (test_mse (lower=better)=0.000035, 38.30 KB)
+  Fastest desktop inference: units=64,layers=2,dense=16 (0.08780 ms/sample median)
+  NOTE: the smallest config is ALSO the best-metric config for this family -- real result, worth double-checking with a repeat/multi-seed run before stating it in the paper as a finding, since each config here was only trained once (no variance estimate for this family).
+
+======================================================================
+Caption reminder for the paper: label every number above as measured on a desktop CPU (single-thread where applicable), NOT the target edge hardware. Replace with Raspberry Pi numbers once Phase 6 hardware measurements exist.

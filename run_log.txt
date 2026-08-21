@@ -1,0 +1,65 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1787333533.258582   13024 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1787333534.825726   13024 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+I0000 00:00:1787333539.102009   13024 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+C:\Users\hp\AppData\Local\Python\pythoncore-3.12-64\Lib\site-packages\keras\src\layers\rnn\rnn.py:199: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
+  super().__init__(**kwargs)
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+WARNING:absl:You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+============================================================
+XGBoost: retrain winning config (100/5), convert + quantize
+============================================================
+  fp32: acc=0.7649 f1=0.3457 size=269.50KB inference_median=0.00151ms/sample
+  int8: acc=0.7649 f1=0.3457 size=187.39KB inference_median=0.00195ms/sample
+  saved: outputs/xgboost_model_fp32.onnx, outputs/xgboost_model_quantized.onnx
+============================================================
+LSTM: retrain winning config (32 units/1 layer/16 dense), convert + quantize
+============================================================
+  fp32: mse=0.000045 mae=0.004953 size=90.34KB inference_median=0.08506ms/sample
+Saved artifact at 'C:\Users\hp\AppData\Local\Temp\tmptoieh1fg'. The following endpoints are available:
+
+* Endpoint 'serve'
+  args_0 (POSITIONAL_ONLY): TensorSpec(shape=(None, 3, 1), dtype=tf.float32, name='keras_tensor')
+Output Type:
+  TensorSpec(shape=(None, 1), dtype=tf.float32, name=None)
+Captures:
+  2627512733328: TensorSpec(shape=(), dtype=tf.resource, name=None)
+  2627512735056: TensorSpec(shape=(), dtype=tf.resource, name=None)
+  2627512736208: TensorSpec(shape=(), dtype=tf.resource, name=None)
+  2627512736016: TensorSpec(shape=(), dtype=tf.resource, name=None)
+  2627512734864: TensorSpec(shape=(), dtype=tf.resource, name=None)
+  2627512735632: TensorSpec(shape=(), dtype=tf.resource, name=None)
+  2627512736400: TensorSpec(shape=(), dtype=tf.resource, name=None)
+C:\Users\hp\AppData\Local\Python\pythoncore-3.12-64\Lib\site-packages\tensorflow\lite\python\convert.py:846: UserWarning: Statistics for quantized inputs were expected, but not specified; continuing anyway.
+  warnings.warn(
+W0000 00:00:1787333560.170920   13024 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1787333560.171018   13024 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+I0000 00:00:1787333560.171671   13024 reader.cc:83] Reading SavedModel from: C:\Users\hp\AppData\Local\Temp\tmptoieh1fg
+I0000 00:00:1787333560.172514   13024 reader.cc:52] Reading meta graph with tags { serve }
+I0000 00:00:1787333560.172542   13024 reader.cc:147] Reading SavedModel debug info (if present) from: C:\Users\hp\AppData\Local\Temp\tmptoieh1fg
+I0000 00:00:1787333560.177333   13024 mlir_graph_optimization_pass.cc:437] MLIR V1 optimization pass is not enabled
+I0000 00:00:1787333560.177911   13024 loader.cc:236] Restoring SavedModel bundle.
+I0000 00:00:1787333560.208120   13024 loader.cc:220] Running initialization op on SavedModel bundle at path: C:\Users\hp\AppData\Local\Temp\tmptoieh1fg
+I0000 00:00:1787333560.216229   13024 loader.cc:471] SavedModel load for tags { serve }; Status: success: OK. Took 44574 microseconds.
+I0000 00:00:1787333560.260731   13024 dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+fully_quantize: 0, inference_type: 6, input_inference_type: FLOAT32, output_inference_type: FLOAT32
+W0000 00:00:1787333561.547776   13024 flatbuffer_export.cc:3851] Skipping runtime version metadata in the model. This will be generated by the exporter.
+C:\Users\hp\AppData\Local\Python\pythoncore-3.12-64\Lib\site-packages\tensorflow\lite\python\interpreter.py:457: UserWarning:     Warning: tf.lite.Interpreter is deprecated and is scheduled for deletion in
+    TF 2.20. Please use the LiteRT interpreter from the ai_edge_litert package.
+    See the [migration guide](https://ai.google.dev/edge/litert/migration)
+    for details.
+    
+  warnings.warn(_INTERPRETER_DELETION_WARNING)
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+  int8: mse=0.000374 mae=0.014786 size=23.41KB inference_median=0.00805ms/sample
+  saved: outputs/lstm_model_quantized.tflite
+============================================================
+Saved: outputs\quantization_results.csv
+
+REMINDER: all fp32/int8 numbers above are DESKTOP CPU measurements.
+Do not write these into the paper as edge/Raspberry Pi results.
+They belong in Phase 4's desktop-honest interim table.
